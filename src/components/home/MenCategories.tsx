@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
@@ -35,13 +36,18 @@ export function MenCategories() {
               {/* Image Container with Zoom */}
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F4EFEB]">
                 <img
-                  src={cat.image}
+                  src={
+                    cat.image.startsWith('http')
+                      ? cat.image
+                      : `${import.meta.env.BASE_URL}${cat.image.replace(/^\/+/, '')}`
+                  }
                   alt={`2427 ${cat.title}`}
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
+
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1F2022]/80 via-[#1F2022]/20 to-transparent" />
-                
+
                 {/* Badge */}
                 <div className="absolute top-3 left-3 z-10">
                   <span className="rounded-full bg-white/90 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-numeral font-bold text-[#1F2022] shadow-xs">
@@ -50,7 +56,10 @@ export function MenCategories() {
                 </div>
 
                 <div className="absolute top-3 right-3 z-10">
-                  <DemoBadge variant="subtle" className="bg-white/80 px-2 py-0.5 rounded-full" />
+                  <DemoBadge
+                    variant="subtle"
+                    className="bg-white/80 px-2 py-0.5 rounded-full"
+                  />
                 </div>
 
                 {/* Arrow Icon in Image */}
@@ -74,9 +83,14 @@ export function MenCategories() {
                 <p className="text-xs text-[#5E6064] line-clamp-2 leading-relaxed">
                   {cat.description}
                 </p>
+
                 <div className="mt-3 flex items-center justify-between text-[11px] font-medium text-[#6B6F76] pt-2 border-t border-[#E8E1D7]/50">
-                  <span className="text-[#637666] font-semibold">Explore Edit</span>
-                  <span className="font-numeral">{cat.itemCountDemo}</span>
+                  <span className="text-[#637666] font-semibold">
+                    Explore Edit
+                  </span>
+                  <span className="font-numeral">
+                    {cat.itemCountDemo}
+                  </span>
                 </div>
               </div>
             </Link>
