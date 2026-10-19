@@ -33,7 +33,7 @@ export function MenCategories() {
               to={`/category/${cat.slug}`}
               className="group relative flex flex-col overflow-hidden rounded-2xl bg-white border border-[#E8E1D7] shadow-xs transition-all duration-300 hover:shadow-xl hover:border-[#637666]/40 hover:-translate-y-1"
             >
-              {/* Category Image */}
+              {/* Image Container with Zoom */}
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F4EFEB]">
                 <img
                   src={cat.image}
@@ -42,17 +42,15 @@ export function MenCategories() {
                   loading="lazy"
                 />
 
-                {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1F2022]/80 via-[#1F2022]/20 to-transparent" />
 
-                {/* Category Number Badge */}
+                {/* Badge */}
                 <div className="absolute top-3 left-3 z-10">
                   <span className="rounded-full bg-white/90 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-numeral font-bold text-[#1F2022] shadow-xs">
                     0{index + 1} &bull; Men
                   </span>
                 </div>
 
-                {/* Demo Badge */}
                 <div className="absolute top-3 right-3 z-10">
                   <DemoBadge
                     variant="subtle"
@@ -60,12 +58,12 @@ export function MenCategories() {
                   />
                 </div>
 
-                {/* Arrow Icon */}
+                {/* Arrow Icon in Image */}
                 <div className="absolute bottom-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#1F2022] shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#637666] group-hover:text-white">
                   <ArrowUpRight className="h-4 w-4" />
                 </div>
 
-                {/* Category Title */}
+                {/* Overlay Text in Image */}
                 <div className="absolute bottom-4 left-4 right-16 z-10 text-[#FAF8F5]">
                   <span className="text-[10px] uppercase font-semibold tracking-wider text-[#D9CBB7]">
                     {cat.tagline}
@@ -77,7 +75,7 @@ export function MenCategories() {
                 </div>
               </div>
 
-              {/* Bottom Card Content */}
+              {/* Bottom Card Copy */}
               <div className="p-4 flex flex-1 flex-col justify-between bg-white">
                 <p className="text-xs text-[#5E6064] line-clamp-2 leading-relaxed">
                   {cat.description}
