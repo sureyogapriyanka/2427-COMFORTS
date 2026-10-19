@@ -55,14 +55,16 @@ export interface CategoryInfo {
   itemCountDemo: string;
 }
 
+
 export const MEN_CATEGORIES: CategoryInfo[] = [
   {
     slug: 'men-underwear',
     gender: 'men',
     title: 'Underwear',
     tagline: 'Trunks & Briefs',
-    description: 'Precision contour pouches and brushed no-roll waistbands crafted from featherweight MicroModal.',
-    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44d6b?auto=format&fit=crop&w=1000&q=80',
+    description:
+      'Precision contour pouches and brushed no-roll waistbands crafted from featherweight MicroModal.',
+    image: assetUrl('/images/products/boxers/m-bx01-airbox-front.jpg'),
     itemCountDemo: '12 Styles (Demo)',
   },
   {
@@ -70,7 +72,8 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     gender: 'men',
     title: 'Boxers',
     tagline: 'Tailored Ease',
-    description: 'Classic relaxed woven, contemporary printed, and soft lounge boxers engineered for daily comfort.',
+    description:
+      'Classic relaxed woven, contemporary printed, and soft lounge boxers engineered for daily comfort.',
     image: assetUrl('/images/products/boxers/m-bx01-airbox-front.jpg'),
     itemCountDemo: '3 Styles (Client Reference)',
   },
@@ -79,8 +82,9 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     gender: 'men',
     title: 'Banians & Vests',
     tagline: 'Seamless Undershirts',
-    description: 'Bonded flat seams and sculpted ergonomic necklines that disappear under bespoke shirts.',
-    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1000&q=80',
+    description:
+      'Bonded flat seams and sculpted ergonomic necklines that disappear under bespoke shirts.',
+    image: assetUrl('/images/products/boxers/m-bx01-airbox-front.jpg'),
     itemCountDemo: '9 Styles (Demo)',
   },
   {
@@ -88,11 +92,13 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     gender: 'men',
     title: 'Sleeveless Tops',
     tagline: 'Lounge & Movement',
-    description: 'Dry-hand organic ribbed jerseys engineered for effortless commute, rest, and studio movement.',
-    image: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1000&q=80',
+    description:
+      'Dry-hand organic ribbed jerseys engineered for effortless commute, rest, and studio movement.',
+    image: assetUrl('/images/products/boxers/m-bx01-airbox-front.jpg'),
     itemCountDemo: '6 Styles (Demo)',
   },
 ];
+
 
 export const WOMEN_CATEGORIES: CategoryInfo[] = [
   {
