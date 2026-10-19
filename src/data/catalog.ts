@@ -56,6 +56,7 @@ export interface CategoryInfo {
 }
 
 
+
 export const MEN_CATEGORIES: CategoryInfo[] = [
   {
     slug: 'men-underwear',
@@ -64,7 +65,8 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     tagline: 'Trunks & Briefs',
     description:
       'Precision contour pouches and brushed no-roll waistbands crafted from featherweight MicroModal.',
-    image: assetUrl('/images/products/boxers/m-bx01-airbox-front.jpg'),
+    image:
+      'https://sureyogapriyanka.github.io/2427-COMFORTS/images/products/boxers/m-bx01-airbox-front.jpg',
     itemCountDemo: '12 Styles (Demo)',
   },
   {
@@ -74,7 +76,8 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     tagline: 'Tailored Ease',
     description:
       'Classic relaxed woven, contemporary printed, and soft lounge boxers engineered for daily comfort.',
-    image: assetUrl('/images/products/boxers/m-bx01-airbox-front.jpg'),
+    image:
+      'https://sureyogapriyanka.github.io/2427-COMFORTS/images/products/boxers/m-bx01-airbox-front.jpg',
     itemCountDemo: '3 Styles (Client Reference)',
   },
   {
@@ -84,7 +87,8 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     tagline: 'Seamless Undershirts',
     description:
       'Bonded flat seams and sculpted ergonomic necklines that disappear under bespoke shirts.',
-    image: assetUrl('/images/products/boxers/m-bx01-airbox-front.jpg'),
+    image:
+      'https://sureyogapriyanka.github.io/2427-COMFORTS/images/products/boxers/m-bx01-airbox-front.jpg',
     itemCountDemo: '9 Styles (Demo)',
   },
   {
@@ -94,10 +98,12 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     tagline: 'Lounge & Movement',
     description:
       'Dry-hand organic ribbed jerseys engineered for effortless commute, rest, and studio movement.',
-    image: assetUrl('/images/products/boxers/m-bx01-airbox-front.jpg'),
+    image:
+      'https://sureyogapriyanka.github.io/2427-COMFORTS/images/products/boxers/m-bx01-airbox-front.jpg',
     itemCountDemo: '6 Styles (Demo)',
   },
 ];
+
 
 
 export const WOMEN_CATEGORIES: CategoryInfo[] = [
