@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { StoreProvider } from './context/StoreContext';
 import { AnnouncementBar } from './components/layout/AnnouncementBar';
 import { Header } from './components/layout/Header';
@@ -24,7 +25,7 @@ import { ProductDetailPage } from './pages/ProductDetailPage';
 
 export function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <StoreProvider>
         <div className="flex min-h-screen flex-col bg-[#FAF8F5] text-[#1F2022] font-sans selection:bg-[#637666] selection:text-[#FAF8F5]">
           {/* Global Demo Notice Banner */}
@@ -62,7 +63,7 @@ export function App() {
           <NotificationToast />
         </div>
       </StoreProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
