@@ -65,8 +65,7 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     tagline: 'Trunks & Briefs',
     description:
       'Precision contour pouches and brushed no-roll waistbands crafted from featherweight MicroModal.',
-    image:
-      'https://sureyogapriyanka.github.io/2427-COMFORTS/images/products/boxers/m-bx01-airbox-front.jpg',
+    image: assetUrl('/images/products/underwear/m-ub01-front.jpg'),
     itemCountDemo: '12 Styles (Demo)',
   },
   {
@@ -76,8 +75,7 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     tagline: 'Tailored Ease',
     description:
       'Classic relaxed woven, contemporary printed, and soft lounge boxers engineered for daily comfort.',
-    image:
-      'https://sureyogapriyanka.github.io/2427-COMFORTS/images/products/boxers/m-bx01-airbox-front.jpg',
+    image: assetUrl('/images/products/boxers/m-bx01-airbox-front.jpg'),
     itemCountDemo: '3 Styles (Client Reference)',
   },
   {
@@ -87,8 +85,7 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     tagline: 'Seamless Undershirts',
     description:
       'Bonded flat seams and sculpted ergonomic necklines that disappear under bespoke shirts.',
-    image:
-      'https://sureyogapriyanka.github.io/2427-COMFORTS/images/products/boxers/m-bx01-airbox-front.jpg',
+    image: assetUrl('/images/products/vests/m-v01-front.jpg'),
     itemCountDemo: '9 Styles (Demo)',
   },
   {
@@ -98,8 +95,7 @@ export const MEN_CATEGORIES: CategoryInfo[] = [
     tagline: 'Lounge & Movement',
     description:
       'Dry-hand organic ribbed jerseys engineered for effortless commute, rest, and studio movement.',
-    image:
-      'https://sureyogapriyanka.github.io/2427-COMFORTS/images/products/boxers/m-bx01-airbox-front.jpg',
+    image: assetUrl('/images/products/sleeveless/m-s01-front.jpg'),
     itemCountDemo: '6 Styles (Demo)',
   },
 ];
@@ -112,8 +108,9 @@ export const WOMEN_CATEGORIES: CategoryInfo[] = [
     gender: 'women',
     title: 'Bras & Bralettes',
     tagline: 'Wire-Free Support',
-    description: 'Feather-soft molded cups and cloud-stretch microfiber designed for all-day uninhibited comfort.',
-    image: 'https://images.unsplash.com/photo-1574634534894-89d7576c8259?auto=format&fit=crop&w=1000&q=80',
+    description:
+      'Feather-soft molded cups and cloud-stretch microfiber designed for all-day uninhibited comfort.',
+    image: assetUrl('/images/products/bras/w-b01-front.jpg'),
     itemCountDemo: '14 Styles (Demo)',
   },
   {
@@ -121,8 +118,9 @@ export const WOMEN_CATEGORIES: CategoryInfo[] = [
     gender: 'women',
     title: 'Underwear',
     tagline: 'Bikinis & Boy Shorts',
-    description: 'Zero panty lines. Ultra-fine laser-cut bonded hems with pure breathable cotton gussets.',
-    image: 'https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=1000&q=80',
+    description:
+      'Zero panty lines. Ultra-fine laser-cut bonded hems with pure breathable cotton gussets.',
+    image: assetUrl('/images/products/women-underwear/w-u01-front.jpg'),
     itemCountDemo: '16 Styles (Demo)',
   },
   {
@@ -130,8 +128,9 @@ export const WOMEN_CATEGORIES: CategoryInfo[] = [
     gender: 'women',
     title: 'Camisoles',
     tagline: 'Silk-Touch Ribs',
-    description: 'Silken MicroModal blend with adjustable satin strap detail and gentle drape beneath blazers.',
-    image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80',
+    description:
+      'Silken MicroModal blend with adjustable satin strap detail and gentle drape beneath blazers.',
+    image: assetUrl('/images/products/women-camisoles/w-c01-front.jpg'),
     itemCountDemo: '7 Styles (Demo)',
   },
   {
@@ -139,8 +138,9 @@ export const WOMEN_CATEGORIES: CategoryInfo[] = [
     gender: 'women',
     title: 'Crop Tops',
     tagline: 'Everyday Atelier',
-    description: 'Sculpted double-layer compression knit that transitions seamlessly from home retreat to outdoors.',
-    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=80',
+    description:
+      'Sculpted double-layer compression knit that transitions seamlessly from home retreat to outdoors.',
+    image: assetUrl('/images/products/women-crop-tops/w-ct01-front.jpg'),
     itemCountDemo: '8 Styles (Demo)',
   },
 ];
