@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
@@ -6,18 +7,59 @@ import { SectionHeading } from '../ui/SectionHeading';
 import { WOMEN_CATEGORIES } from '../../data/catalog';
 import { DemoBadge } from '../brand/DemoBadge';
 
+const productImage = (path: string) =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+
+const hoverImages: Record<string, string> = {
+  'women-bras': productImage(
+    'images/products/bras/w-b01-back.jpg'
+  ),
+  'women-underwear': productImage(
+    'images/products/women-underwear/w-u01-back.jpg'
+  ),
+  'women-camisoles': productImage(
+    'images/products/women-camisoles/w-c01-back.jpg'
+  ),
+  'women-crop-tops': productImage(
+    'images/products/women-crop-tops/w-ct01-back.jpg'
+  ),
+  'women-bestsellers': productImage(
+    'images/products/bras/w-b02-front.jpg'
+  ),
+};
+
+const bestsellers = {
+  slug: 'women-bestsellers',
+  gender: 'women',
+  title: 'Bestsellers',
+  tagline: 'Popular Picks',
+  description:
+    'Discover standout styles from our women’s everyday essentials collection.',
+  image: productImage(
+    'images/products/bras/w-b01-front.jpg'
+  ),
+  itemCountDemo: 'Top Picks',
+};
+
+const categories = [
+  ...WOMEN_CATEGORIES.filter(
+    (category) => String(category.slug) !== 'women-bestsellers'
+  ),
+  bestsellers,
+];
+
 export function WomenCategories() {
   return (
-    <section className="py-16 sm:py-20 bg-[#F4EFEB]/50">
+    <section className="bg-[#FAF8F5] py-12 sm:py-16">
       <Container>
         <SectionHeading
-          eyebrow="The Women's Atelier"
-          title="Intuitive Fit. Weightless Contour."
-          description="Designed to support without pinching, poking, or constriction. Bonded curves, wire-free cups, and cloud-soft botanical fibers."
+          eyebrow="The Women's Edit"
+          title="Everyday Comfort, Beautifully Designed"
+          description="Discover thoughtfully designed essentials for everyday comfort and effortless movement."
           action={
             <Link
               to="/category/women-bras"
-              className="inline-flex items-center gap-1 text-sm font-semibold text-[#637666] hover:text-[#1F2022] transition-colors"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-[#637666] transition-colors hover:text-[#1F2022]"
             >
               <span>View All Women's Styles</span>
               <ArrowUpRight className="h-4 w-4" />
@@ -25,58 +67,73 @@ export function WomenCategories() {
           }
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {WOMEN_CATEGORIES.map((cat, index) => (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+          {categories.map((category, index) => (
             <Link
-              key={cat.slug}
-              to={`/category/${cat.slug}`}
-              className="group relative flex flex-col overflow-hidden rounded-2xl bg-white border border-[#E8E1D7] shadow-xs transition-all duration-300 hover:shadow-xl hover:border-[#637666]/40 hover:-translate-y-1"
+              key={category.slug}
+              to={`/category/${category.slug}`}
+              className="group relative flex flex-col overflow-hidden rounded-2xl border border-[#E8E1D7] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#637666]/40 hover:shadow-xl"
             >
-              {/* Image Container with Zoom */}
               <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F4EFEB]">
+                {/* Normal Category Image */}
                 <img
-                  src={cat.image}
-                  alt={`2427 ${cat.title}`}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  src={category.image}
+                  alt={`${category.title} category`}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1F2022]/80 via-[#1F2022]/20 to-transparent" />
-                
-                {/* Badge */}
-                <div className="absolute top-3 left-3 z-10">
-                  <span className="rounded-full bg-white/90 backdrop-blur-xs px-2.5 py-0.5 text-[10px] font-numeral font-bold text-[#1F2022] shadow-xs">
-                    0{index + 1} &bull; Women
+
+                {/* Automatic Product Preview on Hover */}
+                <img
+                  src={hoverImages[String(category.slug)] ?? category.image}
+                  alt={`${category.title} product preview`}
+                  className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-0 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
+                  loading="lazy"
+                />
+
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#1F2022]/80 via-[#1F2022]/20 to-transparent" />
+
+                <div className="absolute left-3 top-3 z-10">
+                  <span className="rounded-full bg-white/90 px-2.5 py-1 text-[10px] font-bold text-[#1F2022]">
+                    {category.slug === 'women-bestsellers'
+                      ? '★ Bestsellers'
+                      : `0${index + 1} • Women`}
                   </span>
                 </div>
 
-                <div className="absolute top-3 right-3 z-10">
-                  <DemoBadge variant="subtle" className="bg-white/80 px-2 py-0.5 rounded-full" />
+                <div className="absolute right-3 top-3 z-10">
+                  <DemoBadge
+                    variant="subtle"
+                    className="rounded-full bg-white/80 px-2 py-0.5"
+                  />
                 </div>
 
-                {/* Arrow Icon in Image */}
-                <div className="absolute bottom-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#1F2022] shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#637666] group-hover:text-white">
+                <div className="absolute bottom-4 right-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#1F2022]">
                   <ArrowUpRight className="h-4 w-4" />
                 </div>
 
-                {/* Overlay Text in Image */}
                 <div className="absolute bottom-4 left-4 right-16 z-10 text-[#FAF8F5]">
-                  <span className="text-[10px] uppercase font-semibold tracking-wider text-[#D9CBB7]">
-                    {cat.tagline}
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[#D9CBB7]">
+                    {category.tagline}
                   </span>
                   <h3 className="font-display text-2xl font-medium leading-tight">
-                    {cat.title}
+                    {category.title}
                   </h3>
                 </div>
               </div>
 
-              {/* Bottom Card Copy */}
-              <div className="p-4 flex flex-1 flex-col justify-between bg-white">
-                <p className="text-xs text-[#5E6064] line-clamp-2 leading-relaxed">
-                  {cat.description}
+              <div className="flex flex-1 flex-col justify-between bg-white p-4">
+                <p className="line-clamp-2 text-xs leading-relaxed text-[#5E6064]">
+                  {category.description}
                 </p>
-                <div className="mt-3 flex items-center justify-between text-[11px] font-medium text-[#6B6F76] pt-2 border-t border-[#E8E1D7]/50">
-                  <span className="text-[#637666] font-semibold">Explore Edit</span>
-                  <span className="font-numeral">{cat.itemCountDemo}</span>
+
+                <div className="mt-3 flex items-center justify-between border-t border-[#E8E1D7]/50 pt-2 text-[11px] font-medium text-[#6B6F76]">
+                  <span className="font-semibold text-[#637666]">
+                    Explore Edit
+                  </span>
+                  <span className="font-numeral">
+                    {category.itemCountDemo}
+                  </span>
                 </div>
               </div>
             </Link>
