@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -8,317 +9,417 @@ import {
   Menu,
   ChevronDown,
   ArrowRight,
-  ShieldCheck,
-  RotateCcw,
 } from 'lucide-react';
 import { useStore } from '../../context/StoreContext';
 import { Logo } from '../brand/Logo';
-import { MEN_CATEGORIES, WOMEN_CATEGORIES } from '../../data/catalog';
+import {
+  MEN_CATEGORIES,
+  WOMEN_CATEGORIES,
+} from '../../data/catalog';
+
+type Gender = 'men' | 'women';
+
+type DropdownItem = {
+  slug: string;
+  title: string;
+  tagline: string;
+  image: string;
+};
+
+const productImage = (path: string): string =>
+  `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+
+const menImages: Record<string, string> = {
+  'men-underwear': productImage(
+    'images/products/underwear/m-ub01-front.jpg'
+  ),
+  'men-boxers': productImage(
+    'images/products/boxers/m-bx01-airbox-front.jpg'
+  ),
+  'men-vests': productImage(
+    'images/products/vests/m-v01-front.jpg'
+  ),
+  'men-sleeveless': productImage(
+    'images/products/sleeveless/m-s01-front.jpg'
+  ),
+  'men-bestsellers': productImage(
+    'images/products/underwear/m-ub02-front.jpg'
+  ),
+};
+
+const womenImages: Record<string, string> = {
+  'women-bras': productImage(
+    'images/products/bras/w-b01-front.jpg'
+  ),
+  'women-underwear': productImage(
+    'images/products/women-underwear/w-u01-front.jpg'
+  ),
+  'women-camisoles': productImage(
+    'images/products/women-camisoles/w-c01-front.jpg'
+  ),
+  'women-crop-tops': productImage(
+    'images/products/women-crop-tops/w-ct01-front.jpg'
+  ),
+  'women-bestsellers': productImage(
+    'images/products/bras/w-b02-front.jpg'
+  ),
+};
+
+const menItems: DropdownItem[] = [
+  ...MEN_CATEGORIES
+    .filter((cat) => String(cat.slug) !== 'men-bestsellers')
+    .map((cat) => ({
+      slug: String(cat.slug),
+      title: cat.title,
+      tagline: cat.tagline,
+      image: menImages[String(cat.slug)] || cat.image,
+    })),
+  {
+    slug: 'men-bestsellers',
+    title: 'Bestsellers',
+    tagline: 'Popular Picks',
+    image: menImages['men-bestsellers'],
+  },
+];
+
+const womenItems: DropdownItem[] = [
+  ...WOMEN_CATEGORIES
+    .filter((cat) => String(cat.slug) !== 'women-bestsellers')
+    .map((cat) => ({
+      slug: String(cat.slug),
+      title: cat.title,
+      tagline: cat.tagline,
+      image: womenImages[String(cat.slug)] || cat.image,
+    })),
+  {
+    slug: 'women-bestsellers',
+    title: 'Bestsellers',
+    tagline: 'Popular Picks',
+    image: womenImages['women-bestsellers'],
+  },
+];
 
 export function Header() {
   const { openOverlay, cartCount, wishlistCount } = useStore();
   const location = useLocation();
+
   const [scrolled, setScrolled] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState<'men' | 'women' | null>(null);
+  const [activeDropdown, setActiveDropdown] =
+    useState<Gender | null>(null);
+  const [hoveredItem, setHoveredItem] =
+    useState<string | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const onScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', onScroll, {
+      passive: true,
+    });
+
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Close dropdown on route change
   useEffect(() => {
     setActiveDropdown(null);
+    setHoveredItem(null);
   }, [location.pathname]);
+
+  const openDropdown = (gender: Gender) => {
+    setActiveDropdown(gender);
+    setHoveredItem(null);
+  };
+
+  const closeDropdown = () => {
+    setActiveDropdown(null);
+    setHoveredItem(null);
+  };
+
+  const renderDropdown = (gender: Gender) => {
+    const items = gender === 'men' ? menItems : womenItems;
+
+    const selected =
+      items.find((item) => item.slug === hoveredItem) ||
+      items[0];
+
+    return (
+      <div
+        className={`absolute left-0 top-full z-50 w-[600px] pt-3 ${gender === 'men'
+            ? '-translate-x-12'
+            : '-translate-x-24'
+          }`}
+      >
+        <div className="grid grid-cols-[1fr_230px] gap-5 rounded-2xl border border-[#E8E1D7] bg-[#FAF8F5] p-5 shadow-xl">
+          <div>
+            <span className="mb-3 block text-[11px] font-semibold uppercase tracking-[0.18em] text-[#637666]">
+              {gender === 'men'
+                ? "Men's Essentials"
+                : "Women's Intimates"}
+            </span>
+
+            <ul className="space-y-1">
+              {items.map((item) => (
+                <li key={item.slug}>
+                  <Link
+                    to={`/category/${item.slug}`}
+                    onMouseEnter={() =>
+                      setHoveredItem(item.slug)
+                    }
+                    onFocus={() =>
+                      setHoveredItem(item.slug)
+                    }
+                    className={`group block rounded-xl px-3 py-3 transition-colors ${selected.slug === item.slug
+                        ? 'bg-white'
+                        : 'hover:bg-white'
+                      }`}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm font-medium text-[#1F2022] group-hover:text-[#637666]">
+                        {item.title}
+                      </span>
+
+                      {item.slug.endsWith('bestsellers') ? (
+                        <span className="text-[10px] font-semibold text-[#637666]">
+                          ★ Popular
+                        </span>
+                      ) : (
+                        <ArrowRight className="h-3.5 w-3.5 text-[#637666] opacity-0 group-hover:opacity-100" />
+                      )}
+                    </div>
+
+                    <p className="mt-1 text-[11px] text-[#6B6F76]">
+                      {item.tagline}
+                    </p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-col overflow-hidden rounded-xl bg-[#F4EFEB]">
+            <div className="relative h-[260px] overflow-hidden">
+              {items.map((item) => (
+                <img
+                  key={item.slug}
+                  src={item.image}
+                  alt={`${item.title} preview`}
+                  className={`pointer-events-none absolute inset-0 h-full w-full object-contain p-3 transition-opacity duration-300 ${selected.slug === item.slug
+                      ? 'opacity-100'
+                      : 'opacity-0'
+                    }`}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+
+            <div className="flex flex-1 flex-col justify-end p-4">
+              <span className="text-[10px] font-semibold uppercase tracking-widest text-[#637666]">
+                Product Preview
+              </span>
+
+              <h4 className="mt-1 font-display text-xl font-medium text-[#1F2022]">
+                {selected.title}
+              </h4>
+
+              <p className="mt-1 text-xs text-[#5E6064]">
+                {selected.tagline}
+              </p>
+
+              <Link
+                to={`/category/${selected.slug}`}
+                className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#47584A]"
+              >
+                Explore Collection
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
-        scrolled
-          ? 'bg-[#FAF8F5]/95 backdrop-blur-md shadow-xs border-b border-[#E8E1D7]'
-          : 'bg-[#FAF8F5] border-b border-[#E8E1D7]/60'
-      }`}
+      className={`sticky top-0 z-40 w-full transition-all duration-300 ${scrolled
+          ? 'border-b border-[#E8E1D7] bg-[#FAF8F5]/95 shadow-xs backdrop-blur-md'
+          : 'border-b border-[#E8E1D7]/60 bg-[#FAF8F5]'
+        }`}
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Left: Mobile Menu Button & Search */}
         <div className="flex items-center gap-3 lg:hidden">
           <button
             type="button"
             onClick={() => openOverlay('menu')}
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F3EFEA] transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F3EFEA]"
             aria-label="Open mobile navigation menu"
           >
             <Menu className="h-5 w-5" />
           </button>
+
           <button
             type="button"
             onClick={() => openOverlay('search')}
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F3EFEA] transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F3EFEA]"
             aria-label="Search collection"
           >
             <Search className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Center-Left: Prominent Brand Logo */}
         <div className="flex items-center">
           <Logo size="md" />
         </div>
 
-        {/* Center: Desktop Navigation Bar with Rich Dropdown Menus */}
-        <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+        <nav className="hidden items-center gap-1 lg:flex xl:gap-2">
           <Link
             to="/"
-            className={`px-3 py-2 text-sm font-medium transition-colors hover:text-[#637666] ${
-              location.pathname === '/' ? 'text-[#637666] font-semibold' : 'text-[#1F2022]'
-            }`}
+            className={`px-3 py-2 text-sm font-medium hover:text-[#637666] ${location.pathname === '/'
+                ? 'font-semibold text-[#637666]'
+                : 'text-[#1F2022]'
+              }`}
           >
             Home
           </Link>
 
-          {/* Men Mega Dropdown */}
           <div
             className="relative"
-            onMouseEnter={() => setActiveDropdown('men')}
-            onMouseLeave={() => setActiveDropdown(null)}
+            onMouseEnter={() => openDropdown('men')}
+            onMouseLeave={closeDropdown}
           >
             <button
               type="button"
-              className={`inline-flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors hover:text-[#637666] ${
-                activeDropdown === 'men' ? 'text-[#637666]' : 'text-[#1F2022]'
-              }`}
+              onClick={() =>
+                activeDropdown === 'men'
+                  ? closeDropdown()
+                  : openDropdown('men')
+              }
+              className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-[#1F2022] hover:text-[#637666]"
             >
-              <span>Men</span>
-              <ChevronDown className="h-3.5 w-3.5 opacity-60 transition-transform group-hover:rotate-180" />
+              Men
+              <ChevronDown
+                className={`h-3.5 w-3.5 transition-transform ${activeDropdown === 'men'
+                    ? 'rotate-180'
+                    : ''
+                  }`}
+              />
             </button>
 
-            {/* Men Dropdown Content */}
-            {activeDropdown === 'men' && (
-              <div className="absolute top-full left-0 w-[580px] -translate-x-12 pt-3 z-50">
-                <div className="rounded-2xl border border-[#E8E1D7] bg-[#FAF8F5] p-6 shadow-xl grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div>
-                    <span className="eyebrow block mb-3 text-[#637666]">
-                      Men's Essentials
-                    </span>
-                    <ul className="space-y-3">
-                      {MEN_CATEGORIES.map((cat) => (
-                        <li key={cat.slug}>
-                          <Link
-                            to={`/category/${cat.slug}`}
-                            className="group block p-2 rounded-xl transition-colors hover:bg-white"
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className="font-medium text-sm text-[#1F2022] group-hover:text-[#637666]">
-                                {cat.title}
-                              </span>
-                              <span className="text-[10px] text-[#6B6F76]">
-                                {cat.tagline}
-                              </span>
-                            </div>
-                            <p className="text-xs text-[#5E6064] line-clamp-1 mt-0.5">
-                              {cat.description}
-                            </p>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Dropdown Feature Banner */}
-                  <div className="flex flex-col justify-between rounded-xl bg-[#1F2022] p-5 text-[#FAF8F5] relative overflow-hidden">
-                    <div className="relative z-10">
-                      <span className="text-[10px] uppercase font-semibold tracking-widest text-[#D9CBB7]">
-                        Featured Innovation
-                      </span>
-                      <h4 className="font-display text-2xl font-medium mt-1">
-                        AeroModal™ Trunks
-                      </h4>
-                      <p className="text-xs text-[#FAF8F5]/75 mt-2 leading-relaxed">
-                        3X softer than combed cotton with anti-roll micro waistband.
-                      </p>
-                    </div>
-                    <Link
-                      to="/category/men-underwear"
-                      className="relative z-10 inline-flex items-center gap-1.5 text-xs font-semibold text-[#D9CBB7] hover:text-white mt-4"
-                    >
-                      <span>Explore Collection</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                    <div className="absolute -bottom-6 -right-6 h-28 w-28 rounded-full bg-[#637666]/30 blur-xl pointer-events-none" />
-                  </div>
-                </div>
-              </div>
-            )}
+            {activeDropdown === 'men' &&
+              renderDropdown('men')}
           </div>
 
-          {/* Women Mega Dropdown */}
           <div
             className="relative"
-            onMouseEnter={() => setActiveDropdown('women')}
-            onMouseLeave={() => setActiveDropdown(null)}
+            onMouseEnter={() => openDropdown('women')}
+            onMouseLeave={closeDropdown}
           >
             <button
               type="button"
-              className={`inline-flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors hover:text-[#637666] ${
-                activeDropdown === 'women' ? 'text-[#637666]' : 'text-[#1F2022]'
-              }`}
+              onClick={() =>
+                activeDropdown === 'women'
+                  ? closeDropdown()
+                  : openDropdown('women')
+              }
+              className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-[#1F2022] hover:text-[#637666]"
             >
-              <span>Women</span>
-              <ChevronDown className="h-3.5 w-3.5 opacity-60 transition-transform group-hover:rotate-180" />
+              Women
+              <ChevronDown
+                className={`h-3.5 w-3.5 transition-transform ${activeDropdown === 'women'
+                    ? 'rotate-180'
+                    : ''
+                  }`}
+              />
             </button>
 
-            {/* Women Dropdown Content */}
-            {activeDropdown === 'women' && (
-              <div className="absolute top-full left-0 w-[580px] -translate-x-24 pt-3 z-50">
-                <div className="rounded-2xl border border-[#E8E1D7] bg-[#FAF8F5] p-6 shadow-xl grid grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <div>
-                    <span className="eyebrow block mb-3 text-[#637666]">
-                      Women's Intimates
-                    </span>
-                    <ul className="space-y-3">
-                      {WOMEN_CATEGORIES.map((cat) => (
-                        <li key={cat.slug}>
-                          <Link
-                            to={`/category/${cat.slug}`}
-                            className="group block p-2 rounded-xl transition-colors hover:bg-white"
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className="font-medium text-sm text-[#1F2022] group-hover:text-[#637666]">
-                                {cat.title}
-                              </span>
-                              <span className="text-[10px] text-[#6B6F76]">
-                                {cat.tagline}
-                              </span>
-                            </div>
-                            <p className="text-xs text-[#5E6064] line-clamp-1 mt-0.5">
-                              {cat.description}
-                            </p>
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Dropdown Feature Banner */}
-                  <div className="flex flex-col justify-between rounded-xl bg-[#586A59] p-5 text-[#FAF8F5] relative overflow-hidden">
-                    <div className="relative z-10">
-                      <span className="text-[10px] uppercase font-semibold tracking-widest text-[#E8E1D7]">
-                        Signature Drop
-                      </span>
-                      <h4 className="font-display text-2xl font-medium mt-1">
-                        CloudTouch™ Wire-Free
-                      </h4>
-                      <p className="text-xs text-[#FAF8F5]/85 mt-2 leading-relaxed">
-                        Featherweight contour support engineered for 24-hour ease.
-                      </p>
-                    </div>
-                    <Link
-                      to="/category/women-bras"
-                      className="relative z-10 inline-flex items-center gap-1.5 text-xs font-semibold text-[#FAF8F5] underline underline-offset-4 hover:text-white mt-4"
-                    >
-                      <span>Shop Bralettes</span>
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </Link>
-                    <div className="absolute -bottom-6 -right-6 h-28 w-28 rounded-full bg-white/20 blur-xl pointer-events-none" />
-                  </div>
-                </div>
-              </div>
-            )}
+            {activeDropdown === 'women' &&
+              renderDropdown('women')}
           </div>
 
           <Link
             to="/category/new-arrivals"
-            className="px-3 py-2 text-sm font-medium transition-colors hover:text-[#637666] text-[#1F2022]"
+            className="px-3 py-2 text-sm font-medium text-[#1F2022] hover:text-[#637666]"
           >
             New Arrivals
           </Link>
-          <Link
-            to="/category/bestsellers"
-            className="px-3 py-2 text-sm font-medium transition-colors hover:text-[#637666] text-[#1F2022]"
-          >
-            Bestsellers
-          </Link>
+
           <Link
             to="/category/bundles"
-            className="px-3 py-2 text-sm font-medium transition-colors hover:text-[#637666] text-[#1F2022] flex items-center gap-1"
+            className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-[#1F2022] hover:text-[#637666]"
           >
-            <span>Bundles</span>
-            <span className="rounded-full bg-[#637666]/15 text-[#47584A] px-1.5 py-0.2 text-[10px] font-semibold">
+            Bundles
+            <span className="rounded-full bg-[#637666]/15 px-1.5 py-0.5 text-[10px] font-semibold text-[#47584A]">
               Save
             </span>
           </Link>
+
           <Link
             to="/category/offers"
-            className="px-3 py-2 text-sm font-medium transition-colors hover:text-[#A85A3C] text-[#A85A3C]"
+            className="px-3 py-2 text-sm font-medium text-[#A85A3C]"
           >
             Offers
           </Link>
+
           <Link
             to="/about"
-            className="px-3 py-2 text-sm font-medium transition-colors hover:text-[#637666] text-[#1F2022]"
+            className="px-3 py-2 text-sm font-medium text-[#1F2022] hover:text-[#637666]"
           >
             About Us
           </Link>
+
           <Link
             to="/contact"
-            className="px-3 py-2 text-sm font-medium transition-colors hover:text-[#637666] text-[#1F2022]"
+            className="px-3 py-2 text-sm font-medium text-[#1F2022] hover:text-[#637666]"
           >
             Help
           </Link>
         </nav>
 
-        {/* Right: Action Utilities (Search, Account, Wishlist, Cart) */}
         <div className="flex items-center gap-1 sm:gap-2">
-          {/* Desktop Search Button */}
           <button
             type="button"
             onClick={() => openOverlay('search')}
-            className="hidden lg:flex items-center gap-2 rounded-full border border-[#E8E1D7] bg-white px-3.5 py-1.5 text-xs text-[#6B6F76] transition-all hover:border-[#637666] hover:text-[#1F2022]"
+            className="hidden items-center gap-2 rounded-full border border-[#E8E1D7] bg-white px-3.5 py-1.5 text-xs text-[#6B6F76] hover:border-[#637666] lg:flex"
           >
             <Search className="h-3.5 w-3.5 text-[#637666]" />
             <span>Search 2427...</span>
-            <kbd className="rounded bg-[#F4EFEB] px-1.5 py-0.5 text-[10px] font-mono text-[#6B6F76]">
+            <kbd className="rounded bg-[#F4EFEB] px-1.5 py-0.5 font-mono text-[10px]">
               ⌘K
             </kbd>
           </button>
 
-          {/* Account Icon */}
           <button
             type="button"
             onClick={() => openOverlay('auth')}
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F3EFEA] transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F3EFEA]"
             aria-label="User Account"
           >
             <User className="h-5 w-5" />
           </button>
 
-          {/* Wishlist Icon */}
           <Link
             to="/wishlist"
-            className="relative flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F3EFEA] transition-colors"
+            className="relative flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F3EFEA]"
             aria-label={`Wishlist with ${wishlistCount} saved items`}
           >
             <Heart className="h-5 w-5" />
             {wishlistCount > 0 && (
-              <span className="absolute top-1.5 right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#637666] px-1 text-[10px] font-bold text-white shadow-xs">
+              <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#637666] px-1 text-[10px] font-bold text-white">
                 {wishlistCount}
               </span>
             )}
           </Link>
 
-          {/* Shopping Cart Drawer Trigger */}
           <button
             type="button"
             onClick={() => openOverlay('cart')}
-            className="relative flex h-10 w-10 items-center justify-center rounded-full bg-[#1F2022] text-[#FAF8F5] transition-transform hover:scale-105 active:scale-95 shadow-sm"
+            className="relative flex h-10 w-10 items-center justify-center rounded-full bg-[#1F2022] text-[#FAF8F5] hover:scale-105"
             aria-label={`Shopping bag with ${cartCount} items`}
           >
             <ShoppingBag className="h-4 w-4" />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#637666] px-1 text-[10px] font-bold text-white ring-2 ring-[#FAF8F5]">
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#637666] px-1 text-[10px] font-bold text-white ring-2 ring-[#FAF8F5]">
                 {cartCount}
               </span>
             )}
