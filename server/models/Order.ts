@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Document, Types } from 'mongoose';
 
 export interface IOrderItem {
   productId: Schema.Types.ObjectId;
@@ -13,7 +13,7 @@ export interface IOrderItem {
 
 export interface IOrder extends Document {
   orderNumber: string;
-  userId?: Schema.Types.ObjectId;
+  userId?: Types.ObjectId;
   guestEmail?: string;
   items: IOrderItem[];
   subtotal: number;

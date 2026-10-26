@@ -1,7 +1,7 @@
 // Resolve images in both local Vite development and GitHub Pages deployment.
 // External image URLs remain unchanged.
 const assetUrl = (path: string): string =>
-  `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+  `${import.meta.env?.BASE_URL ?? '/'}${path.replace(/^\/+/, '')}`;
 
 export type Gender = 'men' | 'women' | 'unisex';
 
@@ -38,11 +38,13 @@ export interface Product {
   rating?: number;
   reviewCount?: number;
   image: string;
+  imageLabel?: string;
   hoverImage: string;
   description: string;
   features: string[];
   isDemoContent: boolean;
   isDemoPrice?: boolean;
+  inventoryStatus?: 'demo' | 'in_stock' | 'out_of_stock' | 'unverified';
 }
 
 export interface CategoryInfo {
@@ -182,6 +184,7 @@ export const PRODUCTS: Product[] = [
     category: 'men-underwear',
     categoryLabel: "Men's Underwear",
     price: 449,
+    badge: 'Bestseller',
     fabric: 'Fabric details to be confirmed',
     fabricBadge: 'Trunk',
     colors: [
@@ -278,6 +281,7 @@ export const PRODUCTS: Product[] = [
     category: 'men-boxers',
     categoryLabel: "Men's Boxers",
     price: 599,
+    badge: 'Bestseller',
     fabric: '100% Woven Cotton (Sample Specification)',
     fabricBadge: 'Relaxed Woven',
     colors: [
@@ -909,7 +913,7 @@ export const PRODUCTS: Product[] = [
     reviewCount: 520,
     image: assetUrl('/images/products/women-underwear/w-u01-front.jpg'),
     hoverImage: assetUrl('/images/products/women-underwear/w-u01-back.jpg'),
-    description: 'Engineered with laser-cut ultrasonic edges that melt against the hips. Guaranteed zero panty lines even under bodycon silks and athletic tights.',
+    description: 'A minimal brief silhouette with laser-cut edges.',
     features: ['100% Organic hypoallergenic cotton gusset', 'Zero roll silicon grip micro-dots', 'Ultra low weight (22g)', 'Moisture vapor permeable'],
     isDemoContent: true,
   },
@@ -1805,7 +1809,8 @@ export const PRODUCTS: Product[] = [
     fabricBadge: 'Collared',
     colors: [{ name: 'Sky Blue', hex: '#A9C8E8' }],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
-    image: assetUrl('/images/products/women-crop-tops/w-ct15-front.jpg'),
+    image: assetUrl('/images/products/women-crop-tops/w-ct15-back.jpg'),
+    imageLabel: 'back view',
     hoverImage: assetUrl('/images/products/women-crop-tops/w-ct15-back.jpg'),
     description: 'A short-sleeve crop top with a polo-style collar.',
     features: ['Polo collar', 'Short sleeves'],
@@ -1863,8 +1868,8 @@ export const PRODUCTS: Product[] = [
     reviewCount: 380,
     image: assetUrl('/images/products/bundles/bundle-01-front.jpg'),
     hoverImage: assetUrl('/images/products/bundles/bundle-01-back.jpg'),
-    description: 'Pair two of our top-rated wire-free bralettes. Engineered for day and sleep wear, offering continuous comfort around the clock.',
-    features: ['Curated complementary colors', '15-day trial guarantee', 'Custom brass slider adjustment', 'Zero metal hooks or wires'],
+    description: 'A two-piece bundle of wire-free bralettes.',
+    features: ['Curated complementary colors', 'Custom brass slider adjustment', 'Zero metal hooks or wires'],
     isDemoContent: true,
   },
 

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { SectionHeading } from '../ui/SectionHeading';
 import { ProductCard } from '../product/ProductCard';
-import { PRODUCTS } from '../../data/catalog';
+import { useCatalog } from '../../context/CatalogContext';
 
 export function NewArrivals() {
+  const { products } = useCatalog();
   const [filter, setFilter] = useState<'all' | 'men' | 'women'>('all');
 
-  const newProducts = PRODUCTS.filter(
+  const newProducts = products.filter(
     (p) => p.badge === 'New' || p.category === 'new-arrivals'
   );
 
@@ -23,14 +24,15 @@ export function NewArrivals() {
     <section className="py-16 sm:py-24 bg-[#FAF8F5]">
       <Container>
         <SectionHeading
-          eyebrow="Fresh Off the Loom"
-          title="New Arrivals &amp; Season Firsts"
-          description="Crafted in limited atelier batches. New silhouettes, breathable ribs, and bonded edges ready for your rotation."
+          eyebrow="Recently added styles"
+          title="New Arrivals"
+          description="Explore products marked as new in the current catalog."
           action={
             <div className="flex items-center gap-2 rounded-full border border-[#E8E1D7] bg-white p-1">
               <button
                 type="button"
                 onClick={() => setFilter('all')}
+                aria-pressed={filter === 'all'}
                 className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
                   filter === 'all'
                     ? 'bg-[#1F2022] text-[#FAF8F5] shadow-xs'
@@ -42,6 +44,7 @@ export function NewArrivals() {
               <button
                 type="button"
                 onClick={() => setFilter('men')}
+                aria-pressed={filter === 'men'}
                 className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
                   filter === 'men'
                     ? 'bg-[#1F2022] text-[#FAF8F5] shadow-xs'
@@ -53,6 +56,7 @@ export function NewArrivals() {
               <button
                 type="button"
                 onClick={() => setFilter('women')}
+                aria-pressed={filter === 'women'}
                 className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
                   filter === 'women'
                     ? 'bg-[#1F2022] text-[#FAF8F5] shadow-xs'

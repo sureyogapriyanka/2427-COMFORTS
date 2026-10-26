@@ -1,232 +1,548 @@
-import React, { useState } from 'react';
+
+import {
+  useEffect,
+  useState,
+} from 'react';
+
 import { Link } from 'react-router-dom';
-import { X, Heart, ShoppingBag, ShieldCheck, Check, Sparkles, ArrowRight } from 'lucide-react';
+
+import {
+  X,
+  Heart,
+  ShoppingBag,
+  Check,
+  ArrowRight,
+  Minus,
+  Plus,
+  ChevronLeft,
+  ChevronRight,
+  ShieldCheck,
+} from 'lucide-react';
+
 import { useStore } from '../../context/StoreContext';
 import { formatINR } from '../../data/catalog';
-import { ColorDots } from '../product/ColorDots';
-import { RatingStars } from '../product/RatingStars';
-import { Button } from '../ui/Button';
-import { DemoBadge } from '../brand/DemoBadge';
+import { ProductAvailabilityNote } from '../product/ProductAvailabilityNote';
 
 export function QuickViewModal() {
-  const { overlay, closeOverlay, quickViewProduct, addToCart, isInWishlist, toggleWishlist } =
-    useStore();
+  const {
+    overlay,
+    closeOverlay,
+    quickViewProduct,
+    addToCart,
+    isInWishlist,
+    toggleWishlist,
+    openOverlay,
+  } = useStore();
 
-  if (overlay !== 'quickview' || !quickViewProduct) return null;
+  const isOpen =
+    overlay === 'quickview' &&
+    quickViewProduct !== null;
 
-  const [selectedColor, setSelectedColor] = useState(
-    quickViewProduct.colors[0]?.name || ''
-  );
-  const [selectedSize, setSelectedSize] = useState(
-    quickViewProduct.sizes[0] || 'M'
-  );
-  const [activeImage, setActiveImage] = useState(quickViewProduct.image);
+  const [selectedColor, setSelectedColor] =
+    useState('');
+
+  const [selectedSize, setSelectedSize] =
+    useState('');
+
+  const [quantity, setQuantity] = useState(1);
+
+  const [activeImageIndex, setActiveImageIndex] =
+    useState(0);
+
   const [added, setAdded] = useState(false);
 
-  const isFavorited = isInWishlist(quickViewProduct.id);
+  const [showSizeInfo, setShowSizeInfo] =
+    useState(false);
 
-  const handleAdd = () => {
-    addToCart(quickViewProduct, selectedColor, selectedSize, 1);
+  useEffect(() => {
+    if (!isOpen || !quickViewProduct) return;
+
+    setSelectedColor(
+      quickViewProduct.colors[0]?.name || ''
+    );
+
+    setSelectedSize(
+      quickViewProduct.sizes[0] || ''
+    );
+
+    setQuantity(1);
+    setActiveImageIndex(0);
+    setAdded(false);
+    setShowSizeInfo(false);
+  }, [isOpen, quickViewProduct]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeOverlay();
+      }
+    };
+
+    window.addEventListener(
+      'keydown',
+      handleEscape
+    );
+
+    return () => {
+      window.removeEventListener(
+        'keydown',
+        handleEscape
+      );
+    };
+  }, [isOpen, closeOverlay]);
+
+  if (!isOpen || !quickViewProduct) {
+    return null;
+  }
+
+  const product = quickViewProduct;
+  const isUnavailable = product.inventoryStatus === 'out_of_stock';
+
+  const images = [
+    product.image,
+    product.hoverImage,
+  ].filter(
+    (image, index, all): image is string =>
+      Boolean(image) &&
+      all.indexOf(image) === index
+  );
+
+  const activeImage =
+    images[activeImageIndex] || product.image;
+
+  const isFavorited = isInWishlist(product.id);
+
+  const hasDiscount =
+    product.compareAt != null &&
+    product.compareAt > product.price;
+
+  const discountPercentage = hasDiscount
+    ? Math.round(
+      ((product.compareAt! - product.price) /
+        product.compareAt!) *
+      100
+    )
+    : 0;
+
+  const nextImage = () => {
+    setActiveImageIndex(
+      (previous) => (previous + 1) % images.length
+    );
+  };
+
+  const previousImage = () => {
+    setActiveImageIndex(
+      (previous) =>
+        (previous - 1 + images.length) %
+        images.length
+    );
+  };
+
+  const handleAddToBag = () => {
+    if (!selectedSize || !selectedColor || isUnavailable) return;
+
+    addToCart(
+      product,
+      selectedColor,
+      selectedSize,
+      quantity
+    );
+
     setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
+  };
+
+  const handleViewBag = () => {
+    openOverlay('cart');
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 sm:p-6 animate-in fade-in duration-200">
-      <div className="fixed inset-0" onClick={closeOverlay} />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/65 p-3 backdrop-blur-sm sm:p-6">
+      {/* Backdrop */}
+      <button
+        type="button"
+        onClick={closeOverlay}
+        aria-label="Close quick view"
+        className="absolute inset-0 h-full w-full cursor-default"
+      />
 
-      <div className="relative w-full max-w-3xl overflow-hidden rounded-2xl bg-[#FAF8F5] shadow-2xl border border-[#E8E1D7] animate-in zoom-in-95 duration-200">
+      {/* Modal */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={`Quick view ${product.name}`}
+        className="relative z-10 flex max-h-[92vh] w-full max-w-4xl flex-col overflow-y-auto rounded-2xl border border-[#E8E1D7] bg-white shadow-2xl md:overflow-hidden md:rounded-3xl"
+      >
+        {/* Close */}
         <button
           type="button"
           onClick={closeOverlay}
-          className="absolute top-4 right-4 z-20 rounded-full bg-white/90 p-2 text-[#1F2022] hover:bg-white shadow-xs"
-          aria-label="Close dialog"
+          aria-label="Close quick view"
+          className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[#1F2022] shadow-md transition-colors hover:bg-[#F4EFEB]"
         >
-          <X className="h-5 w-5" />
+          <X size={19} />
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          {/* Left: Images */}
-          <div className="relative bg-[#F4EFEB] p-4 flex flex-col justify-between">
-            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-xl">
+        <div className="grid min-h-0 md:grid-cols-2">
+          {/* Product Images */}
+          <div className="bg-[#F4EFEB] p-4 sm:p-6">
+            <div className="relative mx-auto aspect-[4/5] max-h-[55vh] w-full overflow-hidden rounded-2xl bg-[#F9F6F1] md:max-h-[70vh]">
               <img
                 src={activeImage}
-                alt={quickViewProduct.name}
-                className="h-full w-full object-cover"
+                alt={product.name}
+                className="h-full w-full object-contain"
               />
-              <div className="absolute top-3 left-3 flex flex-col gap-1.5">
-                {quickViewProduct.badge && (
-                  <span className="rounded-full bg-[#1F2022] px-2.5 py-0.5 text-[10px] font-semibold text-white shadow-xs">
-                    {quickViewProduct.badge}
+
+              {/* Badges */}
+              <div className="absolute left-3 top-3 flex flex-col items-start gap-2">
+                {product.badge && (
+                  <span className="rounded-full bg-[#1F2022] px-3 py-1 text-[10px] font-semibold text-white">
+                    {product.badge}
                   </span>
                 )}
-                {quickViewProduct.code && (
-                  <span className="rounded-full bg-[#1F2022] px-2.5 py-0.5 text-[10px] font-numeral font-bold text-white shadow-xs">
-                    {quickViewProduct.code}
+
+                {hasDiscount && (
+                  <span className="rounded-full bg-[#637666] px-3 py-1 text-[10px] font-semibold text-white">
+                    {discountPercentage}% OFF
                   </span>
                 )}
-                <DemoBadge variant="subtle" className="bg-white/90 px-2 py-0.5 rounded-full" />
               </div>
+
+              {/* Gallery Arrows */}
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={previousImage}
+                    aria-label="Previous image"
+                    className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-[#1F2022] shadow-sm hover:bg-white"
+                  >
+                    <ChevronLeft size={19} />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={nextImage}
+                    aria-label="Next image"
+                    className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-[#1F2022] shadow-sm hover:bg-white"
+                  >
+                    <ChevronRight size={19} />
+                  </button>
+                </>
+              )}
             </div>
 
-            {/* Thumbnail selector */}
-            <div className="mt-3 flex gap-2">
-              <button
-                type="button"
-                onClick={() => setActiveImage(quickViewProduct.image)}
-                className={`h-14 w-12 overflow-hidden rounded-lg border-2 ${
-                  activeImage === quickViewProduct.image
-                    ? 'border-[#637666]'
-                    : 'border-transparent'
-                }`}
-              >
-                <img
-                  src={quickViewProduct.image}
-                  alt="Thumb 1"
-                  className="h-full w-full object-cover"
-                />
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveImage(quickViewProduct.hoverImage)}
-                className={`h-14 w-12 overflow-hidden rounded-lg border-2 ${
-                  activeImage === quickViewProduct.hoverImage
-                    ? 'border-[#637666]'
-                    : 'border-transparent'
-                }`}
-              >
-                <img
-                  src={quickViewProduct.hoverImage}
-                  alt="Thumb 2"
-                  className="h-full w-full object-cover"
-                />
-              </button>
-            </div>
+            {/* Thumbnails */}
+            {images.length > 1 && (
+              <div className="mt-4 flex justify-center gap-3">
+                {images.map((image, index) => (
+                  <button
+                    key={image}
+                    type="button"
+                    onClick={() =>
+                      setActiveImageIndex(index)
+                    }
+                    aria-label={`View image ${index + 1}`}
+                    className={`h-16 w-14 overflow-hidden rounded-lg border-2 bg-white p-1 ${activeImageIndex === index
+                      ? 'border-[#637666]'
+                      : 'border-transparent'
+                      }`}
+                  >
+                    <img
+                      src={image}
+                      alt={`${product.name} view ${index + 1}`}
+                      className="h-full w-full object-contain"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Right: Details & Options */}
-          <div className="flex flex-col justify-between p-6 sm:p-8 bg-white overflow-y-auto max-h-[80vh]">
-            <div>
-              <div className="flex items-center justify-between text-xs text-[#637666] font-semibold tracking-wider uppercase mb-1">
-                <span>{quickViewProduct.fabricBadge}</span>
-                {quickViewProduct.rating && (
-                  <RatingStars
-                    rating={quickViewProduct.rating}
-                    reviewCount={quickViewProduct.reviewCount}
-                  />
-                )}
-              </div>
+          {/* Product Details */}
+          <div className="min-h-0 overflow-y-auto p-5 sm:p-7 md:max-h-[85vh]">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+              {product.categoryLabel}
+            </p>
 
-              <h3 className="font-display text-2xl font-medium text-[#1F2022]">
-                {quickViewProduct.name}
-              </h3>
-              <p className="mt-1 text-xs text-[#5E6064]">
-                {quickViewProduct.subtitle}
-              </p>
+            <h2 className="mt-2 pr-8 font-display text-2xl font-medium leading-tight text-[#1F2022] sm:text-3xl">
+              {product.name}
+            </h2>
 
-              <Link
-                to={`/product/${quickViewProduct.slug}`}
-                onClick={closeOverlay}
-                className="inline-flex items-center gap-1 text-xs font-semibold text-[#637666] hover:text-[#1F2022] mt-1 transition-colors"
-              >
-                <span>View Full Product Details Page</span>
-                <ArrowRight className="h-3 w-3" />
-              </Link>
+            <p className="mt-2 text-sm text-[#77736E]">
+              {product.subtitle}
+            </p>
 
-              {/* Price */}
-              <div className="mt-4 flex items-baseline gap-2 font-numeral">
-                <span className="text-2xl font-bold text-[#1F2022]">
-                  {formatINR(quickViewProduct.price)}
+            <Link
+              to={`/product/${product.slug}`}
+              onClick={closeOverlay}
+              className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-[#637666] hover:text-[#1F2022]"
+            >
+              View Full Product Details
+              <ArrowRight size={15} />
+            </Link>
+
+            {/* Price */}
+            <div className="mt-6 flex flex-wrap items-center gap-3 border-b border-[#E8E1D7] pb-5">
+              <span className="font-numeral text-2xl font-bold text-[#1F2022]">
+                {formatINR(product.price)}
+              </span>
+
+              {hasDiscount && (
+                <>
+                  <span className="text-sm text-[#99938B] line-through">
+                    {formatINR(product.compareAt!)}
+                  </span>
+
+                  <span className="rounded-lg bg-[#F2F4EF] px-2 py-1 text-xs font-semibold text-[#637666]">
+                    Save {discountPercentage}%
+                  </span>
+                </>
+              )}
+            </div>
+            <ProductAvailabilityNote product={product} />
+
+            {/* Color Selection */}
+            <div className="mt-5">
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <h3 className="text-xs font-semibold text-[#1F2022]">
+                  Select Color
+                </h3>
+
+                <span className="text-xs font-medium text-[#637666]">
+                  {selectedColor || 'Choose color'}
                 </span>
-                {quickViewProduct.compareAt && (
-                  <span className="text-sm text-[#6B6F76] line-through">
-                    {formatINR(quickViewProduct.compareAt)}
-                  </span>
-                )}
-                {quickViewProduct.compareAt && (
-                  <span className="rounded bg-[#637666]/10 px-2 py-0.5 text-xs font-semibold text-[#47584A]">
-                    Save {Math.round(((quickViewProduct.compareAt - quickViewProduct.price) / quickViewProduct.compareAt) * 100)}%
-                  </span>
-                )}
               </div>
 
-              {/* Color Selection */}
-              <div className="mt-5 border-t border-[#E8E1D7] pt-4">
-                <div className="flex justify-between text-xs font-medium text-[#1F2022] mb-2">
-                  <span>Color:</span>
-                  <span className="text-[#637666] font-semibold">{selectedColor}</span>
-                </div>
-                <ColorDots
-                  colors={quickViewProduct.colors}
-                  selectedColor={selectedColor}
-                  onSelect={setSelectedColor}
-                  size="md"
-                />
-              </div>
+              <div className="flex flex-wrap gap-3">
+                {product.colors.map((color) => {
+                  const isSelected =
+                    selectedColor === color.name;
 
-              {/* Size Selection */}
-              <div className="mt-5 border-t border-[#E8E1D7] pt-4">
-                <div className="flex justify-between text-xs font-medium text-[#1F2022] mb-2">
-                  <span>Select Size:</span>
-                  <span className="text-[#637666] font-semibold underline cursor-pointer">
-                    Size Guide
-                  </span>
-                </div>
-                <div className="grid grid-cols-5 gap-2">
-                  {quickViewProduct.sizes.map((size) => (
+                  return (
                     <button
-                      key={size}
+                      key={color.name}
                       type="button"
-                      onClick={() => setSelectedSize(size)}
-                      className={`h-9 rounded-lg border font-numeral text-xs font-semibold transition-all ${
-                        selectedSize === size
-                          ? 'border-[#1F2022] bg-[#1F2022] text-white shadow-xs'
-                          : 'border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022] hover:border-[#637666]'
-                      }`}
+                      onClick={() => {
+                        setSelectedColor(color.name);
+                        setAdded(false);
+                      }}
+                      title={color.name}
+                      aria-label={`Select ${color.name}`}
+                      aria-pressed={isSelected}
+                      className={`flex h-10 w-10 items-center justify-center rounded-full border-2 p-1 transition-all ${isSelected
+                        ? 'border-[#1F2022]'
+                        : 'border-[#E8E1D7] hover:border-[#637666]'
+                        }`}
                     >
-                      {size}
+                      <span
+                        className="flex h-full w-full items-center justify-center rounded-full border border-black/10"
+                        style={{
+                          backgroundColor: color.hex,
+                        }}
+                      >
+                        {isSelected && (
+                          <Check
+                            size={15}
+                            className="text-[#1F2022] drop-shadow-[0_1px_2px_white]"
+                          />
+                        )}
+                      </span>
                     </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Description & Features */}
-              <div className="mt-5 border-t border-[#E8E1D7] pt-4">
-                <p className="text-xs text-[#5E6064] leading-relaxed">
-                  {quickViewProduct.description}
-                </p>
-                <ul className="mt-3 space-y-1.5 text-xs text-[#1F2022]">
-                  {quickViewProduct.features.map((feat, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <Check className="h-3.5 w-3.5 text-[#637666] shrink-0" />
-                      <span>{feat}</span>
-                    </li>
-                  ))}
-                </ul>
+                  );
+                })}
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="mt-6 flex gap-3 pt-4 border-t border-[#E8E1D7]">
-              <button
-                type="button"
-                onClick={handleAdd}
-                className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#1F2022] py-3 text-sm font-semibold text-[#FAF8F5] transition-all hover:bg-[#34373C] active:scale-[0.98] shadow-md"
-              >
-                <ShoppingBag className="h-4 w-4" />
-                <span>{added ? 'Added to Bag!' : `Add to Bag (${selectedSize})`}</span>
-              </button>
+            {/* Size Selection */}
+            <div className="mt-6 border-t border-[#E8E1D7] pt-5">
+              <div className="mb-3 flex items-center justify-between">
+                <h3 className="text-xs font-semibold text-[#1F2022]">
+                  Select Size
+                </h3>
 
-              <button
-                type="button"
-                onClick={() => toggleWishlist(quickViewProduct.id)}
-                className={`flex h-12 w-12 items-center justify-center rounded-xl border border-[#E8E1D7] transition-all hover:border-[#637666] ${
-                  isFavorited ? 'text-[#A85A3C] bg-[#FAF8F5]' : 'text-[#1F2022]'
-                }`}
-                aria-label="Wishlist toggle"
-              >
-                <Heart className={`h-5 w-5 ${isFavorited ? 'fill-[#A85A3C]' : ''}`} />
-              </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setShowSizeInfo((value) => !value)
+                  }
+                  className="text-xs font-semibold text-[#637666] underline"
+                >
+                  Size Information
+                </button>
+              </div>
+
+              {showSizeInfo && (
+                <p className="mb-4 rounded-xl bg-[#F2F4EF] p-3 text-xs leading-5 text-[#47584A]">
+                  Sizes vary by product. Please
+                  confirm measurements with the
+                  store before ordering. An official
+                  size chart has not been provided.
+                </p>
+              )}
+
+              <div className="flex flex-wrap gap-2">
+                {product.sizes.map((size) => (
+                  <button
+                    key={size}
+                    type="button"
+                    onClick={() => {
+                      setSelectedSize(size);
+                      setAdded(false);
+                    }}
+                    aria-pressed={
+                      selectedSize === size
+                    }
+                    className={`min-w-12 rounded-xl border px-4 py-2.5 text-xs font-semibold transition-colors ${selectedSize === size
+                      ? 'border-[#1F2022] bg-[#1F2022] text-white'
+                      : 'border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022] hover:border-[#637666]'
+                      }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Quantity */}
+            <div className="mt-6 border-t border-[#E8E1D7] pt-5">
+              <h3 className="mb-3 text-xs font-semibold text-[#1F2022]">
+                Quantity
+              </h3>
+
+              <div className="inline-flex items-center overflow-hidden rounded-xl border border-[#E8E1D7]">
+                <button
+                  type="button"
+                  disabled={quantity <= 1}
+                  onClick={() => {
+                    setQuantity((value) =>
+                      Math.max(1, value - 1)
+                    );
+                    setAdded(false);
+                  }}
+                  aria-label="Decrease quantity"
+                  className="p-3 disabled:opacity-40"
+                >
+                  <Minus size={16} />
+                </button>
+
+                <span className="w-10 text-center text-sm font-bold">
+                  {quantity}
+                </span>
+
+                <button
+                  type="button"
+                  disabled={quantity >= 99}
+                  onClick={() => {
+                    setQuantity((value) =>
+                      Math.min(99, value + 1)
+                    );
+                    setAdded(false);
+                  }}
+                  aria-label="Increase quantity"
+                  className="p-3 disabled:opacity-40"
+                >
+                  <Plus size={16} />
+                </button>
+              </div>
+            </div>
+
+            {/* Product Features */}
+            {product.features?.length > 0 && (
+              <div className="mt-6 border-t border-[#E8E1D7] pt-5">
+                <h3 className="mb-3 text-xs font-semibold text-[#1F2022]">
+                  Product Highlights
+                </h3>
+
+                <ul className="space-y-2">
+                  {product.features.slice(0, 4).map(
+                    (feature, index) => (
+                      <li
+                        key={index}
+                        className="flex items-start gap-2 text-xs leading-5 text-[#77736E]"
+                      >
+                        <Check
+                          size={15}
+                          className="mt-0.5 shrink-0 text-[#637666]"
+                        />
+                        {feature}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="mt-7 border-t border-[#E8E1D7] pt-5">
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  disabled={!selectedSize || !selectedColor || isUnavailable}
+                  onClick={handleAddToBag}
+                  className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#1F2022] px-4 text-sm font-semibold text-white hover:bg-[#34373C] disabled:opacity-40"
+                >
+                  {isUnavailable ? (
+                    'Currently Unavailable'
+                  ) : added ? (
+                    <>
+                      <Check size={18} />
+                      Added to Bag
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingBag size={18} />
+                      Add to Bag
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    toggleWishlist(product.id)
+                  }
+                  aria-label={
+                    isFavorited
+                      ? 'Remove from wishlist'
+                      : 'Add to wishlist'
+                  }
+                  aria-pressed={isFavorited}
+                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border transition-colors ${isFavorited
+                    ? 'border-[#A85A3C] bg-[#FAF8F5] text-[#A85A3C]'
+                    : 'border-[#E8E1D7] text-[#1F2022] hover:border-[#637666]'
+                    }`}
+                >
+                  <Heart
+                    size={20}
+                    className={
+                      isFavorited
+                        ? 'fill-current'
+                        : ''
+                    }
+                  />
+                </button>
+              </div>
+
+              {added && (
+                <button
+                  type="button"
+                  onClick={handleViewBag}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-[#637666] px-4 py-3 text-sm font-semibold text-[#637666] hover:bg-[#F2F4EF]"
+                >
+                  View Shopping Bag
+                  <ArrowRight size={16} />
+                </button>
+              )}
+
+              <div className="mt-4 flex items-center justify-center gap-2 text-xs text-[#77736E]">
+                <ShieldCheck
+                  size={15}
+                  className="text-[#637666]"
+                />
+                Review details before checkout
+              </div>
             </div>
           </div>
         </div>

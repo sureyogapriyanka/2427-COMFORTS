@@ -8,17 +8,19 @@ export interface ICategory extends Document {
   description: string;
   image: string;
   orderIndex: number;
+  isActive: boolean;
 }
 
 const CategorySchema = new Schema<ICategory>(
   {
-    title: { type: String, required: true },
-    slug: { type: String, required: true, unique: true },
+    title: { type: String, required: true, trim: true, maxlength: 120 },
+    slug: { type: String, required: true, unique: true, trim: true, maxlength: 120, match: /^[a-z0-9]+(?:-[a-z0-9]+)*$/ },
     gender: { type: String, enum: ['men', 'women', 'both'], required: true },
     tagline: { type: String },
     description: { type: String },
     image: { type: String, required: true },
-    orderIndex: { type: Number, default: 0 },
+    orderIndex: { type: Number, default: 0, min: 0 },
+    isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

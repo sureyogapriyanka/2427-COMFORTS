@@ -1,174 +1,331 @@
-import React, { useState } from 'react';
+
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { X, ChevronRight, Heart, User, ShoppingBag, ArrowRight } from 'lucide-react';
+
+import {
+  X,
+  ChevronRight,
+  Heart,
+  UserRound,
+  ShoppingBag,
+  Search,
+  ArrowRight,
+  Home,
+  Sparkles,
+} from 'lucide-react';
+
 import { useStore } from '../../context/StoreContext';
 import { Logo } from '../brand/Logo';
-import { MEN_CATEGORIES, WOMEN_CATEGORIES } from '../../data/catalog';
+import { useCatalog } from '../../context/CatalogContext';
 
 export function MobileNav() {
-  const { overlay, closeOverlay, openOverlay, wishlistCount, cartCount } = useStore();
-  const [activeGender, setActiveGender] = useState<'men' | 'women'>('men');
+  const { categories: catalogCategories } = useCatalog();
+  const {
+    overlay,
+    closeOverlay,
+    openOverlay,
+    wishlistCount,
+    cartCount,
+  } = useStore();
 
-  if (overlay !== 'menu') return null;
+  const [activeGender, setActiveGender] =
+    useState<'men' | 'women'>('men');
+
+  const isOpen = overlay === 'menu';
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeOverlay();
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      window.removeEventListener(
+        'keydown',
+        handleEscape
+      );
+    };
+  }, [isOpen, closeOverlay]);
+
+  if (!isOpen) return null;
+
+  const categories = catalogCategories.filter((category) =>
+    category.gender === activeGender
+  );
+
+  const switchOverlay = (
+    target: 'search' | 'cart'
+  ) => {
+    openOverlay(target);
+  };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black/60 backdrop-blur-xs animate-in fade-in duration-200 lg:hidden">
-      <div className="absolute inset-0" onClick={closeOverlay} />
+    <div className="fixed inset-0 z-[100] lg:hidden">
+      {/* Backdrop */}
+      <button
+        type="button"
+        onClick={closeOverlay}
+        aria-label="Close navigation"
+        className="absolute inset-0 h-full w-full bg-black/65 backdrop-blur-sm"
+      />
 
-      <aside className="absolute inset-y-0 left-0 flex max-w-full pr-10">
-        <div className="flex w-screen max-w-sm flex-col bg-[#FAF8F5] shadow-2xl animate-in slide-in-from-left duration-300">
-          {/* Top Bar with Brand Logo and Close Button */}
-          <div className="flex items-center justify-between border-b border-[#E8E1D7] px-6 py-4 bg-white">
-            <Logo size="sm" onClick={closeOverlay} />
+      {/* Mobile Drawer */}
+      <aside
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile navigation"
+        className="absolute inset-y-0 left-0 flex w-[min(90vw,400px)] flex-col overflow-hidden bg-[#FAF8F5] shadow-2xl"
+      >
+        {/* Header */}
+        <div className="shrink-0 border-b border-[#E8E1D7] bg-white px-5 py-5">
+          <div className="flex items-center justify-between gap-3">
+            <Logo
+              size="sm"
+              onClick={closeOverlay}
+            />
+
             <button
               type="button"
               onClick={closeOverlay}
-              className="rounded-full p-2 text-[#1F2022] hover:bg-[#FAF8F5] transition-colors"
-              aria-label="Close navigation"
+              aria-label="Close menu"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F4EFEB] text-[#1F2022] transition-colors hover:bg-[#E8E1D7]"
             >
-              <X className="h-5 w-5" />
+              <X size={19} />
             </button>
           </div>
 
-          {/* Gender Switcher Tabs */}
-          <div className="grid grid-cols-2 border-b border-[#E8E1D7] bg-[#F4EFEB] p-1.5 m-4 rounded-xl">
+          <p className="mt-3 text-[11px] font-medium tracking-wide text-[#77736E]">
+            Everyday essentials. Elevated comfort.
+          </p>
+        </div>
+
+        {/* Search */}
+        <div className="shrink-0 bg-white px-5 pb-4 pt-4">
+          <button
+            type="button"
+            onClick={() => switchOverlay('search')}
+            className="flex min-h-12 w-full items-center gap-3 rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-left text-sm text-[#77736E] transition-colors hover:border-[#637666]"
+          >
+            <Search
+              size={18}
+              className="text-[#637666]"
+            />
+            Search products...
+            <ArrowRight
+              size={16}
+              className="ml-auto text-[#637666]"
+            />
+          </button>
+        </div>
+
+        {/* Gender Tabs */}
+        <div className="shrink-0 border-b border-[#E8E1D7] bg-white px-5 pb-4">
+          <div className="grid grid-cols-2 gap-2 rounded-xl bg-[#F2F0EC] p-1">
             <button
               type="button"
               onClick={() => setActiveGender('men')}
-              className={`rounded-lg py-2 text-sm font-semibold transition-all ${
-                activeGender === 'men'
-                  ? 'bg-white text-[#1F2022] shadow-xs'
-                  : 'text-[#6B6F76] hover:text-[#1F2022]'
-              }`}
+              aria-pressed={activeGender === 'men'}
+              className={`min-h-11 rounded-lg px-3 text-xs font-bold uppercase tracking-wider transition-colors ${activeGender === 'men'
+                  ? 'bg-[#1F2022] text-white shadow-sm'
+                  : 'text-[#77736E] hover:text-[#1F2022]'
+                }`}
             >
               Shop Men
             </button>
+
             <button
               type="button"
               onClick={() => setActiveGender('women')}
-              className={`rounded-lg py-2 text-sm font-semibold transition-all ${
-                activeGender === 'women'
-                  ? 'bg-white text-[#1F2022] shadow-xs'
-                  : 'text-[#6B6F76] hover:text-[#1F2022]'
-              }`}
+              aria-pressed={activeGender === 'women'}
+              className={`min-h-11 rounded-lg px-3 text-xs font-bold uppercase tracking-wider transition-colors ${activeGender === 'women'
+                  ? 'bg-[#1F2022] text-white shadow-sm'
+                  : 'text-[#77736E] hover:text-[#1F2022]'
+                }`}
             >
               Shop Women
             </button>
           </div>
+        </div>
 
-          {/* Category List */}
-          <div className="flex-1 overflow-y-auto px-6 py-2 space-y-1">
-            <span className="eyebrow block mb-3 text-[#637666]">
-              {activeGender === 'men' ? "Men's Collections" : "Women's Collections"}
+        {/* Scrollable Content */}
+        <nav className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
+          <Link
+            to="/"
+            onClick={closeOverlay}
+            className="mb-5 flex items-center gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022] transition-colors hover:border-[#637666]"
+          >
+            <Home
+              size={18}
+              className="text-[#637666]"
+            />
+            Home
+            <ChevronRight
+              size={16}
+              className="ml-auto text-[#637666]"
+            />
+          </Link>
+
+          {/* Categories */}
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+              {activeGender === 'men'
+                ? "Men's Collections"
+                : "Women's Collections"}
+            </h2>
+
+            <span className="text-[10px] text-[#99938B]">
+              {categories.length} Categories
             </span>
+          </div>
 
-            {(activeGender === 'men' ? MEN_CATEGORIES : WOMEN_CATEGORIES).map((cat) => (
+          <div className="space-y-2">
+            {categories.map((category) => (
               <Link
-                key={cat.slug}
-                to={`/category/${cat.slug}`}
+                key={category.slug}
+                to={`/category/${category.slug}`}
                 onClick={closeOverlay}
-                className="flex items-center justify-between rounded-xl p-3 hover:bg-white transition-colors"
+                className="group flex items-center justify-between gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 transition-colors hover:border-[#637666] hover:bg-[#F2F4EF]"
               >
-                <div>
-                  <h4 className="font-display text-lg font-medium text-[#1F2022]">
-                    {cat.title}
-                  </h4>
-                  <p className="text-xs text-[#5E6064]">{cat.tagline}</p>
+                <div className="min-w-0">
+                  <h3 className="font-display text-sm font-semibold text-[#1F2022]">
+                    {category.title}
+                  </h3>
+
+                  {category.tagline && (
+                    <p className="mt-1 line-clamp-2 text-[11px] leading-4 text-[#77736E]">
+                      {category.tagline}
+                    </p>
+                  )}
                 </div>
-                <ChevronRight className="h-4 w-4 text-[#637666]" />
+
+                <ChevronRight
+                  size={17}
+                  className="shrink-0 text-[#637666] transition-transform group-hover:translate-x-1"
+                />
               </Link>
             ))}
+          </div>
 
-            <div className="my-4 border-t border-[#E8E1D7] pt-4 space-y-1">
-              <span className="eyebrow block mb-3 text-[#637666]">Featured Curation</span>
+          {/* Featured */}
+          <div className="mt-7 border-t border-[#E8E1D7] pt-6">
+            <h2 className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+              Featured Collections
+            </h2>
+
+            <div className="space-y-2">
               <Link
                 to="/category/new-arrivals"
                 onClick={closeOverlay}
-                className="flex items-center justify-between p-3 font-medium text-sm text-[#1F2022] rounded-xl hover:bg-white"
+                className="flex items-center gap-3 rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022]"
               >
-                <span>New Arrivals</span>
-                <span className="rounded-full bg-[#637666] text-white px-2 py-0.5 text-[10px]">New</span>
+                <Sparkles
+                  size={17}
+                  className="text-[#637666]"
+                />
+                New Arrivals
+                <span className="ml-auto rounded-full bg-[#F2F4EF] px-2 py-1 text-[10px] text-[#637666]">
+                  New
+                </span>
               </Link>
+
               <Link
                 to="/category/bestsellers"
                 onClick={closeOverlay}
-                className="flex items-center justify-between p-3 font-medium text-sm text-[#1F2022] rounded-xl hover:bg-white"
+                className="flex items-center justify-between rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022]"
               >
-                <span>Bestsellers</span>
-                <ChevronRight className="h-4 w-4 text-[#637666]" />
+                Bestsellers
+                <ChevronRight
+                  size={17}
+                  className="text-[#637666]"
+                />
               </Link>
+
               <Link
                 to="/category/bundles"
                 onClick={closeOverlay}
-                className="flex items-center justify-between p-3 font-medium text-sm text-[#1F2022] rounded-xl hover:bg-white"
+                className="flex items-center justify-between rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022]"
               >
-                <span>Multipacks &amp; Bundles</span>
-                <span className="text-xs font-semibold text-[#A85A3C]">Save 20%</span>
+                Value Bundles
+                <ChevronRight
+                  size={17}
+                  className="text-[#637666]"
+                />
               </Link>
+
               <Link
                 to="/category/offers"
                 onClick={closeOverlay}
-                className="flex items-center justify-between p-3 font-medium text-sm text-[#A85A3C] rounded-xl hover:bg-white"
+                className="flex items-center justify-between rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022]"
               >
-                <span>Special Offers</span>
-                <ChevronRight className="h-4 w-4 text-[#A85A3C]" />
-              </Link>
-            </div>
-
-            <div className="border-t border-[#E8E1D7] pt-4 space-y-1">
-              <Link
-                to="/about"
-                onClick={closeOverlay}
-                className="block p-3 text-sm text-[#5E6064] hover:text-[#1F2022]"
-              >
-                About 2427 Atelier
-              </Link>
-              <Link
-                to="/contact"
-                onClick={closeOverlay}
-                className="block p-3 text-sm text-[#5E6064] hover:text-[#1F2022]"
-              >
-                Customer Support &amp; Size Guide
+                Offers
+                <ChevronRight
+                  size={17}
+                  className="text-[#637666]"
+                />
               </Link>
             </div>
           </div>
 
-          {/* Bottom Utility Bar */}
-          <div className="border-t border-[#E8E1D7] bg-white p-4">
-            <div className="grid grid-cols-3 gap-2 text-center text-xs">
-              <button
-                type="button"
-                onClick={() => {
-                  closeOverlay();
-                  openOverlay('auth');
-                }}
-                className="flex flex-col items-center gap-1 rounded-lg p-2 text-[#1F2022] hover:bg-[#FAF8F5]"
-              >
-                <User className="h-4 w-4" />
-                <span>Account</span>
-              </button>
+          {/* Information */}
+          <div className="mt-7 border-t border-[#E8E1D7] pt-5">
+            <Link
+              to="/about"
+              onClick={closeOverlay}
+              className="block rounded-lg px-3 py-3 text-xs font-medium text-[#77736E] hover:bg-white hover:text-[#1F2022]"
+            >
+              About 2427 ÉLAN
+            </Link>
 
-              <Link
-                to="/wishlist"
-                onClick={closeOverlay}
-                className="flex flex-col items-center gap-1 rounded-lg p-2 text-[#1F2022] hover:bg-[#FAF8F5]"
-              >
-                <Heart className="h-4 w-4" />
-                <span>Saved ({wishlistCount})</span>
-              </Link>
+            <Link
+              to="/contact"
+              onClick={closeOverlay}
+              className="block rounded-lg px-3 py-3 text-xs font-medium text-[#77736E] hover:bg-white hover:text-[#1F2022]"
+            >
+              Help & Customer Care
+            </Link>
+          </div>
+        </nav>
 
-              <button
-                type="button"
-                onClick={() => {
-                  closeOverlay();
-                  openOverlay('cart');
-                }}
-                className="flex flex-col items-center gap-1 rounded-lg p-2 text-[#1F2022] hover:bg-[#FAF8F5]"
-              >
-                <ShoppingBag className="h-4 w-4" />
-                <span>Bag ({cartCount})</span>
-              </button>
-            </div>
+        {/* Bottom Utility Bar */}
+        <div className="shrink-0 border-t border-[#E8E1D7] bg-white px-4 py-4">
+          <div className="grid grid-cols-3 gap-2">
+            <Link
+              to="/account"
+              onClick={closeOverlay}
+              className="flex min-h-14 flex-col items-center justify-center gap-1.5 rounded-xl bg-[#FAF8F5] px-2 text-[#1F2022] hover:bg-[#F2F4EF]"
+            >
+              <UserRound size={19} />
+              <span className="text-[11px] font-semibold">
+                Account
+              </span>
+            </Link>
+
+            <Link
+              to="/wishlist"
+              onClick={closeOverlay}
+              className="flex min-h-14 flex-col items-center justify-center gap-1.5 rounded-xl bg-[#FAF8F5] px-2 text-[#1F2022] hover:bg-[#F2F4EF]"
+            >
+              <Heart size={19} />
+              <span className="text-[11px] font-semibold">
+                Saved ({wishlistCount})
+              </span>
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => switchOverlay('cart')}
+              className="flex min-h-14 flex-col items-center justify-center gap-1.5 rounded-xl bg-[#FAF8F5] px-2 text-[#1F2022] hover:bg-[#F2F4EF]"
+            >
+              <ShoppingBag size={19} />
+              <span className="text-[11px] font-semibold">
+                Bag ({cartCount})
+              </span>
+            </button>
           </div>
         </div>
       </aside>

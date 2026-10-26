@@ -1,100 +1,83 @@
 import React from 'react';
-import { ShieldCheck, Truck, Leaf, Headphones, Star, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import {
+  Grid2X2,
+  SlidersHorizontal,
+  Heart,
+  ShoppingBag,
+} from 'lucide-react';
 import { Container } from '../ui/Container';
 import { SectionHeading } from '../ui/SectionHeading';
-import { BRAND_VALUES, DEMO_REVIEWS } from '../../data/catalog';
-import { DemoBadge } from '../brand/DemoBadge';
+
+const shoppingFeatures = [
+  {
+    title: 'Shop by collection',
+    description: "Browse the current Men’s and Women’s catalog.",
+    to: '/category/men-underwear',
+    label: 'Explore collections',
+    icon: Grid2X2,
+  },
+  {
+    title: 'Review product options',
+    description: 'Open a product to review its listed colors, sizes and details.',
+    to: '/category/new-arrivals',
+    label: 'Browse products',
+    icon: SlidersHorizontal,
+  },
+  {
+    title: 'Save for later',
+    description: 'Wishlist selections stay saved in this browser.',
+    to: '/wishlist',
+    label: 'View wishlist',
+    icon: Heart,
+  },
+  {
+    title: 'Checkout preview',
+    description: 'Review your bag and totals. This demo does not process orders or payments.',
+    to: '/checkout',
+    label: 'View checkout',
+    icon: ShoppingBag,
+  },
+];
 
 export function Benefits() {
-  const iconMap: Record<string, React.ReactNode> = {
-    ShieldCheck: <ShieldCheck className="h-6 w-6 text-[#637666]" />,
-    Truck: <Truck className="h-6 w-6 text-[#637666]" />,
-    Leaf: <Leaf className="h-6 w-6 text-[#637666]" />,
-    Headphones: <Headphones className="h-6 w-6 text-[#637666]" />,
-  };
-
   return (
-    <section className="py-20 sm:py-28 bg-[#F4EFEB]/60 border-y border-[#E8E1D7]">
+    <section className="border-y border-[#E8E1D7] bg-[#F4EFEB]/60 py-16 sm:py-20">
       <Container>
-        {/* Shopping Benefits Pillars */}
         <SectionHeading
           align="center"
-          eyebrow="The 2427 Standard"
-          title="Designed for Total Peace of Mind"
-          description="We obsess over your physical ease. From our first pair trial guarantee to express pan-India doorstep delivery."
+          eyebrow="The 2427 ÉLAN experience"
+          title="A clearer way to explore"
+          description="Browse the catalog, compare listed product options and keep a local wishlist as you shop."
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {BRAND_VALUES.map((val) => (
-            <div
-              key={val.title}
-              className="rounded-2xl bg-white p-6 sm:p-8 border border-[#E8E1D7] shadow-xs transition-all hover:shadow-lg hover:border-[#637666]/40"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#637666]/10 mb-5">
-                {iconMap[val.icon]}
-              </div>
-              <h3 className="font-display text-xl font-medium text-[#1F2022]">
-                {val.title}
-              </h3>
-              <p className="mt-3 text-xs sm:text-sm text-[#5E6064] leading-relaxed">
-                {val.description}
-              </p>
-            </div>
-          ))}
-        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {shoppingFeatures.map((feature) => {
+            const Icon = feature.icon;
 
-        {/* Community Feedback / Testimonials (Identified Demo Content) */}
-        <div className="mt-20 pt-16 border-t border-[#E8E1D7]">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="eyebrow">Community Rotation</span>
-                <DemoBadge variant="pill" />
-              </div>
-              <h3 className="font-display text-3xl sm:text-4xl font-medium text-[#1F2022]">
-                Notes from the Daily Rotation
-              </h3>
-            </div>
-            <p className="text-xs text-[#6B6F76] max-w-sm">
-              *Prototype Preview: Sample tester experiences for development demonstration.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {DEMO_REVIEWS.map((rev) => (
-              <blockquote
-                key={rev.id}
-                className="rounded-2xl bg-white p-6 sm:p-8 border border-[#E8E1D7] shadow-xs flex flex-col justify-between"
+            return (
+              <article
+                key={feature.title}
+                className="flex min-h-[220px] flex-col rounded-2xl border border-[#E8E1D7] bg-white p-6 shadow-xs transition-shadow hover:shadow-md sm:p-7"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex text-[#637666]">
-                      {[...Array(rev.rating)].map((_, i) => (
-                        <Star key={i} className="h-4 w-4 fill-[#637666]" />
-                      ))}
-                    </div>
-                    <span className="text-[10px] font-semibold tracking-wider uppercase text-[#6B6F76] bg-[#FAF8F5] px-2 py-0.5 rounded-full border border-[#E8E1D7]">
-                      Demo Feedback
-                    </span>
-                  </div>
-
-                  <p className="font-display text-lg text-[#1F2022] leading-relaxed italic">
-                    “{rev.quote}”
-                  </p>
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#637666]/10 text-[#637666]">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
-
-                <footer className="mt-6 pt-4 border-t border-[#E8E1D7] text-xs">
-                  <div className="flex items-center justify-between">
-                    <span className="font-semibold text-[#1F2022]">{rev.author}</span>
-                    <span className="text-[#6B6F76]">{rev.location}</span>
-                  </div>
-                  <span className="text-[11px] text-[#637666] mt-0.5 block">
-                    Verified Fit: {rev.product}
-                  </span>
-                </footer>
-              </blockquote>
-            ))}
-          </div>
+                <h3 className="mt-5 font-display text-xl font-medium text-[#1F2022]">
+                  {feature.title}
+                </h3>
+                <p className="mt-2 flex-1 text-xs leading-6 text-[#5E6064]">
+                  {feature.description}
+                </p>
+                <Link
+                  to={feature.to}
+                  className="mt-4 inline-flex min-h-10 items-center gap-2 text-xs font-semibold text-[#637666] hover:text-[#1F2022]"
+                >
+                  {feature.label}
+                </Link>
+              </article>
+            );
+          })}
         </div>
       </Container>
     </section>

@@ -1,6 +1,13 @@
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+
 import { Link } from 'react-router-dom';
+
 import {
   Search,
   X,
@@ -8,10 +15,12 @@ import {
   Sparkles,
   PackageSearch,
   TrendingUp,
+  Clock3,
 } from 'lucide-react';
 
 import { useStore } from '../../context/StoreContext';
-import { PRODUCTS, formatINR } from '../../data/catalog';
+import { formatINR } from '../../data/catalog';
+import { useCatalog } from '../../context/CatalogContext';
 
 const SUGGESTIONS = [
   'Trunk',
@@ -22,7 +31,10 @@ const SUGGESTIONS = [
   'Supima',
 ];
 
+const MAX_VISIBLE_RESULTS = 12;
+
 export function SearchModal() {
+  const { products } = useCatalog();
   const {
     overlay,
     closeOverlay,
@@ -31,6 +43,9 @@ export function SearchModal() {
   } = useStore();
 
   const [query, setQuery] = useState(searchQuery);
+  const [showAllResults, setShowAllResults] =
+    useState(false);
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const isOpen = overlay === 'search';
@@ -39,6 +54,7 @@ export function SearchModal() {
     if (!isOpen) return;
 
     setQuery(searchQuery);
+    setShowAllResults(false);
 
     const focusTimer = window.setTimeout(() => {
       inputRef.current?.focus();
@@ -50,11 +66,18 @@ export function SearchModal() {
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
+    document.addEventListener(
+      'keydown',
+      handleEscape
+    );
 
     return () => {
       window.clearTimeout(focusTimer);
-      document.removeEventListener('keydown', handleEscape);
+
+      document.removeEventListener(
+        'keydown',
+        handleEscape
+      );
     };
   }, [isOpen, closeOverlay]);
 
@@ -65,7 +88,7 @@ export function SearchModal() {
 
     const keywords = searchText.split(/\s+/);
 
-    return PRODUCTS.filter((product) => {
+    return products.filter((product) => {
       const searchableText = [
         product.name,
         product.subtitle,
@@ -74,6 +97,8 @@ export function SearchModal() {
         product.category,
         product.categoryLabel,
         product.description,
+        product.code,
+        product.badge,
       ]
         .filter(Boolean)
         .join(' ')
@@ -83,11 +108,16 @@ export function SearchModal() {
         searchableText.includes(word)
       );
     });
-  }, [query]);
+  }, [query, products]);
+
+  const visibleResults = showAllResults
+    ? results
+    : results.slice(0, MAX_VISIBLE_RESULTS);
 
   const updateQuery = (value: string) => {
     setQuery(value);
     setSearchQuery(value);
+    setShowAllResults(false);
   };
 
   const handleProductClick = () => {
@@ -95,72 +125,87 @@ export function SearchModal() {
     updateQuery('');
   };
 
+  const clearSearch = () => {
+    updateQuery('');
+    inputRef.current?.focus();
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-black/60 px-3 py-6 backdrop-blur-sm sm:px-6 sm:py-12"
-      role="presentation"
-    >
+    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-black/65 px-3 py-5 backdrop-blur-sm sm:px-6 sm:py-12">
       {/* Backdrop */}
-      <div
-        className="fixed inset-0"
+      <button
+        type="button"
         onClick={closeOverlay}
-        aria-hidden="true"
+        aria-label="Close search"
+        className="fixed inset-0 h-full w-full cursor-default"
       />
 
       {/* Search Dialog */}
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Search all products"
-        className="relative z-10 w-full max-w-2xl overflow-hidden rounded-2xl border border-[#E8E1D7] bg-[#FAF8F5] shadow-2xl"
+        aria-label="Search products"
+        className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border border-[#E8E1D7] bg-[#FAF8F5] shadow-2xl sm:rounded-3xl"
       >
-        {/* Search Input */}
-        <div className="flex items-center gap-3 border-b border-[#E8E1D7] bg-white px-4 py-4 sm:px-6">
-          <Search
-            size={21}
-            className="shrink-0 text-[#637666]"
-          />
+        {/* Header */}
+        <div className="border-b border-[#E8E1D7] bg-white px-4 pb-4 pt-5 sm:px-7 sm:pt-6">
+          <div className="mb-4 flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+                2427 ÉLAN
+              </p>
 
-          <input
-            ref={inputRef}
-            type="search"
-            value={query}
-            onChange={(event) =>
-              updateQuery(event.target.value)
-            }
-            placeholder="Search products, fabrics, categories..."
-            aria-label="Search products"
-            className="min-w-0 flex-1 bg-transparent text-sm text-[#1F2022] outline-none placeholder:text-[#99938B] sm:text-base"
-          />
+              <h2 className="mt-1 font-display text-xl font-medium text-[#1F2022] sm:text-2xl">
+                What are you looking for?
+              </h2>
+            </div>
 
-          {query && (
             <button
               type="button"
-              onClick={() => {
-                updateQuery('');
-                inputRef.current?.focus();
-              }}
-              aria-label="Clear search"
-              className="rounded-full p-1.5 text-[#77736E] hover:bg-[#F4EFEB] hover:text-[#1F2022]"
+              onClick={closeOverlay}
+              aria-label="Close search"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F4EFEB] text-[#1F2022] transition-colors hover:bg-[#E8E1D7]"
             >
-              <X size={17} />
+              <X size={19} />
             </button>
-          )}
+          </div>
 
-          <button
-            type="button"
-            onClick={closeOverlay}
-            aria-label="Close search"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#F4EFEB] text-[#1F2022] transition-colors hover:bg-[#E8E1D7]"
-          >
-            <X size={17} />
-          </button>
+          {/* Search Input */}
+          <div className="flex min-h-14 items-center gap-3 rounded-xl border border-[#DAD8D1] bg-[#FAF8F5] px-4 transition-colors focus-within:border-[#637666]">
+            <Search
+              size={20}
+              className="shrink-0 text-[#637666]"
+            />
+
+            <input
+              ref={inputRef}
+              type="search"
+              value={query}
+              onChange={(event) =>
+                updateQuery(event.target.value)
+              }
+              placeholder="Search products, fabrics, categories..."
+              aria-label="Search products"
+              className="min-w-0 flex-1 bg-transparent py-3 text-sm text-[#1F2022] outline-none placeholder:text-[#99938B] sm:text-base"
+            />
+
+            {query && (
+              <button
+                type="button"
+                onClick={clearSearch}
+                aria-label="Clear search"
+                className="rounded-full p-1.5 text-[#77736E] hover:bg-[#EEE7DE]"
+              >
+                <X size={17} />
+              </button>
+            )}
+          </div>
         </div>
 
-        {/* Suggestions */}
-        <div className="border-b border-[#E8E1D7] px-4 py-4 sm:px-6">
+        {/* Popular Searches */}
+        <div className="border-b border-[#E8E1D7] px-4 py-4 sm:px-7">
           <div className="mb-3 flex items-center gap-2">
             <TrendingUp
               size={15}
@@ -173,104 +218,118 @@ export function SearchModal() {
           </div>
 
           <div className="flex flex-wrap gap-2">
-            {SUGGESTIONS.map((suggestion) => (
-              <button
-                key={suggestion}
-                type="button"
-                onClick={() => {
-                  updateQuery(suggestion);
-                  inputRef.current?.focus();
-                }}
-                className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${query.toLowerCase() ===
-                    suggestion.toLowerCase()
-                    ? 'border-[#637666] bg-[#637666] text-white'
-                    : 'border-[#E8E1D7] bg-white text-[#5E6064] hover:border-[#637666] hover:text-[#637666]'
-                  }`}
-              >
-                {suggestion}
-              </button>
-            ))}
+            {SUGGESTIONS.map((suggestion) => {
+              const isActive =
+                query.trim().toLowerCase() ===
+                suggestion.toLowerCase();
+
+              return (
+                <button
+                  key={suggestion}
+                  type="button"
+                  onClick={() => {
+                    updateQuery(suggestion);
+                    inputRef.current?.focus();
+                  }}
+                  aria-pressed={isActive}
+                  className={`rounded-full border px-3 py-2 text-xs font-medium transition-colors ${isActive
+                      ? 'border-[#637666] bg-[#637666] text-white'
+                      : 'border-[#E8E1D7] bg-white text-[#5E6064] hover:border-[#637666] hover:text-[#637666]'
+                    }`}
+                >
+                  {suggestion}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* Search Results */}
-        <div className="max-h-[60vh] overflow-y-auto p-4 sm:p-6">
+        <div className="max-h-[55vh] min-h-[220px] overflow-y-auto p-4 sm:p-6">
           {!query.trim() ? (
             <div className="py-10 text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#F2F4EF]">
+              <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#F2F4EF]">
                 <Sparkles
-                  size={28}
+                  size={31}
                   className="text-[#637666]"
                 />
               </div>
 
-              <h2 className="font-display text-xl font-medium text-[#1F2022] sm:text-2xl">
-                Discover Your Everyday Comfort
-              </h2>
+              <h3 className="font-display text-xl font-medium text-[#1F2022] sm:text-2xl">
+                Discover Everyday Comfort
+              </h3>
 
               <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-[#77736E]">
-                Search our entire collection of essentials
-                or choose a popular search above.
+                Explore comfortable essentials for
+                every day. Start typing or choose a
+                popular search above.
               </p>
+
+              <div className="mt-6 flex items-center justify-center gap-2 text-xs text-[#99938B]">
+                <Clock3 size={14} />
+                Results appear as you type
+              </div>
             </div>
           ) : results.length === 0 ? (
             <div className="py-12 text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#F2F4EF]">
+              <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#F2F4EF]">
                 <PackageSearch
-                  size={28}
+                  size={30}
                   className="text-[#637666]"
                 />
               </div>
 
-              <h2 className="font-display text-xl font-medium text-[#1F2022]">
+              <h3 className="font-display text-xl font-medium text-[#1F2022]">
                 No Products Found
-              </h2>
+              </h3>
 
               <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-[#77736E]">
-                No matching products for "{query}".
-                Try a different product name, fabric,
-                or category.
+                No products match "{query}". Try
+                another name, fabric or category.
               </p>
 
               <button
                 type="button"
-                onClick={() => {
-                  updateQuery('');
-                  inputRef.current?.focus();
-                }}
-                className="mt-5 rounded-xl bg-[#1F2022] px-5 py-2.5 text-xs font-semibold text-white hover:bg-[#34373C]"
+                onClick={clearSearch}
+                className="mt-6 rounded-xl bg-[#1F2022] px-6 py-3 text-xs font-semibold text-white hover:bg-[#34373C]"
               >
                 Clear Search
               </button>
             </div>
           ) : (
             <>
-              <div className="mb-4 flex items-center justify-between gap-3">
+              {/* Results Header */}
+              <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#637666]">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#637666]">
                     Search Results
                   </p>
 
                   <p className="mt-1 text-xs text-[#77736E]">
                     {results.length}{' '}
                     {results.length === 1
-                      ? 'product'
-                      : 'products'}{' '}
-                    found
+                      ? 'product found'
+                      : 'products found'}
                   </p>
                 </div>
+
+                <span className="rounded-full bg-[#EDF3ED] px-3 py-1.5 text-[11px] font-semibold text-[#637666]">
+                  Live Results
+                </span>
               </div>
 
+              {/* Products */}
               <div className="space-y-3">
-                {results.map((product) => {
+                {visibleResults.map((product) => {
                   const hasDiscount =
                     product.compareAt != null &&
-                    product.compareAt > product.price;
+                    product.compareAt >
+                    product.price;
 
                   return (
                     <Link
                       key={product.id}
-                      to={`/product/${product.id}`}
+                      to={`/product/${product.slug}`}
                       onClick={handleProductClick}
                       className="group flex items-center gap-3 rounded-xl border border-[#E8E1D7] bg-white p-3 transition-all hover:border-[#637666] hover:shadow-sm sm:gap-4"
                     >
@@ -284,7 +343,7 @@ export function SearchModal() {
                         />
                       </div>
 
-                      {/* Product Information */}
+                      {/* Product Info */}
                       <div className="min-w-0 flex-1">
                         <div className="mb-1 flex flex-wrap items-center gap-2">
                           <span className="text-[10px] font-semibold uppercase tracking-wider text-[#637666]">
@@ -306,9 +365,11 @@ export function SearchModal() {
                           {product.subtitle}
                         </p>
 
-                        <p className="mt-1 text-[11px] text-[#637666]">
-                          {product.fabricBadge}
-                        </p>
+                        {product.fabricBadge && (
+                          <p className="mt-1 text-[11px] text-[#637666]">
+                            {product.fabricBadge}
+                          </p>
+                        )}
                       </div>
 
                       {/* Price */}
@@ -319,7 +380,9 @@ export function SearchModal() {
 
                         {hasDiscount && (
                           <p className="mt-1 text-xs text-[#99938B] line-through">
-                            {formatINR(product.compareAt!)}
+                            {formatINR(
+                              product.compareAt!
+                            )}
                           </p>
                         )}
 
@@ -332,14 +395,30 @@ export function SearchModal() {
                   );
                 })}
               </div>
+
+              {/* Show More */}
+              {!showAllResults &&
+                results.length >
+                MAX_VISIBLE_RESULTS && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setShowAllResults(true)
+                    }
+                    className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#DAD8D1] bg-white px-4 text-sm font-semibold text-[#1F2022] hover:border-[#637666]"
+                  >
+                    Show All {results.length} Results
+                    <ArrowRight size={16} />
+                  </button>
+                )}
             </>
           )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between gap-3 border-t border-[#E8E1D7] bg-white px-4 py-3 sm:px-6">
+        <div className="flex items-center justify-between gap-3 border-t border-[#E8E1D7] bg-white px-4 py-4 sm:px-7">
           <span className="text-[11px] text-[#77736E]">
-            Explore the 2427-COMFORTS collection
+            2427 ÉLAN Collection
           </span>
 
           <button

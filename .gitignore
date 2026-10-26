@@ -46,3 +46,12 @@ next-env.d.ts
 
 # Backend dependencies
 /server/node_modules/
+
+# Local/reference and protected image backups
+/women-images-backup/
+/women-images-preview/
+/women-images-preview-v2/
+/20261025-0447-50.2513963.mp4
+/redesign-backup.patch
+/reference
+/clean-women-images.cjs

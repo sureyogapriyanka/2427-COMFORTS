@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -16,27 +17,26 @@ export function Logo({
   onClick,
   className = '',
 }: LogoProps) {
-  // Size-specific typography & geometry
   const sizeStyles = {
     sm: {
-      mark: 'text-xl tracking-tight',
-      sub: 'text-[8px] tracking-[0.24em] mt-0.5',
-      frame: 'px-2 py-0.5',
+      mark: 'text-sm sm:text-base tracking-[0.08em]',
+      frame: 'px-2 py-1 text-base',
+      gap: 'gap-2',
     },
     md: {
-      mark: 'text-2xl sm:text-[26px] tracking-tight font-bold',
-      sub: 'text-[9px] sm:text-[9.5px] tracking-[0.32em] mt-0.5 font-medium',
-      frame: 'px-2.5 py-1',
+      mark: 'text-lg sm:text-xl tracking-[0.08em]',
+      frame: 'px-2.5 py-1.5 text-lg sm:text-xl',
+      gap: 'gap-2.5',
     },
     lg: {
-      mark: 'text-3xl sm:text-4xl tracking-tight font-bold',
-      sub: 'text-[10px] sm:text-xs tracking-[0.36em] mt-1 font-semibold',
-      frame: 'px-3.5 py-1.5',
+      mark: 'text-2xl sm:text-3xl tracking-[0.08em]',
+      frame: 'px-3 py-2 text-2xl sm:text-3xl',
+      gap: 'gap-3',
     },
     hero: {
-      mark: 'text-5xl sm:text-7xl lg:text-8xl tracking-tight font-black',
-      sub: 'text-xs sm:text-sm tracking-[0.45em] mt-2 font-medium',
-      frame: 'px-6 py-3',
+      mark: 'text-3xl sm:text-5xl tracking-[0.08em]',
+      frame: 'px-4 py-3 text-3xl sm:text-5xl',
+      gap: 'gap-4',
     },
   }[size];
 
@@ -44,40 +44,28 @@ export function Logo({
     <Link
       to="/"
       onClick={onClick}
-      className={`group inline-flex flex-col items-start transition-opacity hover:opacity-90 ${className}`}
-      aria-label="2427 Innerwear & Essentials Home"
+      className={`group inline-flex items-center ${sizeStyles.gap} transition-opacity hover:opacity-90 ${className}`}
+      aria-label="2427 ÉLAN Home"
     >
-      <div className="flex items-center gap-2">
-        {/* Typographic Monogram Emblem */}
-        <div
-          className={`relative flex items-center justify-center rounded-lg border font-numeral transition-colors ${
-            inverted
-              ? 'border-[#FAF8F5]/30 bg-[#FAF8F5]/10 text-[#FAF8F5] group-hover:border-[#637666]'
-              : 'border-[#1F2022]/15 bg-[#1F2022] text-[#FAF8F5] group-hover:bg-[#2A2C30]'
+      {/* Existing 24 | 27 brand emblem */}
+      <div
+        className={`relative flex shrink-0 items-center justify-center rounded-lg border font-numeral font-bold transition-colors ${inverted
+            ? 'border-white/20 bg-white/10 text-white'
+            : 'border-[#202020] bg-[#202020] text-white group-hover:bg-black'
           } ${sizeStyles.frame}`}
-        >
-          <span className="font-numeral font-bold tracking-tighter">24</span>
-          <span className="mx-1 h-3 w-[1.5px] rounded-full bg-[#637666]" />
-          <span className="font-numeral font-bold tracking-tighter text-[#E8E1D7]">27</span>
-        </div>
-
-        {/* Brand Name Spelled Wordmark */}
-        <span
-          className={`font-numeral font-bold leading-none ${sizeStyles.mark} ${
-            inverted ? 'text-[#FAF8F5]' : 'text-[#1F2022]'
-          }`}
-        >
-          2427
-        </span>
+      >
+        <span className="tracking-tighter">24</span>
+        <span className="mx-1.5 h-4 w-px rounded-full bg-[#9BAA9D]" />
+        <span className="tracking-tighter text-[#E8E1D7]">27</span>
       </div>
 
+      {/* Brand name without duplicate 2427 */}
       {showSubtitle && (
         <span
-          className={`uppercase font-sans ${sizeStyles.sub} ${
-            inverted ? 'text-[#FAF8F5]/60' : 'text-[#637666]'
-          }`}
+          className={`whitespace-nowrap font-sans font-bold leading-none ${sizeStyles.mark} ${inverted ? 'text-white' : 'text-[#202020]'
+            }`}
         >
-          Innerwear &bull; Atelier
+          ÉLAN
         </span>
       )}
     </Link>

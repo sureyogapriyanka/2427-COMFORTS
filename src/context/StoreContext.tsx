@@ -4,10 +4,13 @@ import React, {
   useContext,
   useState,
   useEffect,
+  useRef,
   ReactNode,
 } from 'react';
 
 import { Product, PRODUCTS } from '../data/catalog';
+import { useAuth } from './AuthContext';
+import { apiRequest } from '../lib/api';
 
 export interface CartItem {
   product: Product;
@@ -211,6 +214,7 @@ export function StoreProvider({
 }: {
   children: ReactNode;
 }) {
+  const { user, shouldMergeGuestShopping, completeShoppingSync } = useAuth();
   // Empty for new customers; restore only genuine saved items.
   const [cart, setCart] = useState<CartItem[]>(
     loadSavedCart
@@ -232,6 +236,146 @@ export function StoreProvider({
     message: string;
     type: 'success' | 'info';
   } | null>(null);
+  const [syncedUserId, setSyncedUserId] = useState<string | null>(null);
+  const activeAccountId = useRef<string | null>(null);
+  const cartRef = useRef(cart);
+  const wishlistRef = useRef(wishlist);
+  cartRef.current = cart;
+  wishlistRef.current = wishlist;
+
+  useEffect(() => {
+    if (!user) {
+      if (activeAccountId.current) {
+        setCart([]);
+        setWishlist([]);
+      }
+      activeAccountId.current = null;
+      setSyncedUserId(null);
+      return;
+    }
+    if (activeAccountId.current && activeAccountId.current !== user.id) {
+      setCart([]);
+      setWishlist([]);
+    }
+    activeAccountId.current = user.id;
+    let active = true;
+    const syncAccountShopping = async () => {
+      try {
+        const [savedCart, savedWishlist] = await Promise.all([
+          apiRequest<Array<{ catalogId: string; selectedSize: string; selectedColor: string; quantity: number }>>('/cart'),
+          apiRequest<string[]>('/wishlist'),
+        ]);
+        if (!active) return;
+
+        const cartMap = new Map<string, CartItem>();
+        for (const entry of savedCart) {
+          const product = PRODUCTS.find((item) => item.id === entry.catalogId);
+          if (
+            product &&
+            product.sizes.includes(entry.selectedSize) &&
+            product.colors.some((color) => color.name === entry.selectedColor) &&
+            Number.isInteger(entry.quantity) && entry.quantity > 0
+          ) {
+            const key = JSON.stringify([product.id, entry.selectedColor, entry.selectedSize]);
+            cartMap.set(key, {
+              product,
+              quantity: Math.min(entry.quantity, 99),
+              selectedColor: entry.selectedColor,
+              selectedSize: entry.selectedSize,
+            });
+          }
+        }
+        if (shouldMergeGuestShopping) {
+          for (const item of cartRef.current) {
+            const key = JSON.stringify([item.product.id, item.selectedColor, item.selectedSize]);
+            const existing = cartMap.get(key);
+            cartMap.set(key, {
+              ...item,
+              quantity: Math.min(99, (existing?.quantity ?? 0) + item.quantity),
+            });
+          }
+        }
+        const mergedCart = [...cartMap.values()];
+        const mergedWishlist = [...new Set([
+          ...savedWishlist,
+          ...(shouldMergeGuestShopping ? wishlistRef.current : []),
+        ])]
+          .filter((id) => PRODUCTS.some((product) => product.id === id));
+        await Promise.all([
+          apiRequest('/cart', {
+            method: 'PUT',
+            body: JSON.stringify({
+              items: mergedCart.map((item) => ({
+                productId: item.product.id,
+                size: item.selectedSize,
+                color: item.selectedColor,
+                quantity: item.quantity,
+              })),
+            }),
+          }),
+          apiRequest('/wishlist', {
+            method: 'PUT',
+            body: JSON.stringify({ productIds: mergedWishlist }),
+          }),
+        ]);
+        if (!active) return;
+        setCart(mergedCart);
+        setWishlist(mergedWishlist);
+        setSyncedUserId(user.id);
+        completeShoppingSync();
+      } catch (error) {
+        if (active) {
+          setNotification({
+            message: error instanceof Error ? `Account shopping data could not sync: ${error.message}` : 'Account shopping data could not sync.',
+            type: 'info',
+          });
+        }
+      }
+    };
+    void syncAccountShopping();
+    return () => {
+      active = false;
+    };
+  }, [user?.id, shouldMergeGuestShopping]);
+
+  useEffect(() => {
+    if (!user || syncedUserId !== user.id) return;
+    const timeout = window.setTimeout(() => {
+      void apiRequest('/cart', {
+        method: 'PUT',
+        body: JSON.stringify({
+          items: cart.map((item) => ({
+            productId: item.product.id,
+            size: item.selectedSize,
+            color: item.selectedColor,
+            quantity: Math.min(item.quantity, 99),
+          })),
+        }),
+      }).catch((error: unknown) => {
+        setNotification({
+          message: error instanceof Error ? `Cart sync failed: ${error.message}` : 'Cart sync failed.',
+          type: 'info',
+        });
+      });
+    }, 350);
+    return () => window.clearTimeout(timeout);
+  }, [cart, user?.id, syncedUserId]);
+
+  useEffect(() => {
+    if (!user || syncedUserId !== user.id) return;
+    const timeout = window.setTimeout(() => {
+      void apiRequest('/wishlist', {
+        method: 'PUT',
+        body: JSON.stringify({ productIds: wishlist }),
+      }).catch((error: unknown) => {
+        setNotification({
+          message: error instanceof Error ? `Wishlist sync failed: ${error.message}` : 'Wishlist sync failed.',
+          type: 'info',
+        });
+      });
+    }, 350);
+    return () => window.clearTimeout(timeout);
+  }, [wishlist, user?.id, syncedUserId]);
 
   // Save cart whenever it changes.
   useEffect(() => {
@@ -334,7 +478,7 @@ export function StoreProvider({
           index === existingIndex
             ? {
               ...item,
-              quantity: item.quantity + quantity,
+              quantity: Math.min(99, item.quantity + quantity),
             }
             : item
         );
@@ -344,7 +488,7 @@ export function StoreProvider({
         ...prev,
         {
           product,
-          quantity,
+          quantity: Math.min(99, quantity),
           selectedColor,
           selectedSize,
         },
@@ -413,7 +557,7 @@ export function StoreProvider({
           ) {
             return {
               ...item,
-              quantity: item.quantity + delta,
+              quantity: Math.min(99, item.quantity + delta),
             };
           }
 

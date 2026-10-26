@@ -1,26 +1,53 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { User } from '../models/User';
+import { verifySession } from '../security/jwt';
 
-export interface AuthenticatedRequest extends Request {
-  user?: {
-    id: string;
-    role: 'customer' | 'admin';
-    email: string;
-  };
-}
-
-// Authentication middleware placeholder (Phase 2 integration)
-export function requireAuth(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-  const authHeader = req.headers.authorization;
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Authentication required. Token missing.' });
+declare global {
+  namespace Express {
+    interface Request {
+      authUser?: {
+        id: string;
+        role: 'customer' | 'admin';
+        email: string;
+      };
+    }
   }
-  // JWT verification to be wired in auth implementation phase
-  next();
 }
 
-export function requireAdmin(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-  if (req.user?.role !== 'admin') {
-    return res.status(403).json({ message: 'Forbidden. Admin privileges required.' });
+function requestToken(req: Request): string | undefined {
+  const authorization = req.get('authorization');
+  if (authorization?.startsWith('Bearer ')) return authorization.slice(7);
+  return req.get('cookie')
+    ?.split(';')
+    .map((entry) => entry.trim())
+    .find((entry) => entry.startsWith('elan_session='))
+    ?.slice('elan_session='.length);
+}
+
+export async function authenticate(req: Request, res: Response, next: NextFunction) {
+  const claims = requestToken(req);
+  const session = claims ? verifySession(claims) : null;
+  if (!session) {
+    res.status(401).json({ success: false, message: 'Authentication required.' });
+    return;
+  }
+  try {
+    const user = await User.findById(session.sub).select('_id email role tokenVersion');
+    if (!user || user.tokenVersion !== session.ver) {
+      res.status(401).json({ success: false, message: 'Session is invalid or expired.' });
+      return;
+    }
+    req.authUser = { id: user.id, email: user.email, role: user.role };
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+export function requireAdmin(req: Request, res: Response, next: NextFunction) {
+  if (req.authUser?.role !== 'admin') {
+    res.status(403).json({ success: false, message: 'Administrator access required.' });
+    return;
   }
   next();
 }

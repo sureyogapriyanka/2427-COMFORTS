@@ -1,309 +1,584 @@
-import React, { useState } from 'react';
-import { Mail, Phone, Clock, MessageSquare, ChevronDown, CheckCircle2, ShieldCheck, Ruler } from 'lucide-react';
+
+import {
+  useEffect,
+  useState,
+  type FormEvent,
+} from 'react';
+
+import { useLocation } from 'react-router-dom';
+
+import {
+  Mail,
+  MessageSquare,
+  ChevronDown,
+  CheckCircle2,
+  ShieldCheck,
+  Ruler,
+  Truck,
+  RotateCcw,
+  FileText,
+  LockKeyhole,
+  ArrowRight,
+  Info,
+} from 'lucide-react';
+
 import { Container } from '../components/ui/Container';
-import { Button } from '../components/ui/Button';
+import { apiRequest } from '../lib/api';
+
+type Tab =
+  | 'contact'
+  | 'size-guide'
+  | 'faq'
+  | 'policies';
+
+type PolicyId =
+  | 'shipping-policy'
+  | 'returns'
+  | 'privacy'
+  | 'terms';
+
+type ContactDetails = {
+  name: string;
+  email: string;
+  topic: string;
+  message: string;
+};
+
+const initialContact: ContactDetails = {
+  name: '',
+  email: '',
+  topic: 'Sizing & Fit',
+  message: '',
+};
 
 const FAQS = [
   {
-    q: 'How does the 30-Day First Pair Comfort Guarantee work?',
-    a: 'Purchase your first pair of 2427 innerwear or bralette. Wear it, wash it, and test it for 30 days. If you are not thoroughly enamored with the fit and botanical softness, keep it and we will exchange the size or issue a full refund without returning the piece.',
+    question: 'How do I choose the correct size?',
+    answer:
+      'Use the size guide on this page as a general reference. Exact measurements may vary by product. Confirm the product-specific size chart before ordering.',
   },
   {
-    q: 'How do I care for Austrian MicroModal Air™ and Supima garments?',
-    a: 'Machine wash on a gentle cold cycle (30°C max) using mild detergent. For longevity, dry flat in the shade or tumble dry on low heat. Avoid fabric softeners or chlorine bleach, as botanical fibers are naturally soft and need no chemical coating.',
+    question: 'How should I care for my garments?',
+    answer:
+      'Always follow the care label attached to your garment. Gentle washing and avoiding excessive heat may help preserve fabric quality.',
   },
   {
-    q: 'What are your pan-India shipping timelines and packaging?',
-    a: 'Orders are dispatched within 24 hours from our Mumbai atelier. Delivery takes 2–4 business days across metro cities (Delhi NCR, Bengaluru, Mumbai, Chennai, Hyderabad, Kolkata) and 4–6 days for regional destinations. All orders are packed in discreet, recyclable boxes.',
+    question: 'How can I check delivery availability?',
+    answer:
+      'Delivery availability, charges and estimated timelines should be confirmed with the store before placing an order. The current website does not process real orders.',
   },
   {
-    q: 'What is the difference between Trunks, Briefs, and Boxers?',
-    a: 'Trunks feature a close mid-thigh fit engineered to avoid ride-up under modern trousers. Briefs offer zero thigh coverage with high leg mobility and athletic support. Boxers offer a traditional relaxed woven rise tailored with a flat front.',
+    question: 'Can I return or exchange innerwear?',
+    answer:
+      'Returns and exchanges depend on the store’s confirmed policy and hygiene requirements. No specific return guarantee has been established on this demo website.',
+  },
+  {
+    question: 'Can I pay online?',
+    answer:
+      'The checkout currently demonstrates payment-method selection only. No real online payment or Cash on Delivery order is processed.',
   },
 ];
 
+const MEN_SIZES = [
+  ['S', '28–30', '71–76'],
+  ['M', '31–33', '79–84'],
+  ['L', '34–36', '86–91'],
+  ['XL', '37–39', '94–99'],
+  ['XXL', '40–43', '102–109'],
+];
+
+const WOMEN_SIZES = [
+  ['XS', '28–30', '71–76'],
+  ['S', '30–32', '76–81'],
+  ['M', '32–34', '81–86'],
+  ['L', '34–36', '86–91'],
+  ['XL', '36–38', '91–97'],
+];
+
+const POLICY_IDS: PolicyId[] = [
+  'shipping-policy',
+  'returns',
+  'privacy',
+  'terms',
+];
+
+function isPolicyId(value: string): value is PolicyId {
+  return POLICY_IDS.includes(value as PolicyId);
+}
+
 export function ContactPage() {
-  const [activeTab, setActiveTab] = useState<'contact' | 'size-guide' | 'faq'>('contact');
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [submitted, setSubmitted] = useState(false);
+  const location = useLocation();
+
+  const [activeTab, setActiveTab] =
+    useState<Tab>('contact');
+
+  const [openFaq, setOpenFaq] =
+    useState<number | null>(0);
+
+  const [details, setDetails] =
+    useState<ContactDetails>(initialContact);
+
+  const [formMessage, setFormMessage] =
+    useState('');
+  const [formStatus, setFormStatus] =
+    useState<'success' | 'error' | ''>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [activePolicy, setActivePolicy] =
+    useState<PolicyId>('shipping-policy');
+
+  useEffect(() => {
+    const hash = location.hash.replace(/^#/, '');
+
+    if (isPolicyId(hash)) {
+      setActiveTab('policies');
+      setActivePolicy(hash);
+    } else if (hash === 'size-guide') {
+      setActiveTab('size-guide');
+    } else if (hash === 'faq') {
+      setActiveTab('faq');
+    } else if (hash === 'contact') {
+      setActiveTab('contact');
+    }
+  }, [location.hash]);
+
+  const updateField = (
+    field: keyof ContactDetails,
+    value: string
+  ) => {
+    setDetails((previous) => ({
+      ...previous,
+      [field]: value,
+    }));
+
+    setFormMessage('');
+    setFormStatus('');
+  };
+
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+
+    if (
+      details.name.trim().length < 2 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        details.email.trim()
+      ) ||
+      details.message.trim().length < 10
+    ) {
+      setFormMessage(
+        'Please enter your name, a valid email, and a message of at least 10 characters.'
+      );
+      setFormStatus('error');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await apiRequest('/contact', {
+        method: 'POST',
+        body: JSON.stringify(details),
+      });
+      setFormMessage('Your inquiry was saved for review. It has not been emailed, and no response timeline is provided.');
+      setFormStatus('success');
+      setDetails(initialContact);
+    } catch (error) {
+      setFormMessage(error instanceof Error
+        ? `Your inquiry was not saved: ${error.message}`
+        : 'Your inquiry was not saved. Please try again later.');
+      setFormStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const tabs: { id: Tab; label: string }[] = [
+    { id: 'contact', label: 'Contact Us' },
+    { id: 'size-guide', label: 'Size Guide' },
+    { id: 'faq', label: 'FAQs' },
+    { id: 'policies', label: 'Policies' },
+  ];
+
+  const inputClass =
+    'min-h-12 w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-sm text-[#1F2022] outline-none focus:border-[#637666]';
 
   return (
-    <div className="py-12 sm:py-20 bg-[#FAF8F5] min-h-screen">
+    <div className="min-h-screen bg-[#FAF8F5] py-10 sm:py-16">
       <Container>
-        <div className="max-w-2xl mx-auto text-center mb-12">
-          <span className="eyebrow text-[#637666]">Client Concierge</span>
-          <h1 className="font-display text-4xl sm:text-5xl font-medium text-[#1F2022] mt-2">
-            How May We Assist You?
-          </h1>
-          <p className="mt-3 text-sm sm:text-base text-[#5E6064]">
-            Personalized sizing consultations, order inquiries, and material questions.
+        {/* Header */}
+        <div className="mx-auto mb-10 max-w-2xl text-center">
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+            2427 ÉLAN
           </p>
 
-          {/* Navigation Tabs */}
-          <div className="mt-8 inline-flex rounded-full border border-[#E8E1D7] bg-white p-1 shadow-2xs">
-            <button
-              type="button"
-              onClick={() => setActiveTab('contact')}
-              className={`rounded-full px-5 py-2 text-xs font-semibold transition-all ${
-                activeTab === 'contact'
-                  ? 'bg-[#1F2022] text-white shadow-xs'
-                  : 'text-[#6B6F76] hover:text-[#1F2022]'
-              }`}
-            >
-              Get in Touch
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('size-guide')}
-              className={`rounded-full px-5 py-2 text-xs font-semibold transition-all ${
-                activeTab === 'size-guide'
-                  ? 'bg-[#1F2022] text-white shadow-xs'
-                  : 'text-[#6B6F76] hover:text-[#1F2022]'
-              }`}
-            >
-              Interactive Size Guide
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('faq')}
-              className={`rounded-full px-5 py-2 text-xs font-semibold transition-all ${
-                activeTab === 'faq'
-                  ? 'bg-[#1F2022] text-white shadow-xs'
-                  : 'text-[#6B6F76] hover:text-[#1F2022]'
-              }`}
-            >
-              Frequently Asked Questions
-            </button>
+          <h1 className="mt-3 font-display text-3xl font-medium text-[#1F2022] sm:text-5xl">
+            How Can We Help?
+          </h1>
+
+          <p className="mt-4 text-sm leading-7 text-[#77736E]">
+            Explore sizing guidance, frequently asked
+            questions, customer support information,
+            and store policies.
+          </p>
+        </div>
+
+        {/* Tabs */}
+        <div className="mb-9 overflow-x-auto">
+          <div className="mx-auto flex w-max min-w-full justify-center gap-2 rounded-2xl border border-[#E8E1D7] bg-white p-2 sm:min-w-0">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+                aria-pressed={activeTab === tab.id}
+                className={`min-h-11 whitespace-nowrap rounded-xl px-4 text-xs font-semibold transition-colors sm:px-6 ${activeTab === tab.id
+                    ? 'bg-[#1F2022] text-white'
+                    : 'text-[#77736E] hover:bg-[#FAF8F5] hover:text-[#1F2022]'
+                  }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Tab 1: Contact Form & Info */}
+        {/* Contact */}
         {activeTab === 'contact' && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <div className="lg:col-span-5 rounded-3xl bg-[#1F2022] p-8 text-white shadow-xl flex flex-col justify-between">
+          <div className="grid gap-7 lg:grid-cols-12">
+            {/* Contact Info */}
+            <div className="flex flex-col justify-between rounded-3xl bg-[#1F2022] p-7 text-white sm:p-9 lg:col-span-5">
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-widest text-[#D9CBB7]">
-                  Dedicated Concierge
-                </span>
-                <h3 className="font-display text-3xl font-medium mt-2">Direct Contact</h3>
-                <p className="mt-3 text-xs sm:text-sm text-[#FAF8F5]/75 leading-relaxed font-light">
-                  Our innerwear fit specialists are available 6 days a week to provide tailored sizing recommendations.
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#D9CBB7]">
+                  Customer Care
                 </p>
 
-                <div className="mt-8 space-y-4 text-xs text-[#FAF8F5]/85">
-                  <div className="flex items-center gap-3">
-                    <Mail className="h-5 w-5 text-[#637666]" />
+                <h2 className="mt-3 font-display text-3xl font-medium">
+                  We're Here to Help
+                </h2>
+
+                <p className="mt-4 text-sm leading-7 text-neutral-300">
+                  Need help choosing a product,
+                  understanding sizes or learning
+                  about our collections?
+                </p>
+
+                <div className="mt-8 space-y-6">
+                  <div className="flex items-start gap-3">
+                    <Mail
+                      size={21}
+                      className="shrink-0 text-[#C5D1C2]"
+                    />
+
                     <div>
-                      <span className="block text-[10px] uppercase text-[#FAF8F5]/50 font-bold">Email Concierge</span>
-                      <span>concierge@2427atelier.com</span>
+                      <p className="text-sm font-semibold">
+                        Email Support
+                      </p>
+
+                      <p className="mt-1 text-xs leading-6 text-neutral-400">
+                        Official support email will
+                        be added after verification.
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <Phone className="h-5 w-5 text-[#637666]" />
-                    <div>
-                      <span className="block text-[10px] uppercase text-[#FAF8F5]/50 font-bold">Client Hotline / WhatsApp</span>
-                      <span>+91 (0) 80 4924 2427</span>
-                    </div>
-                  </div>
+                  <div className="flex items-start gap-3">
+                    <MessageSquare
+                      size={21}
+                      className="shrink-0 text-[#C5D1C2]"
+                    />
 
-                  <div className="flex items-center gap-3">
-                    <Clock className="h-5 w-5 text-[#637666]" />
                     <div>
-                      <span className="block text-[10px] uppercase text-[#FAF8F5]/50 font-bold">Operating Hours</span>
-                      <span>Monday – Saturday: 9:00 AM – 8:00 PM IST</span>
+                      <p className="text-sm font-semibold">
+                        Product Inquiries
+                      </p>
+
+                      <p className="mt-1 text-xs leading-6 text-neutral-400">
+                        Contact details and customer
+                        support hours will be published
+                        once confirmed.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-white/10 text-xs text-[#FAF8F5]/60 flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-[#637666]" />
-                <span>Confidential, discreet communication assured</span>
+              <div className="mt-10 flex items-start gap-2 border-t border-white/15 pt-5">
+                <ShieldCheck
+                  size={17}
+                  className="shrink-0 text-[#C5D1C2]"
+                />
+
+                <p className="text-xs leading-6 text-neutral-400">
+                  This website is currently a
+                  demonstration. Please do not submit
+                  sensitive personal information.
+                </p>
               </div>
             </div>
 
-            <div className="lg:col-span-7 rounded-3xl bg-white p-8 sm:p-10 border border-[#E8E1D7] shadow-xs">
-              <h3 className="font-display text-2xl font-medium text-[#1F2022]">Send a Message</h3>
-              <p className="text-xs text-[#5E6064] mt-1">
-                We typically respond within 2 to 4 business hours.
+            {/* Contact Form */}
+            <div className="rounded-3xl border border-[#E8E1D7] bg-white p-6 sm:p-9 lg:col-span-7">
+              <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+                Send an Inquiry
+              </h2>
+
+              <p className="mt-2 text-xs leading-6 text-[#77736E]">
+                Inquiries are stored for review when the
+                database is available. They are not emailed
+                or routed to a support team.
               </p>
 
-              {submitted ? (
-                <div className="mt-8 rounded-2xl bg-[#637666]/10 p-8 text-center border border-[#637666]/20">
-                  <CheckCircle2 className="mx-auto h-10 w-10 text-[#637666] mb-3" />
-                  <h4 className="font-display text-2xl font-medium text-[#1F2022]">
-                    Message Dispatched Successfully
-                  </h4>
-                  <p className="mt-2 text-xs text-[#5E6064]">
-                    Thank you. A 2427 fit consultant has been assigned to your inquiry and will follow up promptly.
-                  </p>
-                </div>
-              ) : (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    setSubmitted(true);
-                  }}
-                  className="mt-6 space-y-4 text-xs"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block font-medium text-[#1F2022] mb-1">Your Name</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Vikram Sengupta"
-                        className="w-full rounded-xl border border-[#E8E1D7] p-3 text-xs outline-hidden focus:border-[#637666]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block font-medium text-[#1F2022] mb-1">Email Address</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="vikram@domain.com"
-                        className="w-full rounded-xl border border-[#E8E1D7] p-3 text-xs outline-hidden focus:border-[#637666]"
-                      />
-                    </div>
-                  </div>
-
+              <form
+                onSubmit={handleSubmit}
+                className="mt-7 space-y-5"
+              >
+                <div className="grid gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="block font-medium text-[#1F2022] mb-1">Topic</label>
-                    <select className="w-full rounded-xl border border-[#E8E1D7] p-3 text-xs outline-hidden focus:border-[#637666] bg-white">
-                      <option>Sizing &amp; Fit Recommendation</option>
-                      <option>Order &amp; Delivery Tracking</option>
-                      <option>First Pair Guarantee Inquiry</option>
-                      <option>Fabric &amp; Care Guidance</option>
-                      <option>Wholesale &amp; Gifting</option>
-                    </select>
-                  </div>
+                    <label
+                      htmlFor="contact-name"
+                      className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                    >
+                      Your Name *
+                    </label>
 
-                  <div>
-                    <label className="block font-medium text-[#1F2022] mb-1">Your Inquiry</label>
-                    <textarea
-                      rows={4}
+                    <input
+                      id="contact-name"
+                      type="text"
+                      autoComplete="name"
                       required
-                      placeholder="Please share details regarding your inquiry or sizing requirements..."
-                      className="w-full rounded-xl border border-[#E8E1D7] p-3 text-xs outline-hidden focus:border-[#637666]"
+                      value={details.name}
+                      onChange={(event) =>
+                        updateField(
+                          'name',
+                          event.target.value
+                        )
+                      }
+                      placeholder="Full name"
+                      className={inputClass}
                     />
                   </div>
 
-                  <Button type="submit" variant="primary" className="w-full py-3">
-                    Submit Inquiry
-                  </Button>
-                </form>
-              )}
+                  <div>
+                    <label
+                      htmlFor="contact-email"
+                      className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                    >
+                      Email Address *
+                    </label>
+
+                    <input
+                      id="contact-email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      value={details.email}
+                      onChange={(event) =>
+                        updateField(
+                          'email',
+                          event.target.value
+                        )
+                      }
+                      placeholder="you@example.com"
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="contact-topic"
+                    className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                  >
+                    Topic
+                  </label>
+
+                  <select
+                    id="contact-topic"
+                    value={details.topic}
+                    onChange={(event) =>
+                      updateField(
+                        'topic',
+                        event.target.value
+                      )
+                    }
+                    className={inputClass}
+                  >
+                    <option>Sizing & Fit</option>
+                    <option>Product Information</option>
+                    <option>Shipping Information</option>
+                    <option>Returns & Exchanges</option>
+                    <option>General Inquiry</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="contact-message"
+                    className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                  >
+                    Your Message *
+                  </label>
+
+                  <textarea
+                    id="contact-message"
+                    rows={5}
+                    required
+                    minLength={10}
+                    value={details.message}
+                    onChange={(event) =>
+                      updateField(
+                        'message',
+                        event.target.value
+                      )
+                    }
+                    placeholder="Tell us how we can help..."
+                    className="w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 py-3 text-sm outline-none focus:border-[#637666]"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1F2022] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#34373C] disabled:cursor-wait disabled:opacity-60"
+                >
+                  {isSubmitting ? 'Saving inquiry…' : 'Send Inquiry'}
+                  <ArrowRight size={17} />
+                </button>
+
+                {formMessage && (
+                  <div
+                    role={formStatus === 'error' ? 'alert' : 'status'}
+                    className={`flex items-start gap-2 rounded-xl border p-4 ${formStatus === 'error' ? 'border-red-200 bg-red-50' : 'border-[#CBD8CA] bg-[#F2F4EF]'}`}
+                  >
+                    <Info
+                      size={18}
+                      className="mt-0.5 shrink-0 text-[#637666]"
+                    />
+
+                    <p className={`text-xs leading-6 ${formStatus === 'error' ? 'text-red-800' : 'text-[#47584A]'}`}>
+                      {formMessage}
+                    </p>
+                  </div>
+                )}
+              </form>
             </div>
           </div>
         )}
 
-        {/* Tab 2: Size Guide */}
+        {/* Size Guide */}
         {activeTab === 'size-guide' && (
-          <div className="space-y-10">
-            {/* Men's Size Guide */}
-            <div className="rounded-3xl bg-white p-8 border border-[#E8E1D7] shadow-xs">
-              <div className="flex items-center gap-2 mb-4">
-                <Ruler className="h-5 w-5 text-[#637666]" />
-                <h3 className="font-display text-2xl font-medium text-[#1F2022]">
-                  Men's Underwear &amp; Boxers Sizing (Inches &bull; cm)
-                </h3>
+          <div className="space-y-7">
+            <div className="rounded-2xl border border-[#CBD8CA] bg-[#F2F4EF] p-5">
+              <div className="flex items-start gap-3">
+                <Info
+                  size={20}
+                  className="shrink-0 text-[#637666]"
+                />
+
+                <p className="text-xs leading-6 text-[#47584A]">
+                  These measurements are illustrative
+                  sizing references, not verified
+                  2427 ÉLAN product specifications.
+                  Always check the actual product
+                  measurements before purchasing.
+                </p>
               </div>
+            </div>
+
+            {/* Men's Sizes */}
+            <div className="rounded-3xl border border-[#E8E1D7] bg-white p-6 sm:p-8">
+              <div className="mb-5 flex items-center gap-3">
+                <Ruler
+                  size={22}
+                  className="text-[#637666]"
+                />
+
+                <h2 className="font-display text-xl font-medium text-[#1F2022] sm:text-2xl">
+                  Men's Underwear & Boxers
+                </h2>
+              </div>
+
               <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left text-[#1F2022]">
-                  <thead className="bg-[#FAF8F5] border-b border-[#E8E1D7] font-numeral text-[11px] uppercase tracking-wider text-[#637666]">
+                <table className="w-full min-w-[420px] text-left text-xs">
+                  <thead className="bg-[#FAF8F5] text-[#637666]">
                     <tr>
-                      <th className="p-3">Size Tag</th>
-                      <th className="p-3">Waist (Inches)</th>
-                      <th className="p-3">Waist (cm)</th>
-                      <th className="p-3">Standard Trouser Fit</th>
+                      <th className="p-4">Size</th>
+                      <th className="p-4">
+                        Waist (inches)
+                      </th>
+                      <th className="p-4">
+                        Waist (cm)
+                      </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#E8E1D7] font-numeral">
-                    <tr>
-                      <td className="p-3 font-bold">Small (S)</td>
-                      <td className="p-3">28" – 30"</td>
-                      <td className="p-3">71 – 76 cm</td>
-                      <td className="p-3 font-sans">Slim / Athletic 28-30</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-bold">Medium (M)</td>
-                      <td className="p-3">31" – 33"</td>
-                      <td className="p-3">78 – 84 cm</td>
-                      <td className="p-3 font-sans">Most Common 32</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-bold">Large (L)</td>
-                      <td className="p-3">34" – 36"</td>
-                      <td className="p-3">86 – 91 cm</td>
-                      <td className="p-3 font-sans">Regular 34-36</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-bold">X-Large (XL)</td>
-                      <td className="p-3">37" – 39"</td>
-                      <td className="p-3">94 – 99 cm</td>
-                      <td className="p-3 font-sans">Relaxed 38</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-bold">XX-Large (XXL)</td>
-                      <td className="p-3">40" – 43"</td>
-                      <td className="p-3">101 – 109 cm</td>
-                      <td className="p-3 font-sans">Comfort 40-42</td>
-                    </tr>
+
+                  <tbody>
+                    {MEN_SIZES.map((size) => (
+                      <tr
+                        key={size[0]}
+                        className="border-t border-[#E8E1D7]"
+                      >
+                        <td className="p-4 font-semibold">
+                          {size[0]}
+                        </td>
+                        <td className="p-4">
+                          {size[1]}
+                        </td>
+                        <td className="p-4">
+                          {size[2]}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
 
-            {/* Women's Size Guide */}
-            <div className="rounded-3xl bg-white p-8 border border-[#E8E1D7] shadow-xs">
-              <div className="flex items-center gap-2 mb-4">
-                <Ruler className="h-5 w-5 text-[#637666]" />
-                <h3 className="font-display text-2xl font-medium text-[#1F2022]">
-                  Women's Wire-Free Bras &amp; Bralettes Sizing
-                </h3>
+            {/* Women's Sizes */}
+            <div className="rounded-3xl border border-[#E8E1D7] bg-white p-6 sm:p-8">
+              <div className="mb-5 flex items-center gap-3">
+                <Ruler
+                  size={22}
+                  className="text-[#637666]"
+                />
+
+                <h2 className="font-display text-xl font-medium text-[#1F2022] sm:text-2xl">
+                  Women's General Size Reference
+                </h2>
               </div>
+
               <div className="overflow-x-auto">
-                <table className="w-full text-xs text-left text-[#1F2022]">
-                  <thead className="bg-[#FAF8F5] border-b border-[#E8E1D7] font-numeral text-[11px] uppercase tracking-wider text-[#637666]">
+                <table className="w-full min-w-[420px] text-left text-xs">
+                  <thead className="bg-[#FAF8F5] text-[#637666]">
                     <tr>
-                      <th className="p-3">Size Tag</th>
-                      <th className="p-3">Underbust Band</th>
-                      <th className="p-3">Traditional Cup Equivalent</th>
-                      <th className="p-3">Recommended For</th>
+                      <th className="p-4">Size</th>
+                      <th className="p-4">
+                        Reference (inches)
+                      </th>
+                      <th className="p-4">
+                        Reference (cm)
+                      </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#E8E1D7] font-numeral">
-                    <tr>
-                      <td className="p-3 font-bold">XS</td>
-                      <td className="p-3">28" – 30"</td>
-                      <td className="p-3">30A, 30B, 32A</td>
-                      <td className="p-3 font-sans">Petite frame contour</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-bold">S</td>
-                      <td className="p-3">31" – 32"</td>
-                      <td className="p-3">32B, 32C, 34A</td>
-                      <td className="p-3 font-sans">Standard Small</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-bold">M</td>
-                      <td className="p-3">33" – 34"</td>
-                      <td className="p-3">34B, 34C, 36A, 36B</td>
-                      <td className="p-3 font-sans">Most Popular Fit</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-bold">L</td>
-                      <td className="p-3">35" – 36"</td>
-                      <td className="p-3">36C, 36D, 38B</td>
-                      <td className="p-3 font-sans">Fuller coverage &amp; hold</td>
-                    </tr>
-                    <tr>
-                      <td className="p-3 font-bold">XL</td>
-                      <td className="p-3">37" – 39"</td>
-                      <td className="p-3">38C, 38D, 40B, 40C</td>
-                      <td className="p-3 font-sans">Enhanced wide-band ease</td>
-                    </tr>
+
+                  <tbody>
+                    {WOMEN_SIZES.map((size) => (
+                      <tr
+                        key={size[0]}
+                        className="border-t border-[#E8E1D7]"
+                      >
+                        <td className="p-4 font-semibold">
+                          {size[0]}
+                        </td>
+                        <td className="p-4">
+                          {size[1]}
+                        </td>
+                        <td className="p-4">
+                          {size[2]}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -311,35 +586,259 @@ export function ContactPage() {
           </div>
         )}
 
-        {/* Tab 3: FAQ */}
+        {/* FAQ */}
         {activeTab === 'faq' && (
-          <div className="max-w-3xl mx-auto space-y-4">
-            {FAQS.map((faq, idx) => (
+          <div className="mx-auto max-w-3xl space-y-4">
+            {FAQS.map((faq, index) => (
               <div
-                key={idx}
-                className="rounded-2xl bg-white border border-[#E8E1D7] p-6 shadow-xs"
+                key={faq.question}
+                className="rounded-2xl border border-[#E8E1D7] bg-white p-5 sm:p-6"
               >
                 <button
                   type="button"
-                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full flex items-center justify-between text-left font-display text-lg sm:text-xl font-medium text-[#1F2022]"
+                  onClick={() =>
+                    setOpenFaq(
+                      openFaq === index
+                        ? null
+                        : index
+                    )
+                  }
+                  aria-expanded={openFaq === index}
+                  className="flex w-full items-center justify-between gap-4 text-left"
                 >
-                  <span>{faq.q}</span>
+                  <span className="font-display text-base font-medium text-[#1F2022] sm:text-lg">
+                    {faq.question}
+                  </span>
+
                   <ChevronDown
-                    className={`h-5 w-5 text-[#637666] transition-transform duration-200 ${
-                      openFaq === idx ? 'rotate-180' : ''
-                    }`}
+                    size={19}
+                    className={`shrink-0 text-[#637666] transition-transform ${openFaq === index
+                        ? 'rotate-180'
+                        : ''
+                      }`}
                   />
                 </button>
-                {openFaq === idx && (
-                  <p className="mt-3 text-xs sm:text-sm text-[#5E6064] leading-relaxed border-t border-[#E8E1D7] pt-3">
-                    {faq.a}
+
+                {openFaq === index && (
+                  <p className="mt-4 border-t border-[#E8E1D7] pt-4 text-sm leading-7 text-[#77736E]">
+                    {faq.answer}
                   </p>
                 )}
               </div>
             ))}
           </div>
         )}
+
+        {/* Policies */}
+        {activeTab === 'policies' && (
+          <div className="mx-auto max-w-4xl">
+            <div className="mb-6 rounded-2xl border border-[#CBD8CA] bg-[#F2F4EF] p-5">
+              <p className="text-xs leading-6 text-[#47584A]">
+                The information below describes
+                the current demo website. Actual
+                shipping, returns, privacy and
+                purchase terms must be reviewed
+                and approved by the store owner
+                before launch.
+              </p>
+            </div>
+
+            <div className="mb-6 flex flex-wrap gap-2">
+              {[
+                {
+                  id: 'shipping-policy' as const,
+                  label: 'Shipping',
+                },
+                {
+                  id: 'returns' as const,
+                  label: 'Returns',
+                },
+                {
+                  id: 'privacy' as const,
+                  label: 'Privacy',
+                },
+                {
+                  id: 'terms' as const,
+                  label: 'Terms',
+                },
+              ].map((policy) => (
+                <button
+                  key={policy.id}
+                  type="button"
+                  onClick={() =>
+                    setActivePolicy(policy.id)
+                  }
+                  className={`rounded-xl px-4 py-2.5 text-xs font-semibold ${activePolicy === policy.id
+                      ? 'bg-[#1F2022] text-white'
+                      : 'border border-[#E8E1D7] bg-white text-[#637666]'
+                    }`}
+                >
+                  {policy.label}
+                </button>
+              ))}
+            </div>
+
+            <div
+              id={activePolicy}
+              className="rounded-3xl border border-[#E8E1D7] bg-white p-6 sm:p-9"
+            >
+              {activePolicy === 'shipping-policy' && (
+                <>
+                  <div className="flex items-center gap-3">
+                    <Truck
+                      size={24}
+                      className="text-[#637666]"
+                    />
+
+                    <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+                      Shipping Information
+                    </h2>
+                  </div>
+
+                  <p className="mt-5 text-sm leading-7 text-[#77736E]">
+                    Shipping charges are not
+                    calculated or displayed at
+                    checkout.
+                    Delivery coverage, dispatch
+                    timelines, courier partners
+                    and final shipping fees have
+                    not yet been confirmed.
+                  </p>
+
+                  <p className="mt-4 text-sm leading-7 text-[#77736E]">
+                    No real orders or deliveries
+                    are currently processed
+                    through this website.
+                  </p>
+                </>
+              )}
+
+              {activePolicy === 'returns' && (
+                <>
+                  <div className="flex items-center gap-3">
+                    <RotateCcw
+                      size={24}
+                      className="text-[#637666]"
+                    />
+
+                    <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+                      Returns & Exchanges
+                    </h2>
+                  </div>
+
+                  <p className="mt-5 text-sm leading-7 text-[#77736E]">
+                    The official return and exchange
+                    policy has not yet been finalized.
+                    Eligibility may depend on product
+                    category, condition, hygiene
+                    requirements and applicable law.
+                  </p>
+
+                  <p className="mt-4 text-sm leading-7 text-[#77736E]">
+                    No automatic refunds or exchange
+                    requests are currently processed.
+                  </p>
+                </>
+              )}
+
+              {activePolicy === 'privacy' && (
+                <>
+                  <div className="flex items-center gap-3">
+                    <LockKeyhole
+                      size={24}
+                      className="text-[#637666]"
+                    />
+
+                    <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+                      Privacy Information
+                    </h2>
+                  </div>
+
+                  <p className="mt-5 text-sm leading-7 text-[#77736E]">
+                    The demo shopping experience
+                    stores cart and wishlist data
+                    in your browser. Checkout and
+                    contact forms currently do
+                    not submit information to
+                    a server.
+                  </p>
+
+                  <p className="mt-4 text-sm leading-7 text-[#77736E]">
+                    A complete privacy policy
+                    covering data collection,
+                    retention, security and
+                    user rights must be published
+                    before enabling live orders
+                    or customer accounts.
+                  </p>
+                </>
+              )}
+
+              {activePolicy === 'terms' && (
+                <>
+                  <div className="flex items-center gap-3">
+                    <FileText
+                      size={24}
+                      className="text-[#637666]"
+                    />
+
+                    <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+                      Terms & Conditions
+                    </h2>
+                  </div>
+
+                  <p className="mt-5 text-sm leading-7 text-[#77736E]">
+                    Product listings, prices,
+                    promotions and checkout
+                    interactions on this demo
+                    website are illustrative
+                    until confirmed for launch.
+                  </p>
+
+                  <p className="mt-4 text-sm leading-7 text-[#77736E]">
+                    The website does not currently
+                    create binding purchase orders,
+                    collect payments or arrange
+                    deliveries. Final commercial
+                    terms must be approved before
+                    live sales begin.
+                  </p>
+                </>
+              )}
+
+              <div className="mt-7 flex items-start gap-2 border-t border-[#E8E1D7] pt-5">
+                <ShieldCheck
+                  size={17}
+                  className="shrink-0 text-[#637666]"
+                />
+
+                <p className="text-xs leading-6 text-[#77736E]">
+                  Policy details are pending
+                  business approval.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Bottom Help */}
+        <div className="mt-12 rounded-2xl border border-[#E8E1D7] bg-white p-6 text-center sm:p-8">
+          <CheckCircle2
+            size={26}
+            className="mx-auto text-[#637666]"
+          />
+
+          <h3 className="mt-3 font-display text-xl font-medium text-[#1F2022]">
+            Explore with Confidence
+          </h3>
+
+          <p className="mx-auto mt-2 max-w-xl text-xs leading-6 text-[#77736E]">
+            Browse the collections, compare
+            products and review sizing information.
+            Ordering and support integrations
+            will be added before the live launch.
+          </p>
+        </div>
       </Container>
     </div>
   );

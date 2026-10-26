@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: 2427-elan-client-preview
+    runtime: node
+    region: singapore
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm run server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGODB_URI
+        sync: false
+      - key: PREVIEW_DEMO_DATABASE
+        value: 2427_elan_demo
+      - key: ALLOW_CATALOG_SEED
+        value: "false"
+      - key: ALLOW_ADMIN_PROVISIONING
+        value: "false"
