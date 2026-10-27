@@ -35,9 +35,13 @@ export function MobileNav() {
   } = useStore();
 
   const [activeGender, setActiveGender] =
-    useState<'men' | 'women'>('men');
+    useState<'men' | 'women' | null>(null);
 
   const isOpen = overlay === 'menu';
+
+  useEffect(() => {
+    if (!isOpen) setActiveGender(null);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -60,9 +64,9 @@ export function MobileNav() {
 
   if (!isOpen) return null;
 
-  const categories = catalogCategories.filter((category) =>
-    category.gender === activeGender
-  );
+  const categories = activeGender
+    ? catalogCategories.filter((category) => category.gender === activeGender)
+    : [];
 
   const switchOverlay = (
     target: 'search' | 'cart'
@@ -160,63 +164,66 @@ export function MobileNav() {
 
         {/* Scrollable Content */}
         <nav className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-          {/* Categories */}
-          <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
-              {activeGender === 'men'
-                ? "Men's Collections"
-                : "Women's Collections"}
-            </h2>
+          {activeGender && (
+            <>
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+                  {activeGender === 'men'
+                    ? "Men's Collections"
+                    : "Women's Collections"}
+                </h2>
 
-            <span className="text-[10px] text-[#99938B]">
-              {categories.length} Categories
-            </span>
-          </div>
+                <span className="text-[10px] text-[#99938B]">
+                  {categories.length} Categories
+                </span>
+              </div>
 
-          <div className="space-y-2">
-            {categories.map((category) => (
-              <Link
-                key={category.slug}
-                to={`/category/${category.slug}`}
-                onClick={closeOverlay}
-                className="group flex items-center justify-between gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 transition-colors hover:border-[#637666] hover:bg-[#F2F4EF]"
-              >
-                <div className="min-w-0">
-                  <h3 className="font-display text-sm font-semibold text-[#1F2022]">
-                    {category.title}
-                  </h3>
+              <div className="space-y-2">
+                {categories.map((category) => (
+                  <Link
+                    key={category.slug}
+                    to={`/category/${category.slug}`}
+                    onClick={closeOverlay}
+                    className="group flex items-center justify-between gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 transition-colors hover:border-[#637666] hover:bg-[#F2F4EF]"
+                  >
+                    <div className="min-w-0">
+                      <h3 className="font-display text-sm font-semibold text-[#1F2022]">
+                        {category.title}
+                      </h3>
 
-                  {category.tagline && (
-                    <p className="mt-1 line-clamp-2 text-[11px] leading-4 text-[#77736E]">
-                      {category.tagline}
-                    </p>
-                  )}
-                </div>
+                      {category.tagline && (
+                        <p className="mt-1 line-clamp-2 text-[11px] leading-4 text-[#77736E]">
+                          {category.tagline}
+                        </p>
+                      )}
+                    </div>
 
-                <ChevronRight
-                  size={17}
-                  className="shrink-0 text-[#637666] transition-transform group-hover:translate-x-1"
-                />
-              </Link>
-            ))}
+                    <ChevronRight
+                      size={17}
+                      className="shrink-0 text-[#637666] transition-transform group-hover:translate-x-1"
+                    />
+                  </Link>
+                ))}
 
-            {collectionLinks.map((collection) => (
-              <Link
-                key={collection.slug}
-                to={`/category/${collection.slug}?gender=${activeGender}`}
-                onClick={closeOverlay}
-                className="group flex items-center justify-between gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 transition-colors hover:border-[#637666] hover:bg-[#F2F4EF]"
-              >
-                <h3 className="font-display text-sm font-semibold text-[#1F2022]">
-                  {collection.title}
-                </h3>
-                <ChevronRight
-                  size={17}
-                  className="shrink-0 text-[#637666] transition-transform group-hover:translate-x-1"
-                />
-              </Link>
-            ))}
-          </div>
+                {collectionLinks.map((collection) => (
+                  <Link
+                    key={collection.slug}
+                    to={`/category/${collection.slug}?gender=${activeGender}`}
+                    onClick={closeOverlay}
+                    className="group flex items-center justify-between gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 transition-colors hover:border-[#637666] hover:bg-[#F2F4EF]"
+                  >
+                    <h3 className="font-display text-sm font-semibold text-[#1F2022]">
+                      {collection.title}
+                    </h3>
+                    <ChevronRight
+                      size={17}
+                      className="shrink-0 text-[#637666] transition-transform group-hover:translate-x-1"
+                    />
+                  </Link>
+                ))}
+              </div>
+            </>
+          )}
 
           {/* Information */}
           <div className="mt-7 border-t border-[#E8E1D7] pt-5">
