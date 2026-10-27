@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Logo } from '../brand/Logo';
 import { Container } from '../ui/Container';
 
 const assetUrl = (path: string): string =>
@@ -13,9 +12,7 @@ export function Hero() {
       <Container size="full" className="!px-0">
         <div className="grid overflow-hidden bg-[#EEE8E0] lg:min-h-[clamp(440px,33vw,600px)] lg:grid-cols-[minmax(420px,0.43fr)_minmax(0,0.57fr)]">
           <div className="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-[clamp(2.5rem,5vw,6rem)] lg:py-12">
-            <Logo size="lg" className="self-start" />
-
-            <p className="mt-3 text-[11px] font-medium tracking-[0.24em] text-[#33312E] sm:text-sm">
+            <p className="text-[11px] font-medium tracking-[0.24em] text-[#33312E] sm:text-sm">
               Everyday Comfort. Elevated.
             </p>
 

@@ -53,26 +53,36 @@
 }
 
 .animate-ticker {
+  -webkit-animation: elan-ticker 36s linear infinite;
   animation: elan-ticker 36s linear infinite;
+  will-change: transform;
 }
 
-.animate-ticker:hover {
-  animation-play-state: paused;
+@-webkit-keyframes elan-ticker {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    -webkit-transform: translate3d(-50%, 0, 0);
+  }
 }
 
 @keyframes elan-ticker {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
 
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .animate-ticker {
+    -webkit-animation: none;
     animation: none;
+    will-change: auto;
   }
 }
 
