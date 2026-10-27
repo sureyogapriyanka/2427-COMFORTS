@@ -6,7 +6,6 @@ import {
   Mail,
   Grid2X2,
   Heart,
-  Sparkles,
   ShieldCheck,
   ShoppingBag,
 } from 'lucide-react';
@@ -64,6 +63,30 @@ const companyLinks = [
   },
 ];
 
+const brandValueImages = [
+  {
+    title: 'Everyday Comfort',
+    description: 'Comfort that moves with you, from morning to night.',
+    image: 'elan-brand-cotton.webp',
+    alt: 'Soft white cotton bolls in a warm, natural setting',
+  },
+  {
+    title: 'Made with Purpose',
+    description: 'Thoughtful essentials. Timeless style. Attention to detail.',
+    image: 'elan-brand-purpose.webp',
+    alt: 'Folded cream, sage, and terracotta clothing',
+  },
+  {
+    title: 'Your Trust Matters',
+    description: 'A better shopping experience, with you at the heart of everything.',
+    image: 'elan-brand-trust.webp',
+    alt: 'A 2427 ÉLAN branded package held in two hands',
+  },
+];
+
+const brandValueImageUrl = (image: string) =>
+  `${import.meta.env.BASE_URL}images/home/${image}`;
+
 export function Footer() {
   const year = new Date().getFullYear();
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -97,51 +120,43 @@ export function Footer() {
       {/* Brand Values */}
       <section
         aria-label="2427 ÉLAN brand values"
-        className="border-b border-[#E8E1D7] bg-[#F4EFEB] text-[#1F2022]"
+        className="border-b border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022]"
       >
-        <Container className="py-8 sm:py-10">
-          <div className="grid gap-7 sm:grid-cols-3 sm:gap-6">
-            <div className="flex items-start gap-4">
-              <Heart
-                size={23}
-                aria-hidden="true"
-                className="mt-0.5 shrink-0 text-[#637666]"
-              />
-              <div>
-                <h2 className="font-display text-lg font-semibold">Everyday Comfort</h2>
-                <p className="mt-1.5 text-xs leading-5 text-[#77736E]">
-                  Thoughtful everyday essentials with comfort at the center.
-                </p>
-              </div>
-            </div>
+        <Container className="py-7 sm:py-9 lg:py-10">
+          <div className="border-b border-[#DED7CE] pb-5 text-center sm:pb-6">
+            <p className="font-numeral text-3xl font-semibold tracking-[0.12em] text-[#1F2022] sm:text-4xl">
+              24 <span className="text-[#637666]">|</span> 27
+            </p>
+            <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.2em] text-[#77736E] sm:text-xs">
+              Comfort. Quality. Confidence.
+            </p>
+          </div>
 
-            <div className="flex items-start gap-4">
-              <Sparkles
-                size={23}
-                aria-hidden="true"
-                className="mt-0.5 shrink-0 text-[#637666]"
-              />
-              <div>
-                <h2 className="font-display text-lg font-semibold">Made with Purpose</h2>
-                <p className="mt-1.5 text-xs leading-5 text-[#77736E]">
-                  Considered styles for the moments that make up every day.
+          <div className="grid gap-7 pt-7 sm:grid-cols-3 sm:gap-0 sm:pt-8">
+            {brandValueImages.map((value, index) => (
+              <article
+                key={value.title}
+                className={`flex flex-col items-center px-3 text-center sm:px-5 lg:px-8 ${
+                  index > 0 ? 'sm:border-l sm:border-[#DED7CE]' : ''
+                }`}
+              >
+                <img
+                  src={brandValueImageUrl(value.image)}
+                  alt={value.alt}
+                  width={322}
+                  height={313}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-square w-full max-w-[17rem] rounded-2xl object-cover sm:max-w-[15rem] lg:max-w-[17rem]"
+                />
+                <h2 className="mt-4 font-display text-xl font-semibold text-[#1F2022] sm:mt-5 sm:text-2xl">
+                  {value.title}
+                </h2>
+                <p className="mt-2 max-w-xs text-sm leading-6 text-[#77736E] sm:text-base sm:leading-7">
+                  {value.description}
                 </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <ShieldCheck
-                size={23}
-                aria-hidden="true"
-                className="mt-0.5 shrink-0 text-[#637666]"
-              />
-              <div>
-                <h2 className="font-display text-lg font-semibold">Your Trust Matters</h2>
-                <p className="mt-1.5 text-xs leading-5 text-[#77736E]">
-                  Clear information and customer care as we build a better experience.
-                </p>
-              </div>
-            </div>
+              </article>
+            ))}
           </div>
         </Container>
       </section>
