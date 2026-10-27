@@ -6,6 +6,7 @@ import {
   Mail,
   Grid2X2,
   Heart,
+  Sparkles,
   ShieldCheck,
   ShoppingBag,
 } from 'lucide-react';
@@ -93,6 +94,58 @@ export function Footer() {
 
   return (
     <footer className="border-t border-[#303236] bg-[#18191B] text-[#FAF8F5]">
+      {/* Brand Values */}
+      <section
+        aria-label="2427 ÉLAN brand values"
+        className="border-b border-[#E8E1D7] bg-[#F4EFEB] text-[#1F2022]"
+      >
+        <Container className="py-8 sm:py-10">
+          <div className="grid gap-7 sm:grid-cols-3 sm:gap-6">
+            <div className="flex items-start gap-4">
+              <Heart
+                size={23}
+                aria-hidden="true"
+                className="mt-0.5 shrink-0 text-[#637666]"
+              />
+              <div>
+                <h2 className="font-display text-lg font-semibold">Everyday Comfort</h2>
+                <p className="mt-1.5 text-xs leading-5 text-[#77736E]">
+                  Thoughtful everyday essentials with comfort at the center.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <Sparkles
+                size={23}
+                aria-hidden="true"
+                className="mt-0.5 shrink-0 text-[#637666]"
+              />
+              <div>
+                <h2 className="font-display text-lg font-semibold">Made with Purpose</h2>
+                <p className="mt-1.5 text-xs leading-5 text-[#77736E]">
+                  Considered styles for the moments that make up every day.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <ShieldCheck
+                size={23}
+                aria-hidden="true"
+                className="mt-0.5 shrink-0 text-[#637666]"
+              />
+              <div>
+                <h2 className="font-display text-lg font-semibold">Your Trust Matters</h2>
+                <p className="mt-1.5 text-xs leading-5 text-[#77736E]">
+                  Clear information and customer care as we build a better experience.
+                </p>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
       {/* Benefits */}
       <div className="border-b border-white/10 bg-[#202225]">
         <Container className="py-6">

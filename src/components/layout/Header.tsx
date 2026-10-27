@@ -458,6 +458,18 @@ export function Header() {
           >
             Bestsellers
           </Link>
+
+          {/* Sale */}
+          <Link
+            to="/category/sale"
+            className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${location.pathname ===
+                '/category/sale'
+                ? 'text-[#637666]'
+                : 'text-[#1F2022] hover:text-[#637666]'
+              }`}
+          >
+            Sale
+          </Link>
         </nav>
 
         {/* Right Actions */}

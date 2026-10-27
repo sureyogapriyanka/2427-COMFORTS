@@ -3,15 +3,10 @@ import React from 'react';
 import { Container } from '../ui/Container';
 
 const MARQUEE_ITEMS = [
-  'Austrian MicroModal Air™',
-  'Pure Supima® 80s Cotton',
-  'Zero-Wire Ergonomic Lift',
-  'Thermal Sonic Bonded Edges',
-  'Natural Bamboo Eco-Mesh',
-  'No-Roll Brushed Waistbands',
-  'OEKO-TEX® Certified Non-Toxic',
-  'Four-Way Multidirectional Stretch',
-  'Zero Panty Line Guarantee',
+  'Everyday Comfort. Elevated.',
+  'Thoughtful Everyday Essentials',
+  'Comfort for Every You',
+  '2427 ÉLAN',
 ];
 
 export function FabricMarquee() {

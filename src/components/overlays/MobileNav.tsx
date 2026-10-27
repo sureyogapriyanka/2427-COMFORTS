@@ -10,13 +10,19 @@ import {
   ShoppingBag,
   Search,
   ArrowRight,
-  Home,
-  Sparkles,
 } from 'lucide-react';
 
 import { useStore } from '../../context/StoreContext';
 import { Logo } from '../brand/Logo';
 import { useCatalog } from '../../context/CatalogContext';
+
+const collectionLinks = [
+  { slug: 'new-arrivals', title: 'New Arrivals' },
+  { slug: 'bestsellers', title: 'Bestsellers' },
+  { slug: 'bundles', title: 'Value Bundles' },
+  { slug: 'offers', title: 'Offers' },
+  { slug: 'sale', title: 'Sale' },
+] as const;
 
 export function MobileNav() {
   const { categories: catalogCategories } = useCatalog();
@@ -154,22 +160,6 @@ export function MobileNav() {
 
         {/* Scrollable Content */}
         <nav className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
-          <Link
-            to="/"
-            onClick={closeOverlay}
-            className="mb-5 flex items-center gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022] transition-colors hover:border-[#637666]"
-          >
-            <Home
-              size={18}
-              className="text-[#637666]"
-            />
-            Home
-            <ChevronRight
-              size={16}
-              className="ml-auto text-[#637666]"
-            />
-          </Link>
-
           {/* Categories */}
           <div className="mb-3 flex items-center justify-between">
             <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
@@ -209,66 +199,23 @@ export function MobileNav() {
                 />
               </Link>
             ))}
-          </div>
 
-          {/* Featured */}
-          <div className="mt-7 border-t border-[#E8E1D7] pt-6">
-            <h2 className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
-              Featured Collections
-            </h2>
-
-            <div className="space-y-2">
+            {collectionLinks.map((collection) => (
               <Link
-                to="/category/new-arrivals"
+                key={collection.slug}
+                to={`/category/${collection.slug}?gender=${activeGender}`}
                 onClick={closeOverlay}
-                className="flex items-center gap-3 rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022]"
+                className="group flex items-center justify-between gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 transition-colors hover:border-[#637666] hover:bg-[#F2F4EF]"
               >
-                <Sparkles
-                  size={17}
-                  className="text-[#637666]"
-                />
-                New Arrivals
-                <span className="ml-auto rounded-full bg-[#F2F4EF] px-2 py-1 text-[10px] text-[#637666]">
-                  New
-                </span>
-              </Link>
-
-              <Link
-                to="/category/bestsellers"
-                onClick={closeOverlay}
-                className="flex items-center justify-between rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022]"
-              >
-                Bestsellers
+                <h3 className="font-display text-sm font-semibold text-[#1F2022]">
+                  {collection.title}
+                </h3>
                 <ChevronRight
                   size={17}
-                  className="text-[#637666]"
+                  className="shrink-0 text-[#637666] transition-transform group-hover:translate-x-1"
                 />
               </Link>
-
-              <Link
-                to="/category/bundles"
-                onClick={closeOverlay}
-                className="flex items-center justify-between rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022]"
-              >
-                Value Bundles
-                <ChevronRight
-                  size={17}
-                  className="text-[#637666]"
-                />
-              </Link>
-
-              <Link
-                to="/category/offers"
-                onClick={closeOverlay}
-                className="flex items-center justify-between rounded-xl bg-white px-4 py-3.5 text-sm font-semibold text-[#1F2022]"
-              >
-                Offers
-                <ChevronRight
-                  size={17}
-                  className="text-[#637666]"
-                />
-              </Link>
-            </div>
+            ))}
           </div>
 
           {/* Information */}

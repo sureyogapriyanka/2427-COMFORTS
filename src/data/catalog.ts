@@ -17,7 +17,8 @@ export type CategorySlug =
   | 'new-arrivals'
   | 'bestsellers'
   | 'bundles'
-  | 'offers';
+  | 'offers'
+  | 'sale';
 
 export interface Product {
   id: string;

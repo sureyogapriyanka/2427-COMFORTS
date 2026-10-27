@@ -1,6 +1,6 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import {
   ChevronRight,
   SlidersHorizontal,
@@ -40,6 +40,11 @@ const formatPrice = (price: number) =>
 
 export function CategoryPage() {
   const { slug } = useParams<{ slug: string }>();
+  const [searchParams] = useSearchParams();
+  const requestedGender = searchParams.get('gender');
+  const genderFilter = requestedGender === 'men' || requestedGender === 'women'
+    ? requestedGender
+    : null;
   const { products, categories, isLoading: catalogLoading, error: catalogError } = useCatalog();
 
   const [search, setSearch] = useState('');
@@ -58,31 +63,30 @@ export function CategoryPage() {
 
   const categoryProducts = useMemo(() => {
     return products.filter((product) => {
+      let matchesCollection = false;
       if (slug === 'new-arrivals') {
-        return (
+        matchesCollection = (
           product.badge === 'New' ||
           product.category === 'new-arrivals'
         );
-      }
-
-      if (slug === 'bestsellers') {
-        return product.badge === 'Bestseller';
-      }
-
-      if (slug === 'bundles') {
-        return product.category === 'bundles';
-      }
-
-      if (slug === 'offers') {
-        return (
+      } else if (slug === 'bestsellers') {
+        matchesCollection = product.badge === 'Bestseller';
+      } else if (slug === 'bundles') {
+        matchesCollection = product.category === 'bundles';
+      } else if (slug === 'offers') {
+        matchesCollection = (
           product.compareAt != null &&
           product.compareAt > product.price
         );
+      } else if (slug === 'sale') {
+        matchesCollection = false;
+      } else {
+        matchesCollection = product.category === slug;
       }
 
-      return product.category === slug;
+      return matchesCollection && (!genderFilter || product.gender === genderFilter);
     });
-  }, [slug, products]);
+  }, [slug, products, genderFilter]);
 
   useEffect(() => {
     setSearch('');
@@ -93,7 +97,7 @@ export function CategoryPage() {
     setMinPrice('');
     setMaxPrice('');
     setShowFilters(false);
-  }, [slug]);
+  }, [slug, genderFilter]);
 
   const availableFabrics = useMemo(
     () =>
@@ -262,18 +266,22 @@ export function CategoryPage() {
           ? 'Multipacks & Bundles'
           : slug === 'offers'
             ? 'Curated Offers'
-            : 'Collection';
+            : slug === 'sale'
+              ? 'Sale'
+              : 'Collection';
 
-  const description = matchedCategory
+  const description = slug === 'sale'
+    ? 'No sale pricing or approved discounts are currently available.'
+    : matchedCategory
     ? matchedCategory.description
     : 'Discover everyday essentials designed for comfort and confidence.';
 
   const collectionLabel =
-    matchedCategory?.gender === 'men'
-      ? "Men's Collection"
-      : matchedCategory?.gender === 'women'
-        ? "Women's Collection"
-        : '2427 Collection';
+    genderFilter === 'men' || matchedCategory?.gender === 'men'
+          ? "Men's Collection"
+          : genderFilter === 'women' || matchedCategory?.gender === 'women'
+            ? "Women's Collection"
+            : '2427 Collection';
 
   const isBoxers = slug === 'men-boxers';
 

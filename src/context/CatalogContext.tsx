@@ -207,5 +207,5 @@ export function useCatalog() {
 
 export function isCategorySlug(value: string): value is CategorySlug {
   return LOCAL_CATEGORIES.some((category) => category.slug === value) ||
-    ['new-arrivals', 'bestsellers', 'bundles', 'offers'].includes(value);
+    ['new-arrivals', 'bestsellers', 'bundles', 'offers', 'sale'].includes(value);
 }
