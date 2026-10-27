@@ -163,7 +163,7 @@ export function MobileNav() {
         </div>
 
         {/* Scrollable Content */}
-        <nav className="min-h-0 flex-1 overflow-y-auto px-5 py-5">
+        <nav className="min-h-0 flex-1 overflow-y-auto px-5 pb-8 pt-5">
           {activeGender && (
             <>
               <div className="mb-3 flex items-center justify-between">
@@ -204,12 +204,15 @@ export function MobileNav() {
                     />
                   </Link>
                 ))}
+              </div>
 
+              <div className="mt-4 space-y-2 border-t border-[#E8E1D7] pt-4">
                 {collectionLinks.map((collection) => (
                   <Link
                     key={collection.slug}
                     to={`/category/${collection.slug}?gender=${activeGender}`}
                     onClick={closeOverlay}
+                    aria-label={`${collection.title} for ${activeGender}`}
                     className="group flex items-center justify-between gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 transition-colors hover:border-[#637666] hover:bg-[#F2F4EF]"
                   >
                     <h3 className="font-display text-sm font-semibold text-[#1F2022]">
