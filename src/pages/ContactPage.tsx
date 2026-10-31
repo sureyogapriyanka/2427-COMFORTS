@@ -755,12 +755,16 @@ export function ContactPage() {
                   </div>
 
                   <p className="mt-5 text-sm leading-7 text-[#77736E]">
-                    The demo shopping experience
-                    stores cart and wishlist data
-                    in your browser. Checkout and
-                    contact forms currently do
-                    not submit information to
-                    a server.
+                    Guest cart and wishlist data
+                    is stored in this browser.
+                    When configured, signed-in
+                    account and shopping data can
+                    also be stored by the service.
+                    Contact messages and
+                    consented newsletter
+                    subscriptions are stored for
+                    review. Checkout details are
+                    not submitted.
                   </p>
 
                   <p className="mt-4 text-sm leading-7 text-[#77736E]">

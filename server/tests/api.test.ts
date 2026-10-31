@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
 import { after, before, test } from 'node:test';
 import type { Server } from 'node:http';
+import { User } from '../models/User';
+import { signSession } from '../security/jwt';
 
 process.env.NODE_ENV = 'test';
+process.env.JWT_SECRET = 'unit-test-only-jwt-secret-with-at-least-32-bytes';
 
 const { default: app } = await import('../index');
 let server: Server;
@@ -57,6 +60,43 @@ test('cart, wishlist, orders and admin routes require verified sessions', async 
   for (const path of ['/cart', '/wishlist', '/orders', '/admin/overview']) {
     const response = await request(path);
     assert.equal(response.status, 401, `${path} should reject an unauthenticated request`);
+  }
+  assert.equal((await request('/orders', 'POST', { items: [] })).status, 401);
+});
+
+test('authenticated order submission stays disabled until commerce rules are approved', async () => {
+  const userId = '507f1f77bcf86cd799439011';
+  const originalFindById = Object.getOwnPropertyDescriptor(User, 'findById');
+  Object.defineProperty(User, 'findById', {
+    configurable: true,
+    value: () => ({
+      select: async () => ({
+        id: userId,
+        email: 'customer@example.com',
+        role: 'customer',
+        tokenVersion: 0,
+      }),
+    }),
+  });
+
+  try {
+    const response = await fetch(`${baseUrl}/api/orders`, {
+      method: 'POST',
+      headers: {
+        cookie: `elan_session=${signSession(userId, 0)}`,
+        origin: baseUrl,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ items: [] }),
+    });
+    assert.equal(response.status, 503);
+    assert.match((await response.json()).message, /Order submission is disabled/);
+  } finally {
+    if (originalFindById) {
+      Object.defineProperty(User, 'findById', originalFindById);
+    } else {
+      Reflect.deleteProperty(User, 'findById');
+    }
   }
 });
 

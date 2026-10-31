@@ -14,24 +14,26 @@ import { Logo } from '../brand/Logo';
 import { Container } from '../ui/Container';
 import { apiRequest } from '../../lib/api';
 
-const shopLinks = [
-  {
-    label: 'Shop Men',
-    to: '/category/men-underwear',
-  },
-  {
-    label: 'Shop Women',
-    to: '/category/women-bras',
-  },
-  {
-    label: 'New Arrivals',
-    to: '/category/new-arrivals',
-  },
-  {
-    label: 'Bestsellers',
-    to: '/category/bestsellers',
-  },
-];
+type ProductVisual = {
+  label: string;
+  image: string;
+};
+
+type BrandValueCard =
+  | {
+      title: string;
+      description: string;
+      image: string;
+      alt: string;
+      products?: never;
+    }
+  | {
+      title: string;
+      description: string;
+      products: ProductVisual[];
+      image?: never;
+      alt?: never;
+    };
 
 const customerLinks = [
   {
@@ -63,7 +65,7 @@ const companyLinks = [
   },
 ];
 
-const brandValueImages = [
+const brandValueImages: BrandValueCard[] = [
   {
     title: 'Everyday Comfort',
     description: 'Comfort that moves with you, from morning to night.',
@@ -73,8 +75,14 @@ const brandValueImages = [
   {
     title: 'Made with Purpose',
     description: 'Thoughtful essentials. Timeless style. Attention to detail.',
-    image: 'elan-brand-purpose.webp',
-    alt: 'Folded cream, sage, and terracotta clothing',
+    products: [
+      { label: 'Briefs', image: 'underwear/m-ub01-front.jpg' },
+      { label: 'Boxers', image: 'boxers/m-bx02-printplay-front.jpg' },
+      { label: 'Banians & vests', image: 'vests/m-v01-front.jpg' },
+      { label: 'Sleeveless tops', image: 'sleeveless/m-s01-front.jpg' },
+      { label: 'Camisoles', image: 'women-camisoles/w-c01-front.jpg' },
+      { label: 'Women’s innerwear', image: 'bras/w-b02-front.jpg' },
+    ],
   },
   {
     title: 'Your Trust Matters',
@@ -86,6 +94,9 @@ const brandValueImages = [
 
 const brandValueImageUrl = (image: string) =>
   `${import.meta.env.BASE_URL}images/home/${image}`;
+
+const productImageUrl = (image: string) =>
+  `${import.meta.env.BASE_URL}images/products/${image}`;
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -140,15 +151,42 @@ export function Footer() {
                   index > 0 ? 'sm:border-l sm:border-[#DED7CE]' : ''
                 }`}
               >
-                <img
-                  src={brandValueImageUrl(value.image)}
-                  alt={value.alt}
-                  width={322}
-                  height={313}
-                  loading="lazy"
-                  decoding="async"
-                  className="aspect-square w-full max-w-[17rem] rounded-2xl object-cover sm:max-w-[15rem] lg:max-w-[17rem]"
-                />
+                {value.products ? (
+                  <ul
+                    aria-label="Existing catalog product photographs"
+                    className="grid aspect-square w-full max-w-[17rem] grid-cols-2 gap-2 rounded-2xl border border-[#E8E1D7] bg-[#F0ECE5] p-2 sm:max-w-[15rem] lg:max-w-[17rem]"
+                  >
+                    {value.products.map((product) => (
+                      <li
+                        key={product.image}
+                        className="flex min-h-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-[#E8E1D7] bg-white px-2 py-1.5"
+                      >
+                        <img
+                          src={productImageUrl(product.image)}
+                          alt=""
+                          width={140}
+                          height={72}
+                          loading="lazy"
+                          decoding="async"
+                          className="min-h-0 w-full flex-1 object-contain"
+                        />
+                        <span className="mt-1 text-center text-[9px] font-medium leading-3 text-[#637666] sm:text-[10px]">
+                          {product.label}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <img
+                    src={brandValueImageUrl(value.image)}
+                    alt={value.alt}
+                    width={322}
+                    height={313}
+                    loading="lazy"
+                    decoding="async"
+                    className="aspect-square w-full max-w-[17rem] rounded-2xl object-cover sm:max-w-[15rem] lg:max-w-[17rem]"
+                  />
+                )}
                 <h2 className="mt-4 font-display text-xl font-semibold text-[#1F2022] sm:mt-5 sm:text-2xl">
                   {value.title}
                 </h2>
@@ -248,28 +286,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Shop */}
-          <div className="lg:col-span-2">
-            <h3 className="mb-5 text-xs font-bold uppercase tracking-[0.16em] text-[#D9CBB7]">
-              Shop
-            </h3>
-
-            <ul className="space-y-3">
-              {shopLinks.map((link) => (
-                <li key={link.to}>
-                  <Link
-                    to={link.to}
-                    className="text-xs text-neutral-400 transition-colors hover:text-white"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Customer Care */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-4">
             <h3 className="mb-5 text-xs font-bold uppercase tracking-[0.16em] text-[#D9CBB7]">
               Customer Service
             </h3>
@@ -289,7 +307,7 @@ export function Footer() {
           </div>
 
           {/* Company */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-4">
             <h3 className="mb-5 text-xs font-bold uppercase tracking-[0.16em] text-[#D9CBB7]">
               Company
             </h3>
