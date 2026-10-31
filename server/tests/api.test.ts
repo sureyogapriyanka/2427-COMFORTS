@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { after, before, test } from 'node:test';
 import type { Server } from 'node:http';
+import { Product } from '../models/Product';
 import { User } from '../models/User';
 import { signSession } from '../security/jwt';
 
@@ -115,6 +116,31 @@ test('cookie-authenticated writes require an allowed request origin', async () =
 test('product search rejects invalid filters without a database query', async () => {
   assert.equal((await request('/products?gender=other')).status, 400);
   assert.equal((await request('/products?page=0')).status, 400);
+});
+
+test('product pagination uses a stable unique tie-breaker for every page', async () => {
+  const originalFind = Object.getOwnPropertyDescriptor(Product, 'find');
+  const originalCount = Object.getOwnPropertyDescriptor(Product, 'countDocuments');
+  let sortOptions: Record<string, number> | undefined;
+  const query = {
+    sort(options: Record<string, number>) { sortOptions = options; return this; },
+    skip() { return this; },
+    limit() { return this; },
+    lean: async () => [],
+  };
+  Object.defineProperty(Product, 'find', { configurable: true, value: () => query });
+  Object.defineProperty(Product, 'countDocuments', { configurable: true, value: async () => 0 });
+
+  try {
+    const response = await request('/products?page=1&limit=1');
+    assert.equal(response.status, 200);
+    assert.deepEqual(sortOptions, { createdAt: -1, _id: 1 });
+  } finally {
+    if (originalFind) Object.defineProperty(Product, 'find', originalFind);
+    else Reflect.deleteProperty(Product, 'find');
+    if (originalCount) Object.defineProperty(Product, 'countDocuments', originalCount);
+    else Reflect.deleteProperty(Product, 'countDocuments');
+  }
 });
 
 test('contact and newsletter endpoints reject invalid submissions', async () => {

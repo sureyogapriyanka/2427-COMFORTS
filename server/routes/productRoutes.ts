@@ -79,7 +79,10 @@ productRouter.get('/', async (req: Request, res: Response, next: NextFunction) =
       res.status(400).json({ success: false, message: 'Sort option is invalid.' });
       return;
     }
-    const sort = allowedSorts[sortKey] || allowedSorts.newest;
+    const sort = {
+      ...(allowedSorts[sortKey] || allowedSorts.newest),
+      _id: 1 as const,
+    };
     const [data, total] = await Promise.all([
       Product.find(filter).sort(sort).skip((page - 1) * limit).limit(limit).lean(),
       Product.countDocuments(filter),

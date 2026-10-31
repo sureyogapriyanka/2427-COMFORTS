@@ -170,7 +170,12 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
     ) ?? [];
     const productsById = new Map(mappedProducts.map((product) => [product.id, product]));
     const products = apiProducts?.length
-      ? PRODUCTS.map((local) => productsById.get(local.id) ?? local)
+      ? PRODUCTS.map((local) => productsById.get(local.id) ?? {
+        ...local,
+        isDemoContent: true,
+        isDemoPrice: true,
+        inventoryStatus: 'demo' as const,
+      })
       : PRODUCTS.map((local) => ({
         ...local,
         isDemoPrice: local.isDemoContent ? true : local.isDemoPrice,
