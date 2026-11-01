@@ -74,37 +74,10 @@ export function productImageNotice(product: {
   image: string;
   id: string;
 }): string | null {
-  if (product.id === 'w-ct15') {
-    return 'Product photos are unavailable: the front photo is missing and the available back image includes a partial neighboring view. Owner-approved front and back replacements are required.';
-  }
-
-  if (product.id === 'w-ct13') {
-    return 'The back photo includes a partial neighboring image and is hidden. An owner-approved replacement is required for this view.';
-  }
-
-  if (product.id === 'w-ct10') {
-    return 'The front photo is cropped at the image edge and is hidden. The back view is shown; an owner-approved front photo is required.';
-  }
-
-  if (product.id === 'w-u03') {
-    return 'The back photo includes a partial neighboring image and is hidden. An owner-approved replacement is required.';
-  }
-
-  if (product.category === 'women-underwear') {
-    return 'The source photos are low resolution. Owner-approved high-resolution replacements are required.';
-  }
-
-  if (product.category === 'bundles' && product.image.includes('bundle-01')) {
-    return 'The available bundle photos are low resolution. Owner-approved high-resolution replacements are required.';
-  }
-
-  if (product.category === 'bundles' && product.image.includes('bundle-11')) {
-    return 'The available bundle photos are low resolution. Owner-approved high-resolution replacements are required.';
-  }
-
-  if (product.category === 'bundles' && /bundle-0[7-9]|bundle-10/.test(product.image)) {
-    return 'Product photos are unavailable pending owner-approved images that match this bundle.';
-  }
-
-  return null;
+  const unavailablePhotoProducts = new Set(['w-ct15', 'w-ct13', 'w-ct10', 'w-u03']);
+  const unavailableBundle = product.category === 'bundles' &&
+    /bundle-0[7-9]|bundle-10/.test(product.image);
+  return unavailablePhotoProducts.has(product.id) || unavailableBundle
+    ? 'Product photography coming soon.'
+    : null;
 }

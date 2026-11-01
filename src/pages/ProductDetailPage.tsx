@@ -30,7 +30,7 @@ import { useCatalog } from '../context/CatalogContext';
 import { ProductAvailabilityNote } from '../components/product/ProductAvailabilityNote';
 import { getSizeAvailability } from '../data/sizeInventory';
 import { ProductImage } from '../components/product/ProductImage';
-import { productImageNotice } from '../lib/productImages';
+import { productImageNotice, productImageUrl } from '../lib/productImages';
 
 export function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -53,6 +53,8 @@ export function ProductDetailPage() {
   const [added, setAdded] = useState(false);
   const [sizeError, setSizeError] = useState(false);
   const [showZoom, setShowZoom] = useState(false);
+  const [loadedImageSource, setLoadedImageSource] = useState('');
+  const [failedImageSources, setFailedImageSources] = useState<Set<string>>(() => new Set());
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [showDetails, setShowDetails] = useState(true);
   const [showDelivery, setShowDelivery] = useState(false);
@@ -67,6 +69,8 @@ export function ProductDetailPage() {
     setAdded(false);
     setSizeError(false);
     setShowZoom(false);
+    setLoadedImageSource('');
+    setFailedImageSources(new Set());
     setShowSizeGuide(false);
     setShowDetails(true);
     setShowDelivery(false);
@@ -137,9 +141,12 @@ export function ProductDetailPage() {
         }]
         : []
     ),
-  ];
+  ].filter((image) =>
+    Boolean(productImageUrl(image.src)) && !failedImageSources.has(image.src)
+  );
 
   const currentImage = activeImage || product.image;
+  const isCurrentImageLoaded = loadedImageSource === currentImage;
   const isWomensBra = product.category === 'women-bras';
   const imageNotice = productImageNotice(product);
 
@@ -230,35 +237,45 @@ export function ProductDetailPage() {
         <div className="grid grid-cols-1 gap-7 lg:grid-cols-12 lg:gap-10 xl:gap-14">
           {/* Gallery */}
           <div className="lg:col-span-7">
-            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:gap-4">
+            <div className="flex min-w-0 flex-col-reverse gap-3 sm:flex-row sm:gap-4">
               {/* Thumbnails */}
-              <div className="flex gap-3 sm:flex-col">
-                {images.map((image) => (
-                  <button
-                    key={image.src}
-                    type="button"
-                    onClick={() =>
-                      setActiveImage(image.src)
-                    }
-                    aria-label={`Show ${image.label}`}
-                    aria-pressed={
-                      currentImage === image.src
-                    }
-                    className={`h-20 w-16 shrink-0 overflow-hidden rounded-xl border-2 bg-white p-1 transition-all sm:h-24 sm:w-20 ${currentImage === image.src
-                        ? 'border-[#637666]'
-                        : 'border-[#E8E1D7] hover:border-[#637666]'
-                      }`}
-                  >
-                    <ProductImage
-                      src={image.src}
-                      alt={image.label}
-                      className={`h-full w-full object-contain ${
-                        isWomensBra ? 'scale-[1.7]' : ''
-                      }`}
-                    />
-                  </button>
-                ))}
-              </div>
+              {images.length > 0 && (
+                <div
+                  role="group"
+                  aria-label="Product image thumbnails"
+                  className="flex w-max max-w-full shrink-0 flex-row gap-2 overflow-x-auto pb-1 sm:max-h-[620px] sm:w-20 sm:flex-col sm:overflow-x-hidden sm:overflow-y-auto sm:pb-0"
+                >
+                  {images.map((image) => (
+                    <button
+                      key={image.src}
+                      type="button"
+                      onClick={() => {
+                        setActiveImage(image.src);
+                        setLoadedImageSource('');
+                        setShowZoom(false);
+                      }}
+                      aria-label={`Show ${image.label}`}
+                      aria-pressed={currentImage === image.src}
+                      className={`aspect-[4/5] h-20 w-16 min-w-16 shrink-0 overflow-hidden rounded-xl border-2 bg-white p-1 transition-colors sm:h-24 sm:w-20 sm:min-w-20 ${currentImage === image.src
+                          ? 'border-[#637666]'
+                          : 'border-[#E8E1D7] hover:border-[#637666]'
+                        }`}
+                    >
+                      <ProductImage
+                        src={image.src}
+                        alt={image.label}
+                        onImageLoadStateChange={(source, loaded) => {
+                          if (loaded) return;
+                          setFailedImageSources((current) => new Set(current).add(source));
+                        }}
+                        className={`h-full w-full object-contain ${
+                          isWomensBra ? 'scale-[1.7]' : ''
+                        }`}
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {/* Main Product Image */}
               <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl border border-[#EEE7DE] bg-white sm:rounded-3xl">
@@ -266,6 +283,15 @@ export function ProductDetailPage() {
                   <ProductImage
                     src={currentImage}
                     alt={product.name}
+                    onImageLoadStateChange={(source, loaded) => {
+                      setLoadedImageSource((current) => {
+                        if (loaded) return source;
+                        return current === source ? '' : current;
+                      });
+                      if (!loaded) {
+                        setFailedImageSources((current) => new Set(current).add(source));
+                      }
+                    }}
                     className={`h-full w-full object-contain ${
                       isWomensBra ? 'scale-[1.7]' : ''
                     }`}
@@ -286,22 +312,26 @@ export function ProductDetailPage() {
 
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setShowZoom(true)}
-                    aria-label="Enlarge product image"
-                    className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#EEE7DE] bg-white text-elan-ink shadow-sm transition-colors hover:bg-[#F4F2EF]"
-                  >
-                    <ZoomIn size={19} />
-                  </button>
+                  {isCurrentImageLoaded && (
+                    <button
+                      type="button"
+                      onClick={() => setShowZoom(true)}
+                      aria-label="Enlarge product image"
+                      className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#EEE7DE] bg-white text-elan-ink shadow-sm transition-colors hover:bg-[#F4F2EF]"
+                    >
+                      <ZoomIn size={19} />
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
 
-            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-elan-muted">
-              <PackageCheck size={15} />
-              Select a thumbnail to explore more views
-            </div>
+            {images.length > 1 && (
+              <div className="mt-4 flex items-center justify-center gap-2 text-xs text-elan-muted">
+                <PackageCheck size={15} />
+                Select a thumbnail to explore more views
+              </div>
+            )}
             {imageNotice && (
               <p role="note" className="mx-auto mt-3 max-w-xl text-center text-xs leading-5 text-elan-muted">
                 {imageNotice}
@@ -759,7 +789,7 @@ export function ProductDetailPage() {
       </Container>
 
       {/* Image Zoom Modal */}
-      {showZoom && (
+      {showZoom && isCurrentImageLoaded && (
         <div
           role="dialog"
           aria-modal="true"
