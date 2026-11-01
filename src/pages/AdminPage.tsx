@@ -125,13 +125,13 @@ export function AdminPage() {
   ] : [];
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] py-10 sm:py-14">
+    <div className="min-h-screen bg-elan-ivory py-10 sm:py-14">
       <Container>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#637666]">2427 ÉLAN</p>
-            <h1 className="mt-2 font-display text-3xl text-[#1F2022] sm:text-4xl">Admin dashboard</h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[#77736E]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-elan-sage">2427 ÉLAN</p>
+            <h1 className="mt-2 font-display text-3xl text-elan-ink sm:text-4xl">Admin dashboard</h1>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-elan-muted">
               Protected store operations for owner-provisioned administrators. Demo catalog prices and inventory are not approved for sale.
             </p>
           </div>
@@ -149,49 +149,49 @@ export function AdminPage() {
         )}
 
         {authLoading ? (
-          <p role="status" className="py-16 text-center text-sm text-[#77736E]">Checking administrator access…</p>
+          <p role="status" className="py-16 text-center text-sm text-elan-muted">Checking administrator access…</p>
         ) : !user ? (
           <section className="mt-8 rounded-2xl border border-[#E8E1D7] bg-white p-6 sm:p-8" aria-labelledby="admin-sign-in-heading">
-            <h2 id="admin-sign-in-heading" className="font-display text-xl text-[#1F2022]">Administrator sign-in required</h2>
-            <p className="mt-2 max-w-xl text-sm leading-6 text-[#77736E]">
+            <h2 id="admin-sign-in-heading" className="font-display text-xl text-elan-ink">Administrator sign-in required</h2>
+            <p className="mt-2 max-w-xl text-sm leading-6 text-elan-muted">
               This dashboard is restricted to owner-provisioned administrator accounts. Public registration does not grant administrator access.
             </p>
-            <button type="button" onClick={() => openOverlay('auth')} className="mt-5 min-h-11 rounded-xl bg-[#1F2022] px-5 text-sm font-semibold text-white">
+            <button type="button" onClick={() => openOverlay('auth')} className="mt-5 min-h-11 rounded-xl bg-elan-ink px-5 text-sm font-semibold text-elan-ivory">
               Sign in
             </button>
           </section>
         ) : user.role !== 'admin' ? (
           <section className="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-6 sm:p-8" role="status">
-            <h2 className="font-display text-xl text-[#1F2022]">Administrator access is restricted</h2>
+            <h2 className="font-display text-xl text-elan-ink">Administrator access is restricted</h2>
             <p className="mt-2 max-w-xl text-sm leading-6 text-[#6B5425]">
               This account does not have administrator permissions. Contact the store owner if access is required.
             </p>
           </section>
         ) : loading ? (
-          <p role="status" className="py-16 text-center text-sm text-[#77736E]">Loading dashboard data…</p>
+          <p role="status" className="py-16 text-center text-sm text-elan-muted">Loading dashboard data…</p>
         ) : summary ? (
           <>
             <section aria-label="Store overview" className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
               {summaryCards.map(({ label, value, icon: Icon }) => (
                 <article key={label} className="rounded-2xl border border-[#E8E1D7] bg-white p-5">
-                  <Icon size={19} className="text-[#637666]" />
-                  <p className="mt-4 text-xs text-[#77736E]">{label}</p>
-                  <p className="mt-1 text-xl font-semibold text-[#1F2022]">{value}</p>
+                  <Icon size={19} className="text-elan-sage" />
+                  <p className="mt-4 text-xs text-elan-muted">{label}</p>
+                  <p className="mt-1 text-xl font-semibold text-elan-ink">{value}</p>
                 </article>
               ))}
             </section>
 
             <section className="mt-10 rounded-2xl border border-[#E8E1D7] bg-white p-5 sm:p-7">
-              <h2 className="font-display text-2xl text-[#1F2022]">Inventory</h2>
-              <p className="mt-1 text-xs leading-5 text-[#77736E]">Updates affect stored inventory only; no stock has been inferred from the demo catalog.</p>
+              <h2 className="font-display text-2xl text-elan-ink">Inventory</h2>
+              <p className="mt-1 text-xs leading-5 text-elan-muted">Updates affect stored inventory only; no stock has been inferred from the demo catalog.</p>
               <div className="mt-5 divide-y divide-[#EEE7DE]">
                 {products.map((product) => (
                   <div key={product._id} className="flex flex-wrap items-center justify-between gap-3 py-4">
                     <div>
-                      <p className="text-sm font-semibold text-[#1F2022]">{product.name}</p>
-                      <p className="mt-1 text-xs text-[#77736E]">{product.sku} · {formatINR(product.price)}{product.isDemoContent ? ' · Demo catalog data; price and inventory unverified' : ''}</p>
+                      <p className="text-sm font-semibold text-elan-ink">{product.name}</p>
+                      <p className="mt-1 text-xs text-elan-muted">{product.sku} · {formatINR(product.price)}{product.isDemoContent ? ' · Demo catalog data; price and inventory unverified' : ''}</p>
                     </div>
-                    <label className="flex items-center gap-2 text-xs text-[#77736E]">
+                    <label className="flex items-center gap-2 text-xs text-elan-muted">
                       Units
                       <input
                         aria-label={`Inventory units for ${product.name}`}
@@ -200,7 +200,7 @@ export function AdminPage() {
                         step="1"
                         defaultValue={product.stockCount ?? 0}
                         disabled={product.isDemoContent}
-                        className="h-10 w-24 rounded-lg border border-[#D8D0C5] px-3 text-sm text-[#1F2022]"
+                        className="h-10 w-24 rounded-lg border border-[#D8D0C5] px-3 text-sm text-elan-ink"
                         onBlur={(event) => {
                           if (Number(event.currentTarget.value) !== (product.stockCount ?? 0)) {
                             void updateInventory(product, event.currentTarget.value);
@@ -210,13 +210,13 @@ export function AdminPage() {
                     </label>
                   </div>
                 ))}
-                {!products.length && <p className="py-8 text-center text-sm text-[#77736E]">No catalog products are stored yet. Products will appear here after they are added to the catalog.</p>}
+                {!products.length && <p className="py-8 text-center text-sm text-elan-muted">No catalog products are stored yet. Products will appear here after they are added to the catalog.</p>}
               </div>
             </section>
 
             <section className="mt-8 grid gap-8 lg:grid-cols-2">
               <div className="rounded-2xl border border-[#E8E1D7] bg-white p-5 sm:p-7">
-                <h2 className="font-display text-2xl text-[#1F2022]">Orders</h2>
+                <h2 className="font-display text-2xl text-elan-ink">Orders</h2>
                 <div className="mt-4 space-y-3">
                   {orders.map((order) => (
                     <div key={order._id} className="rounded-xl border border-[#EEE7DE] p-4">
@@ -224,13 +224,13 @@ export function AdminPage() {
                         <span className="text-sm font-semibold">{order.orderNumber}</span>
                         <span className="text-sm">{formatINR(order.total)}</span>
                       </div>
-                      <p className="mt-1 text-xs text-[#77736E]">{order.paymentStatus} · {new Date(order.createdAt).toLocaleDateString()}</p>
-                      <label className="mt-3 flex items-center gap-2 text-xs text-[#77736E]">
+                      <p className="mt-1 text-xs text-elan-muted">{order.paymentStatus} · {new Date(order.createdAt).toLocaleDateString()}</p>
+                      <label className="mt-3 flex items-center gap-2 text-xs text-elan-muted">
                         Status
                         <select
                           value={order.orderStatus}
                           onChange={(event) => void updateOrderStatus(order._id, event.target.value)}
-                          className="min-h-10 rounded-lg border border-[#D8D0C5] px-2 text-sm text-[#1F2022]"
+                          className="min-h-10 rounded-lg border border-[#D8D0C5] px-2 text-sm text-elan-ink"
                         >
                           <option value={order.orderStatus}>{order.orderStatus}</option>
                           {order.orderStatus === 'placed' && <><option value="confirmed">confirmed</option><option value="cancelled">cancelled</option></>}
@@ -240,27 +240,27 @@ export function AdminPage() {
                       </label>
                     </div>
                   ))}
-                  {!orders.length && <p className="rounded-xl bg-[#FAF8F5] p-4 text-sm leading-6 text-[#77736E]">No stored orders. Order placement remains disabled until fulfillment rules are approved.</p>}
+                  {!orders.length && <p className="rounded-xl bg-elan-ivory p-4 text-sm leading-6 text-elan-muted">No stored orders. Order placement remains disabled until fulfillment rules are approved.</p>}
                 </div>
               </div>
               <div className="rounded-2xl border border-[#E8E1D7] bg-white p-5 sm:p-7">
-                <h2 className="font-display text-2xl text-[#1F2022]">Categories</h2>
+                <h2 className="font-display text-2xl text-elan-ink">Categories</h2>
                 <ul className="mt-4 divide-y divide-[#EEE7DE]">
                   {categories.map((category) => (
                     <li key={category._id} className="flex justify-between gap-3 py-3 text-sm">
                       <span>{category.title}</span>
-                      <span className="text-xs text-[#77736E]">{category.gender} · {category.slug}</span>
+                      <span className="text-xs text-elan-muted">{category.gender} · {category.slug}</span>
                     </li>
                   ))}
-                  {!categories.length && <li className="py-6 text-sm text-[#77736E]">No categories are stored yet.</li>}
+                  {!categories.length && <li className="py-6 text-sm text-elan-muted">No categories are stored yet.</li>}
                 </ul>
               </div>
             </section>
           </>
         ) : user.role === 'admin' ? (
           <section className="mt-8 rounded-2xl border border-[#E8E1D7] bg-white p-6 text-center" role="status">
-            <h2 className="font-display text-xl text-[#1F2022]">Dashboard data could not be loaded</h2>
-            <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-[#77736E]">
+            <h2 className="font-display text-xl text-elan-ink">Dashboard data could not be loaded</h2>
+            <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-elan-muted">
               {error || 'The administrator API returned no dashboard data.'} Check the server connection and try again.
             </p>
             <button type="button" onClick={() => void loadDashboard()} className="mt-5 min-h-11 rounded-xl border border-[#D8D0C5] bg-white px-4 text-sm font-semibold">

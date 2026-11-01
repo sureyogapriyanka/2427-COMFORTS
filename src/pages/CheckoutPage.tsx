@@ -220,21 +220,21 @@ export function CheckoutPage() {
     // Empty Cart or No Selected Products
     if (checkoutItems.length === 0) {
         return (
-            <div className="min-h-screen bg-[#FAF8F5] py-16">
+            <div className="min-h-screen bg-elan-ivory py-16">
                 <Container>
                     <div className="mx-auto max-w-xl rounded-3xl border border-[#E8E1D7] bg-white px-6 py-16 text-center shadow-sm">
                         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-[#F2F4EF]">
                             <ShoppingBag
                                 size={36}
-                                className="text-[#637666]"
+                                className="text-elan-sage"
                             />
                         </div>
 
-                        <h1 className="mt-6 font-display text-3xl font-medium text-[#1F2022]">
+                        <h1 className="mt-6 font-display text-3xl font-medium text-elan-ink">
                             No Products Selected
                         </h1>
 
-                        <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-[#77736E]">
+                        <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-elan-muted">
                             Your checkout is empty. Add products
                             to your bag or select items to
                             continue.
@@ -244,14 +244,14 @@ export function CheckoutPage() {
                             <button
                                 type="button"
                                 onClick={() => openOverlay('cart')}
-                                className="rounded-xl bg-[#1F2022] px-6 py-3 text-sm font-semibold text-white hover:bg-[#34373C]"
+                                className="rounded-xl bg-elan-ink px-6 py-3 text-sm font-semibold text-elan-ivory hover:bg-elan-ink-hover"
                             >
                                 Open Shopping Bag
                             </button>
 
                             <Link
                                 to="/"
-                                className="rounded-xl border border-[#E8E1D7] px-6 py-3 text-sm font-semibold text-[#637666] hover:border-[#637666]"
+                                className="rounded-xl border border-[#E8E1D7] px-6 py-3 text-sm font-semibold text-elan-sage hover:border-[#637666]"
                             >
                                 Continue Shopping
                             </Link>
@@ -263,13 +263,13 @@ export function CheckoutPage() {
     }
 
     return (
-        <div className="min-h-screen bg-[#FAF8F5] py-8 sm:py-12">
+        <div className="min-h-screen bg-elan-ivory py-8 sm:py-12">
             <Container>
                 {/* Back Button */}
                 <button
                     type="button"
                     onClick={() => navigate(-1)}
-                    className="mb-7 inline-flex items-center gap-2 text-xs font-semibold text-[#637666] hover:text-[#1F2022]"
+                    className="mb-7 inline-flex items-center gap-2 text-xs font-semibold text-elan-sage hover:text-elan-ink"
                 >
                     <ArrowLeft size={16} />
                     Back to Shopping
@@ -277,15 +277,15 @@ export function CheckoutPage() {
 
                 {/* Page Header */}
                 <div className="mb-9">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+                    <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-elan-sage">
                         2427 ÉLAN
                     </p>
 
-                    <h1 className="mt-2 font-display text-3xl font-medium text-[#1F2022] sm:text-4xl">
+                    <h1 className="mt-2 font-display text-3xl font-medium text-elan-ink sm:text-4xl">
                         Checkout Preview
                     </h1>
 
-                    <p className="mt-3 text-sm text-[#77736E]">
+                    <p className="mt-3 text-sm text-elan-muted">
                         Complete your delivery details and
                         review your selected products.
                     </p>
@@ -303,16 +303,16 @@ export function CheckoutPage() {
                         {/* Delivery Details */}
                         <section className="rounded-2xl border border-[#E8E1D7] bg-white p-5 sm:p-7">
                             <div className="mb-6 flex items-center gap-3">
-                                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F2F4EF] text-[#637666]">
+                                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F2F4EF] text-elan-sage">
                                     <MapPin size={21} />
                                 </div>
 
                                 <div>
-                                    <h2 className="font-display text-xl font-medium text-[#1F2022]">
+                                    <h2 className="font-display text-xl font-medium text-elan-ink">
                                         Delivery Information
                                     </h2>
 
-                                    <p className="mt-1 text-xs text-[#77736E]">
+                                    <p className="mt-1 text-xs text-elan-muted">
                                         Enter your shipping address
                                     </p>
                                 </div>
@@ -323,7 +323,7 @@ export function CheckoutPage() {
                                 <div>
                                     <label
                                         htmlFor="checkout-name"
-                                        className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                                        className="mb-2 block text-xs font-semibold text-elan-ink"
                                     >
                                         Full Name *
                                     </label>
@@ -341,7 +341,7 @@ export function CheckoutPage() {
                                             )
                                         }
                                         placeholder="Enter full name"
-                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-sm outline-none focus:border-[#637666]"
+                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 text-sm outline-none focus:border-elan-sage"
                                     />
                                 </div>
 
@@ -349,7 +349,7 @@ export function CheckoutPage() {
                                 <div>
                                     <label
                                         htmlFor="checkout-email"
-                                        className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                                        className="mb-2 block text-xs font-semibold text-elan-ink"
                                     >
                                         Email Address *
                                     </label>
@@ -367,7 +367,7 @@ export function CheckoutPage() {
                                             )
                                         }
                                         placeholder="you@example.com"
-                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-sm outline-none focus:border-[#637666]"
+                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 text-sm outline-none focus:border-elan-sage"
                                     />
                                 </div>
 
@@ -375,7 +375,7 @@ export function CheckoutPage() {
                                 <div>
                                     <label
                                         htmlFor="checkout-phone"
-                                        className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                                        className="mb-2 block text-xs font-semibold text-elan-ink"
                                     >
                                         Mobile Number *
                                     </label>
@@ -395,7 +395,7 @@ export function CheckoutPage() {
                                             )
                                         }
                                         placeholder="10-digit mobile number"
-                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-sm outline-none focus:border-[#637666]"
+                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 text-sm outline-none focus:border-elan-sage"
                                     />
                                 </div>
 
@@ -403,7 +403,7 @@ export function CheckoutPage() {
                                 <div>
                                     <label
                                         htmlFor="checkout-pincode"
-                                        className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                                        className="mb-2 block text-xs font-semibold text-elan-ink"
                                     >
                                         PIN Code *
                                     </label>
@@ -423,7 +423,7 @@ export function CheckoutPage() {
                                             )
                                         }
                                         placeholder="6-digit PIN code"
-                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-sm outline-none focus:border-[#637666]"
+                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 text-sm outline-none focus:border-elan-sage"
                                     />
                                 </div>
 
@@ -431,7 +431,7 @@ export function CheckoutPage() {
                                 <div>
                                     <label
                                         htmlFor="checkout-city"
-                                        className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                                        className="mb-2 block text-xs font-semibold text-elan-ink"
                                     >
                                         City *
                                     </label>
@@ -449,7 +449,7 @@ export function CheckoutPage() {
                                             )
                                         }
                                         placeholder="Enter city"
-                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-sm outline-none focus:border-[#637666]"
+                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 text-sm outline-none focus:border-elan-sage"
                                     />
                                 </div>
 
@@ -457,7 +457,7 @@ export function CheckoutPage() {
                                 <div>
                                     <label
                                         htmlFor="checkout-state"
-                                        className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                                        className="mb-2 block text-xs font-semibold text-elan-ink"
                                     >
                                         State *
                                     </label>
@@ -475,7 +475,7 @@ export function CheckoutPage() {
                                             )
                                         }
                                         placeholder="Enter state"
-                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-sm outline-none focus:border-[#637666]"
+                                        className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 text-sm outline-none focus:border-elan-sage"
                                     />
                                 </div>
 
@@ -483,7 +483,7 @@ export function CheckoutPage() {
                                 <div className="sm:col-span-2">
                                     <label
                                         htmlFor="checkout-address"
-                                        className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                                        className="mb-2 block text-xs font-semibold text-elan-ink"
                                     >
                                         Complete Address *
                                     </label>
@@ -501,7 +501,7 @@ export function CheckoutPage() {
                                             )
                                         }
                                         placeholder="House number, street, area, landmark"
-                                        className="w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 py-3 text-sm outline-none focus:border-[#637666]"
+                                        className="w-full rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 py-3 text-sm outline-none focus:border-elan-sage"
                                     />
                                 </div>
                             </div>
@@ -510,16 +510,16 @@ export function CheckoutPage() {
                         {/* Payment Method */}
                         <section className="rounded-2xl border border-[#E8E1D7] bg-white p-5 sm:p-7">
                             <div className="mb-5 flex items-center gap-3">
-                                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F2F4EF] text-[#637666]">
+                                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F2F4EF] text-elan-sage">
                                     <CreditCard size={21} />
                                 </div>
 
                                 <div>
-                                    <h2 className="font-display text-xl font-medium text-[#1F2022]">
+                                    <h2 className="font-display text-xl font-medium text-elan-ink">
                                         Payment Method
                                     </h2>
 
-                                    <p className="mt-1 text-xs text-[#77736E]">
+                                    <p className="mt-1 text-xs text-elan-muted">
                                         Select your preferred option
                                     </p>
                                 </div>
@@ -543,11 +543,11 @@ export function CheckoutPage() {
                                     />
 
                                     <div className="flex-1">
-                                        <p className="text-sm font-semibold text-[#1F2022]">
+                                        <p className="text-sm font-semibold text-elan-ink">
                                             Cash on Delivery (demo selection)
                                         </p>
 
-                                        <p className="mt-1 text-xs text-[#77736E]">
+                                        <p className="mt-1 text-xs text-elan-muted">
                                             Availability and delivery terms are not confirmed
                                         </p>
                                     </div>
@@ -570,24 +570,24 @@ export function CheckoutPage() {
                                     />
 
                                     <div className="flex-1">
-                                        <p className="text-sm font-semibold text-[#1F2022]">
+                                        <p className="text-sm font-semibold text-elan-ink">
                                             Online Payment (demo selection)
                                         </p>
 
-                                        <p className="mt-1 text-xs text-[#77736E]">
+                                        <p className="mt-1 text-xs text-elan-muted">
                                             No payment provider is connected
                                         </p>
                                     </div>
                                 </label>
                             </div>
 
-                            <div className="mt-4 flex items-start gap-2 rounded-xl bg-[#FAF8F5] p-3">
+                            <div className="mt-4 flex items-start gap-2 rounded-xl bg-elan-ivory p-3">
                                 <ShieldCheck
                                     size={16}
-                                    className="mt-0.5 shrink-0 text-[#637666]"
+                                    className="mt-0.5 shrink-0 text-elan-sage"
                                 />
 
-                                <p className="text-xs leading-5 text-[#77736E]">
+                                <p className="text-xs leading-5 text-elan-muted">
                                     Payment methods are for demo
                                     purposes. No actual COD order or
                                     online payment is processed.
@@ -600,17 +600,17 @@ export function CheckoutPage() {
                             <div className="mb-4 flex items-center gap-2">
                                 <PackageCheck
                                     size={19}
-                                    className="text-[#637666]"
+                                    className="text-elan-sage"
                                 />
 
-                                <h2 className="font-display text-lg font-medium text-[#1F2022]">
+                                <h2 className="font-display text-lg font-medium text-elan-ink">
                                     Review Your Checkout
                                 </h2>
                             </div>
 
                             <button
                                 type="submit"
-                                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1F2022] px-5 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[#34373C]"
+                                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-elan-ink px-5 py-3.5 text-sm font-semibold text-elan-ivory transition-colors hover:bg-elan-ink-hover"
                             >
                                 Review Checkout Details
                                 <ArrowRight size={18} />
@@ -633,7 +633,7 @@ export function CheckoutPage() {
                             {successMessage && (
                                 <div
                                     role="status"
-                                    className="mt-4 flex items-start gap-2 rounded-xl border border-[#CBD8CA] bg-[#F2F4EF] p-4 text-xs leading-6 text-[#47584A]"
+                                    className="mt-4 flex items-start gap-2 rounded-xl border border-[#CBD8CA] bg-[#F2F4EF] p-4 text-xs leading-6 text-elan-sage"
                                 >
                                     <CheckCircle2
                                         size={18}
@@ -644,7 +644,7 @@ export function CheckoutPage() {
                                 </div>
                             )}
 
-                            <p className="mt-4 text-center text-xs text-[#77736E]">
+                            <p className="mt-4 text-center text-xs text-elan-muted">
                                 Demo checkout only — no real order
                                 or payment.
                             </p>
@@ -654,11 +654,11 @@ export function CheckoutPage() {
                     {/* Right: Order Summary */}
                     <aside className="rounded-2xl border border-[#E8E1D7] bg-white p-5 sm:p-6 lg:sticky lg:top-24">
                         <div className="flex items-center justify-between">
-                            <h2 className="font-display text-xl font-medium text-[#1F2022]">
+                            <h2 className="font-display text-xl font-medium text-elan-ink">
                                 Order Summary
                             </h2>
 
-                            <span className="rounded-full bg-[#F2F4EF] px-3 py-1 text-xs font-semibold text-[#637666]">
+                            <span className="rounded-full bg-[#F2F4EF] px-3 py-1 text-xs font-semibold text-elan-sage">
                                 {itemCount} items
                             </span>
                         </div>
@@ -679,7 +679,7 @@ export function CheckoutPage() {
                                     >
                                         <Link
                                             to={`/product/${item.product.slug}`}
-                                            className="flex h-24 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#FAF8F5] p-2"
+                                            className="flex h-24 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-elan-ivory p-2"
                                         >
                                             <img
                                                 src={item.product.image}
@@ -691,31 +691,31 @@ export function CheckoutPage() {
                                         <div className="min-w-0 flex-1">
                                             <Link
                                                 to={`/product/${item.product.slug}`}
-                                                className="line-clamp-2 text-sm font-semibold text-[#1F2022] hover:text-[#637666]"
+                                                className="line-clamp-2 text-sm font-semibold text-elan-ink hover:text-elan-sage"
                                             >
                                                 {item.product.name}
                                             </Link>
 
-                                            <p className="mt-1 text-xs text-[#77736E]">
+                                            <p className="mt-1 text-xs text-elan-muted">
                                                 Size: {item.selectedSize}
                                             </p>
 
-                                            <p className="mt-1 text-xs text-[#77736E]">
+                                            <p className="mt-1 text-xs text-elan-muted">
                                                 Color: {item.selectedColor}
                                             </p>
 
-                                            <p className="mt-1 text-xs text-[#77736E]">
+                                            <p className="mt-1 text-xs text-elan-muted">
                                                 Quantity: {item.quantity}
                                             </p>
 
-                                            <p className="mt-2 text-sm font-bold text-[#1F2022]">
+                                            <p className="mt-2 text-sm font-bold text-elan-ink">
                                                 {formatINR(
                                                     item.product.price *
                                                     item.quantity
                                                 )}
                                             </p>
                                             {item.product.isDemoPrice && (
-                                                <p className="mt-1 text-[11px] text-[#77736E]">Sample price — not approved for sale</p>
+                                                <p className="mt-1 text-[11px] text-elan-muted">Sample price — not approved for sale</p>
                                             )}
                                         </div>
                                     </div>
@@ -725,21 +725,21 @@ export function CheckoutPage() {
 
                         {/* Price Breakdown */}
                         <div className="mt-5 space-y-3 text-sm">
-                            <div className="flex justify-between text-[#77736E]">
+                            <div className="flex justify-between text-elan-muted">
                                 <span>Subtotal</span>
                                 <span>{formatINR(subtotal)}</span>
                             </div>
 
-                            <div className="flex justify-between text-[#77736E]">
+                            <div className="flex justify-between text-elan-muted">
                                 <span>Shipping and payment</span>
                                 <span>Not calculated</span>
                             </div>
 
-                            <p className="rounded-lg bg-[#F2F4EF] p-3 text-xs leading-5 text-[#637666]">
+                            <p className="rounded-lg bg-[#F2F4EF] p-3 text-xs leading-5 text-elan-sage">
                                 Shipping rates and payment processing are unavailable until store policies are approved.
                             </p>
 
-                            <div className="flex justify-between border-t border-[#EEE7DE] pt-4 text-base font-bold text-[#1F2022]">
+                            <div className="flex justify-between border-t border-[#EEE7DE] pt-4 text-base font-bold text-elan-ink">
                                 <span>Merchandise subtotal</span>
 
                                 <span>{formatINR(subtotal)}</span>
@@ -749,15 +749,15 @@ export function CheckoutPage() {
                         <button
                             type="button"
                             onClick={() => openOverlay('cart')}
-                            className="mt-6 w-full rounded-xl border border-[#E8E1D7] px-4 py-3 text-xs font-semibold text-[#637666] transition-colors hover:border-[#637666]"
+                            className="mt-6 w-full rounded-xl border border-[#E8E1D7] px-4 py-3 text-xs font-semibold text-elan-sage transition-colors hover:border-[#637666]"
                         >
                             Edit Shopping Bag
                         </button>
 
-                        <div className="mt-5 flex items-center justify-center gap-2 text-xs text-[#77736E]">
+                        <div className="mt-5 flex items-center justify-center gap-2 text-xs text-elan-muted">
                             <ShieldCheck
                                 size={16}
-                                className="text-[#637666]"
+                                className="text-elan-sage"
                             />
 
                             Checkout preview only

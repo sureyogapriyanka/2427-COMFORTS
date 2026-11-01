@@ -8,19 +8,19 @@ const assetUrl = (path: string): string =>
 
 export function AboutPage() {
   return (
-    <main className="bg-[#FAF8F5] py-12 sm:py-20">
+    <main className="bg-elan-ivory py-12 sm:py-20">
       <Container>
         <header className="mx-auto max-w-3xl text-center">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-elan-sage">
             2427 ÉLAN
           </p>
-          <h1 className="mt-3 font-display text-4xl font-medium leading-tight tracking-tight text-[#1F2022] sm:text-6xl">
+          <h1 className="mt-3 font-display text-4xl font-medium leading-tight tracking-tight text-elan-ink sm:text-6xl">
             Everyday Comfort.
-            <span className="block italic font-normal text-[#637666]">
+            <span className="block italic font-normal text-elan-sage">
               Elevated.
             </span>
           </h1>
-          <p className="mt-6 text-sm leading-7 text-[#5E6064] sm:text-base">
+          <p className="mt-6 text-sm leading-7 text-elan-muted sm:text-base">
             Explore the current 2427 ÉLAN catalog of everyday essentials for
             Men and Women. This page describes the storefront preview, not
             verified company history or product-performance claims.
@@ -42,10 +42,10 @@ export function AboutPage() {
               />
             </div>
             <div className="flex items-center justify-between p-5 sm:p-6">
-              <span className="font-display text-xl font-medium text-[#1F2022]">
+              <span className="font-display text-xl font-medium text-elan-ink">
                 Men&apos;s essentials
               </span>
-              <ArrowRight className="h-4 w-4 text-[#637666] transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4 text-elan-sage transition-transform group-hover:translate-x-1" />
             </div>
           </Link>
 
@@ -63,10 +63,10 @@ export function AboutPage() {
               />
             </div>
             <div className="flex items-center justify-between p-5 sm:p-6">
-              <span className="font-display text-xl font-medium text-[#1F2022]">
+              <span className="font-display text-xl font-medium text-elan-ink">
                 Women&apos;s essentials
               </span>
-              <ArrowRight className="h-4 w-4 text-[#637666] transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-4 w-4 text-elan-sage transition-transform group-hover:translate-x-1" />
             </div>
           </Link>
         </div>
@@ -75,14 +75,14 @@ export function AboutPage() {
           <div className="flex items-start gap-3">
             <Info
               size={20}
-              className="mt-0.5 shrink-0 text-[#637666]"
+              className="mt-0.5 shrink-0 text-elan-sage"
               aria-hidden="true"
             />
             <div>
-              <h2 className="font-display text-xl font-medium text-[#1F2022]">
+              <h2 className="font-display text-xl font-medium text-elan-ink">
                 Store preview
               </h2>
-              <p className="mt-2 text-sm leading-6 text-[#47584A]">
+              <p className="mt-2 text-sm leading-6 text-elan-sage">
                 Product, pricing, delivery and policy information shown here
                 must be confirmed by the store before launch. Account actions
                 are demo-only, contact messages are not sent, and this website

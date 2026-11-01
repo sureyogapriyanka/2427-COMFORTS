@@ -36,7 +36,7 @@ export function App() {
             <AuthProvider>
               <CatalogProvider>
                 <StoreProvider>
-                <div className="flex min-h-screen flex-col bg-white font-sans text-[#202020] selection:bg-[#637666] selection:text-white">
+                <div className="flex min-h-screen flex-col bg-white font-sans text-elan-ink selection:bg-elan-sage selection:text-elan-ivory">
                     <AnnouncementBar />
 
                     <Header />
@@ -71,7 +71,7 @@ export function App() {
                             <Route
                                 path="/admin"
                                 element={
-                                    <Suspense fallback={<p role="status" className="mx-auto w-full max-w-7xl px-4 py-16 text-center text-sm text-[#77736E]">Loading administrator dashboard…</p>}>
+                                    <Suspense fallback={<p role="status" className="mx-auto w-full max-w-7xl px-4 py-16 text-center text-sm text-elan-muted">Loading administrator dashboard…</p>}>
                                         <AdminPage />
                                     </Suspense>
                                 }

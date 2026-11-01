@@ -100,13 +100,13 @@ export function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div className="flex min-h-[65vh] items-center justify-center bg-[#FAF8F5] py-20">
+      <div className="flex min-h-[65vh] items-center justify-center bg-elan-ivory py-20">
         <Container className="text-center">
-          <h1 className="font-display text-3xl text-[#1F2022]">
+          <h1 className="font-display text-3xl text-elan-ink">
             {catalogLoading ? 'Loading Product' : 'Product Not Found'}
           </h1>
 
-          <p role={catalogLoading ? 'status' : undefined} className="mt-3 text-sm text-[#77736E]">
+          <p role={catalogLoading ? 'status' : undefined} className="mt-3 text-sm text-elan-muted">
             {catalogLoading ? 'Checking the catalog…' : 'This product is not available in the current catalog.'}
           </p>
 
@@ -194,16 +194,16 @@ export function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] pb-20">
+    <div className="min-h-screen bg-elan-ivory pb-20">
       <Container>
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
-          className="flex flex-wrap items-center gap-2 py-5 text-xs text-[#77736E] sm:py-6"
+          className="flex flex-wrap items-center gap-2 py-5 text-xs text-elan-muted sm:py-6"
         >
           <Link
             to="/"
-            className="hover:text-[#1F2022]"
+            className="hover:text-elan-ink"
           >
             Home
           </Link>
@@ -212,14 +212,14 @@ export function ProductDetailPage() {
 
           <Link
             to={`/category/${product.category}`}
-            className="hover:text-[#1F2022]"
+            className="hover:text-elan-ink"
           >
             {product.categoryLabel}
           </Link>
 
           <ChevronRight size={13} />
 
-          <span className="line-clamp-1 font-medium text-[#1F2022]">
+          <span className="line-clamp-1 font-medium text-elan-ink">
             {product.name}
           </span>
         </nav>
@@ -271,13 +271,13 @@ export function ProductDetailPage() {
 
                   <div className="absolute left-4 top-4 flex flex-col items-start gap-2">
                     {product.badge && (
-                      <span className="rounded-full bg-[#1F2022] px-3 py-1.5 text-[10px] font-bold text-white">
+                      <span className="rounded-full bg-elan-ink px-3 py-1.5 text-[10px] font-bold text-elan-ivory">
                         {product.badge}
                       </span>
                     )}
 
                     {hasDiscount && (
-                      <span className="rounded-full bg-[#A85A3C] px-3 py-1.5 text-[10px] font-bold text-white">
+                      <span className="rounded-full bg-[#A85A3C] px-3 py-1.5 text-[10px] font-bold text-elan-ivory">
                         {discountPercentage}% OFF
                       </span>
                     )}
@@ -292,7 +292,7 @@ export function ProductDetailPage() {
                     type="button"
                     onClick={() => setShowZoom(true)}
                     aria-label="Enlarge product image"
-                    className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#EEE7DE] bg-white text-[#1F2022] shadow-sm transition-colors hover:bg-[#F4F2EF]"
+                    className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full border border-[#EEE7DE] bg-white text-elan-ink shadow-sm transition-colors hover:bg-[#F4F2EF]"
                   >
                     <ZoomIn size={19} />
                   </button>
@@ -300,7 +300,7 @@ export function ProductDetailPage() {
               </div>
             </div>
 
-            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-[#77736E]">
+            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-elan-muted">
               <PackageCheck size={15} />
               Select a thumbnail to explore more views
             </div>
@@ -311,7 +311,7 @@ export function ProductDetailPage() {
             <div className="rounded-2xl border border-[#EEE7DE] bg-white p-5 sm:rounded-3xl sm:p-7 xl:p-8">
               {/* Category & Rating */}
               <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#637666]">
+                <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-elan-sage">
                   {product.fabricBadge ||
                     product.categoryLabel}
                 </span>
@@ -325,16 +325,16 @@ export function ProductDetailPage() {
               </div>
 
               {/* Product Name */}
-              <h1 className="font-display text-2xl font-medium leading-tight text-[#1F2022] sm:text-3xl xl:text-4xl">
+              <h1 className="font-display text-2xl font-medium leading-tight text-elan-ink sm:text-3xl xl:text-4xl">
                 {product.name}
               </h1>
 
-              <p className="mt-3 text-sm leading-6 text-[#77736E]">
+              <p className="mt-3 text-sm leading-6 text-elan-muted">
                 {product.subtitle}
               </p>
 
               {product.code && (
-                <p className="mt-3 text-xs text-[#99938B]">
+                <p className="mt-3 text-xs text-elan-muted">
                   Product Code: {product.code}
                 </p>
               )}
@@ -342,24 +342,24 @@ export function ProductDetailPage() {
               {/* Price */}
               <div className="mt-6 border-b border-[#EEE7DE] pb-6">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="font-numeral text-3xl font-bold text-[#1F2022]">
+                  <span className="font-numeral text-3xl font-bold text-elan-ink">
                     {formatINR(product.price)}
                   </span>
 
                   {hasDiscount && (
                     <>
-                      <span className="text-base text-[#99938B] line-through">
+                      <span className="text-base text-elan-muted line-through">
                         {formatINR(product.compareAt!)}
                       </span>
 
-                      <span className="rounded-full bg-[#EDF3ED] px-2.5 py-1 text-xs font-bold text-[#637666]">
+                      <span className="rounded-full bg-[#EDF3ED] px-2.5 py-1 text-xs font-bold text-elan-sage">
                         Save {discountPercentage}%
                       </span>
                     </>
                   )}
                 </div>
 
-                <p className="mt-2 text-xs text-[#99938B]">
+                <p className="mt-2 text-xs text-elan-muted">
                   {product.isDemoPrice
                     ? 'Sample price for demonstration. Final price and applicable taxes require approval.'
                     : 'Applicable tax treatment has not been confirmed.'}
@@ -371,11 +371,11 @@ export function ProductDetailPage() {
               {product.colors.length > 0 && (
                 <div className="mt-6">
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <h2 className="text-sm font-semibold text-[#1F2022]">
+                    <h2 className="text-sm font-semibold text-elan-ink">
                       Choose Color
                     </h2>
 
-                    <span className="text-xs font-medium text-[#637666]">
+                    <span className="text-xs font-medium text-elan-sage">
                       {selectedColor ||
                         product.colors[0]?.name}
                     </span>
@@ -404,9 +404,9 @@ export function ProductDetailPage() {
                   className="mt-7 scroll-mt-28"
                 >
                   <div className="mb-3 flex items-center justify-between gap-3">
-                    <h2 className="text-sm font-semibold text-[#1F2022]">
+                    <h2 className="text-sm font-semibold text-elan-ink">
                       Select Size
-                      <span className="ml-1 text-[#A85A3C]">
+                      <span className="ml-1 text-elan-danger">
                         *
                       </span>
                     </h2>
@@ -416,7 +416,7 @@ export function ProductDetailPage() {
                       onClick={() =>
                         setShowSizeGuide(true)
                       }
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-[#637666] underline underline-offset-4"
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-elan-sage underline underline-offset-4"
                     >
                       <Ruler size={14} />
                       Size Guide
@@ -440,10 +440,10 @@ export function ProductDetailPage() {
                             }
                             className={`flex min-h-12 flex-col items-center justify-center rounded-xl border px-2 text-xs font-bold transition-all disabled:cursor-not-allowed ${
                               soldOut
-                                ? 'border-[#E8E1D7] bg-[#F0EDE8] text-[#99938B]'
+                                ? 'border-[#E8E1D7] bg-[#F0EDE8] text-elan-muted'
                                 : selectedSize === size
-                                  ? 'border-[#1F2022] bg-[#1F2022] text-white'
-                                  : 'border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022] hover:border-[#637666]'
+                                  ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                                  : 'border-[#E8E1D7] bg-elan-ivory text-elan-ink hover:border-[#637666]'
                             }`}
                           >
                             <span className={soldOut ? 'line-through' : ''}>{size}</span>
@@ -468,8 +468,8 @@ export function ProductDetailPage() {
                         role="status"
                         className={`mt-3 text-xs ${
                           availability.status === 'sold_out'
-                            ? 'text-[#A85A3C]'
-                            : 'text-[#77736E]'
+                            ? 'text-elan-danger'
+                            : 'text-elan-muted'
                         }`}
                       >
                         {message}
@@ -480,7 +480,7 @@ export function ProductDetailPage() {
                   {sizeError && (
                     <p
                       role="alert"
-                      className="mt-3 flex items-center gap-2 text-xs font-medium text-[#A85A3C]"
+                      className="mt-3 flex items-center gap-2 text-xs font-medium text-elan-danger"
                     >
                       <AlertCircle size={15} />
                       Please select your size before adding to bag.
@@ -491,11 +491,11 @@ export function ProductDetailPage() {
 
               {/* Quantity */}
               <div className="mt-7">
-                <h2 className="mb-3 text-sm font-semibold text-[#1F2022]">
+                <h2 className="mb-3 text-sm font-semibold text-elan-ink">
                   Quantity
                 </h2>
 
-                <div className="inline-flex items-center rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] p-1">
+                <div className="inline-flex items-center rounded-xl border border-[#E8E1D7] bg-elan-ivory p-1">
                   <button
                     type="button"
                     onClick={() => {
@@ -511,7 +511,7 @@ export function ProductDetailPage() {
                     <Minus size={16} />
                   </button>
 
-                  <span className="w-12 text-center text-sm font-bold text-[#1F2022]">
+                  <span className="w-12 text-center text-sm font-bold text-elan-ink">
                     {quantity}
                   </span>
 
@@ -539,9 +539,9 @@ export function ProductDetailPage() {
                   onClick={handleAddToCart}
                   disabled={product.inventoryStatus === 'out_of_stock'}
                   aria-label={product.inventoryStatus === 'out_of_stock' ? 'Product currently unavailable' : undefined}
-                  className={`flex min-h-14 flex-1 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-white transition-all active:scale-[0.99] ${added
-                      ? 'bg-[#637666]'
-                      : 'bg-[#1F2022] hover:bg-[#34373C]'
+                  className={`flex min-h-14 flex-1 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-elan-ivory transition-all active:scale-[0.99] ${added
+                      ? 'bg-elan-sage'
+                      : 'bg-elan-ink hover:bg-elan-ink-hover'
                     }`}
                 >
                   {product.inventoryStatus === 'out_of_stock' ? (
@@ -571,8 +571,8 @@ export function ProductDetailPage() {
                   }
                   aria-pressed={isFavorited}
                   className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border transition-colors ${isFavorited
-                      ? 'border-[#A85A3C] bg-[#FFF5F0] text-[#A85A3C]'
-                      : 'border-[#E8E1D7] text-[#1F2022] hover:border-[#637666]'
+                      ? 'border-[#A85A3C] bg-[#FFF5F0] text-elan-danger'
+                      : 'border-[#E8E1D7] text-elan-ink hover:border-[#637666]'
                     }`}
                 >
                   <Heart
@@ -589,7 +589,7 @@ export function ProductDetailPage() {
               {added && (
                 <p
                   role="status"
-                  className="mt-3 flex items-center gap-2 text-xs font-medium text-[#637666]"
+                  className="mt-3 flex items-center gap-2 text-xs font-medium text-elan-sage"
                 >
                   <Check size={15} />
                   {quantity}{' '}
@@ -606,7 +606,7 @@ export function ProductDetailPage() {
                     setShowDetails((value) => !value)
                   }
                   aria-expanded={showDetails}
-                  className="flex w-full items-center justify-between py-5 text-left text-sm font-semibold text-[#1F2022]"
+                  className="flex w-full items-center justify-between py-5 text-left text-sm font-semibold text-elan-ink"
                 >
                   Product Highlights
 
@@ -625,11 +625,11 @@ export function ProductDetailPage() {
                           (feature, index) => (
                             <li
                               key={index}
-                              className="flex items-start gap-3 text-sm leading-6 text-[#696C68]"
+                              className="flex items-start gap-3 text-sm leading-6 text-elan-muted"
                             >
                               <Check
                                 size={16}
-                                className="mt-1 shrink-0 text-[#637666]"
+                                className="mt-1 shrink-0 text-elan-sage"
                               />
 
                               <span>{feature}</span>
@@ -638,7 +638,7 @@ export function ProductDetailPage() {
                         )}
                       </ul>
                     ) : (
-                      <p className="text-sm text-[#77736E]">
+                      <p className="text-sm text-elan-muted">
                         Designed for everyday comfort.
                       </p>
                     )}
@@ -654,7 +654,7 @@ export function ProductDetailPage() {
                     setShowDelivery((value) => !value)
                   }
                   aria-expanded={showDelivery}
-                  className="flex w-full items-center justify-between py-5 text-left text-sm font-semibold text-[#1F2022]"
+                  className="flex w-full items-center justify-between py-5 text-left text-sm font-semibold text-elan-ink"
                 >
                   Delivery & Returns
 
@@ -666,7 +666,7 @@ export function ProductDetailPage() {
                 </button>
 
                 {showDelivery && (
-                  <div className="space-y-3 pb-5 text-sm leading-6 text-[#77736E]">
+                  <div className="space-y-3 pb-5 text-sm leading-6 text-elan-muted">
                     <p>
                       Delivery options and charges have not
                       been confirmed. This website does not
@@ -686,10 +686,10 @@ export function ProductDetailPage() {
                 <div className="text-center">
                   <ShieldCheck
                     size={20}
-                    className="mx-auto mb-2 text-[#637666]"
+                    className="mx-auto mb-2 text-elan-sage"
                   />
 
-                  <p className="text-[11px] leading-4 text-[#77736E]">
+                  <p className="text-[11px] leading-4 text-elan-muted">
                     Quality Focused
                   </p>
                 </div>
@@ -697,10 +697,10 @@ export function ProductDetailPage() {
                 <div className="text-center">
                   <Truck
                     size={20}
-                    className="mx-auto mb-2 text-[#637666]"
+                    className="mx-auto mb-2 text-elan-sage"
                   />
 
-                  <p className="text-[11px] leading-4 text-[#77736E]">
+                  <p className="text-[11px] leading-4 text-elan-muted">
                     Shipping not confirmed
                   </p>
                 </div>
@@ -708,10 +708,10 @@ export function ProductDetailPage() {
                 <div className="text-center">
                   <RotateCcw
                     size={20}
-                    className="mx-auto mb-2 text-[#637666]"
+                    className="mx-auto mb-2 text-elan-sage"
                   />
 
-                  <p className="text-[11px] leading-4 text-[#77736E]">
+                  <p className="text-[11px] leading-4 text-elan-muted">
                     Return terms not confirmed
                   </p>
                 </div>
@@ -725,18 +725,18 @@ export function ProductDetailPage() {
           <section className="mt-14 sm:mt-16">
             <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-elan-sage">
                   You May Also Like
                 </p>
 
-                <h2 className="mt-1 font-display text-2xl font-medium text-[#202020] sm:text-3xl">
+                <h2 className="mt-1 font-display text-2xl font-medium text-elan-ink sm:text-3xl">
                   More in {product.categoryLabel}
                 </h2>
               </div>
 
               <Link
                 to={`/category/${product.category}`}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#202020] hover:text-[#637666] sm:text-sm"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-elan-ink hover:text-elan-sage sm:text-sm"
               >
                 View All
                 <ArrowRight size={14} />
@@ -768,7 +768,7 @@ export function ProductDetailPage() {
             type="button"
             onClick={() => setShowZoom(false)}
             aria-label="Close image"
-            className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#1F2022]"
+            className="absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-white text-elan-ink"
           >
             <X size={22} />
           </button>
@@ -802,7 +802,7 @@ export function ProductDetailPage() {
             <div className="mb-5 flex items-center justify-between">
               <h2
                 id="size-guide-title"
-                className="font-display text-2xl text-[#1F2022]"
+                className="font-display text-2xl text-elan-ink"
               >
                 Size Guide
               </h2>
@@ -819,7 +819,7 @@ export function ProductDetailPage() {
               </button>
             </div>
 
-            <p className="mb-4 text-sm leading-6 text-[#77736E]">
+            <p className="mb-4 text-sm leading-6 text-elan-muted">
               Available sizes for this product are
               listed below. Choose your usual size.
               For exact body measurements, contact
@@ -836,8 +836,8 @@ export function ProductDetailPage() {
                     setShowSizeGuide(false);
                   }}
                   className={`min-w-14 rounded-lg border px-4 py-3 text-sm font-semibold ${selectedSize === size
-                      ? 'border-[#1F2022] bg-[#1F2022] text-white'
-                      : 'border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022]'
+                      ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                      : 'border-[#E8E1D7] bg-elan-ivory text-elan-ink'
                     }`}
                 >
                   {size}
@@ -845,7 +845,7 @@ export function ProductDetailPage() {
               ))}
             </div>
 
-            <p className="mt-5 text-xs text-[#99938B]">
+            <p className="mt-5 text-xs text-elan-muted">
               Size measurements vary by product style.
               This panel does not represent an official
               measurement chart.

@@ -179,21 +179,21 @@ export function CartDrawer() {
         role="dialog"
         aria-modal="true"
         aria-label="Shopping bag"
-        className="absolute inset-y-0 right-0 flex h-full w-full max-w-[500px] flex-col overflow-hidden bg-[#FAF8F5] shadow-2xl"
+        className="absolute inset-y-0 right-0 flex h-full w-full max-w-[500px] flex-col overflow-hidden bg-elan-ivory shadow-2xl"
       >
         {/* Header */}
         <header className="shrink-0 border-b border-[#E8E1D7] bg-white px-5 py-5 sm:px-7">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-elan-sage">
                 2427 ÉLAN
               </p>
 
-              <h2 className="mt-1 font-display text-2xl text-[#1F2022]">
+              <h2 className="mt-1 font-display text-2xl text-elan-ink">
                 Shopping Bag
               </h2>
 
-              <p className="mt-1 text-xs text-[#77736E]">
+              <p className="mt-1 text-xs text-elan-muted">
                 {cartCount} items in your bag
               </p>
             </div>
@@ -202,7 +202,7 @@ export function CartDrawer() {
               type="button"
               onClick={closeOverlay}
               aria-label="Close bag"
-              className="rounded-full border border-[#E8E1D7] p-2.5 hover:bg-[#FAF8F5]"
+              className="rounded-full border border-[#E8E1D7] p-2.5 hover:bg-elan-ivory"
             >
               <X size={19} />
             </button>
@@ -222,7 +222,7 @@ export function CartDrawer() {
               Select All
             </label>
 
-            <span className="text-xs text-[#637666]">
+            <span className="text-xs text-elan-sage">
               {selectedCount} selected
             </span>
           </div>
@@ -234,21 +234,21 @@ export function CartDrawer() {
             <div className="flex h-full flex-col items-center justify-center text-center">
               <ShoppingBag
                 size={44}
-                className="text-[#637666]"
+                className="text-elan-sage"
               />
 
               <h3 className="mt-5 font-display text-2xl">
                 Your bag is empty
               </h3>
 
-              <p className="mt-3 text-sm text-[#77736E]">
+              <p className="mt-3 text-sm text-elan-muted">
                 Add your favorite everyday essentials.
               </p>
 
               <Link
                 to="/"
                 onClick={closeOverlay}
-                className="mt-6 rounded-xl bg-[#1F2022] px-6 py-3 text-sm font-semibold text-white"
+                className="mt-6 rounded-xl bg-elan-ink px-6 py-3 text-sm font-semibold text-elan-ivory"
               >
                 Continue Shopping
               </Link>
@@ -286,7 +286,7 @@ export function CartDrawer() {
                     <Link
                       to={`/product/${item.product.slug}`}
                       onClick={closeOverlay}
-                      className="h-28 w-20 shrink-0 rounded-xl bg-[#FAF8F5] p-1 sm:w-24"
+                      className="h-28 w-20 shrink-0 rounded-xl bg-elan-ivory p-1 sm:w-24"
                     >
                       <img
                         src={item.product.image}
@@ -300,7 +300,7 @@ export function CartDrawer() {
                         <Link
                           to={`/product/${item.product.slug}`}
                           onClick={closeOverlay}
-                          className="font-display text-sm font-semibold text-[#1F2022]"
+                          className="font-display text-sm font-semibold text-elan-ink"
                         >
                           {item.product.name}
                         </Link>
@@ -315,7 +315,7 @@ export function CartDrawer() {
                             )
                           }
                           aria-label="Remove item"
-                          className="text-[#A85A3C]"
+                          className="text-elan-danger"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -325,11 +325,11 @@ export function CartDrawer() {
                         {formatINR(item.product.price)}
                       </p>
 
-                      <p className="mt-2 text-xs text-[#77736E]">
+                      <p className="mt-2 text-xs text-elan-muted">
                         Size: {item.selectedSize}
                       </p>
 
-                      <p className="mt-1 text-xs text-[#77736E]">
+                      <p className="mt-1 text-xs text-elan-muted">
                         Color: {item.selectedColor}
                       </p>
 
@@ -342,7 +342,7 @@ export function CartDrawer() {
                             item.selectedSize
                           )
                         }
-                        className="mt-3 flex items-center gap-1.5 text-xs text-[#637666]"
+                        className="mt-3 flex items-center gap-1.5 text-xs text-elan-sage"
                       >
                         <Heart size={14} />
                         Move to Wishlist
@@ -409,7 +409,7 @@ export function CartDrawer() {
           <footer className="shrink-0 border-t border-[#E8E1D7] bg-white px-5 py-5 sm:px-7">
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-[#77736E]">
+                <span className="text-elan-muted">
                   Selected Subtotal
                 </span>
 
@@ -418,7 +418,7 @@ export function CartDrawer() {
                 </strong>
               </div>
 
-              <p className="border-t border-[#EEE7DE] pt-3 text-xs leading-5 text-[#77736E]">
+              <p className="border-t border-[#EEE7DE] pt-3 text-xs leading-5 text-elan-muted">
                 {selectedItems.some((item) => item.product.isDemoPrice)
                   ? 'Displayed prices and subtotal are sample values. '
                   : ''}
@@ -431,16 +431,16 @@ export function CartDrawer() {
               type="button"
               disabled={selectedCount === 0}
               onClick={handleCheckout}
-              className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1F2022] px-5 text-sm font-semibold text-white hover:bg-[#34373C] disabled:opacity-40"
+              className="mt-5 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-elan-ink px-5 text-sm font-semibold text-elan-ivory hover:bg-elan-ink-hover disabled:opacity-40"
             >
               Checkout Selected ({selectedCount})
               <ArrowRight size={17} />
             </button>
 
-            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-[#77736E]">
+            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-elan-muted">
               <ShieldCheck
                 size={15}
-                className="text-[#637666]"
+                className="text-elan-sage"
               />
               Demo checkout — no payment collected
             </div>

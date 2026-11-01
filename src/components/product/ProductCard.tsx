@@ -140,10 +140,10 @@ export function ProductCard({
             <span
               className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
                 product.badge.includes('Save') || product.badge.includes('Offer')
-                  ? 'bg-[#A85A3C] text-white'
+                  ? 'bg-[#A85A3C] text-elan-ivory'
                   : product.badge === 'New'
-                  ? 'bg-[#637666] text-white'
-                  : 'bg-[#202020] text-white'
+                  ? 'bg-elan-sage text-elan-ivory'
+                  : 'bg-elan-ink text-elan-ivory'
               }`}
             >
               {product.badge}
@@ -162,7 +162,7 @@ export function ProductCard({
           }
           aria-pressed={isFavorited}
           className={`absolute right-2.5 top-2.5 z-20 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/95 shadow-2xs transition-transform hover:scale-110 ${
-            isFavorited ? 'text-[#A85A3C]' : 'text-[#202020]'
+            isFavorited ? 'text-elan-danger' : 'text-elan-ink'
           }`}
         >
           <Heart
@@ -175,7 +175,7 @@ export function ProductCard({
           type="button"
           onClick={handleQuickView}
           aria-label={`Quick view ${product.name}`}
-          className="absolute bottom-2.5 right-2.5 z-20 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/95 text-[#202020] shadow-2xs transition-all hover:bg-[#637666] hover:text-white"
+          className="absolute bottom-2.5 right-2.5 z-20 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/95 text-elan-ink shadow-2xs transition-all hover:bg-elan-sage hover:text-elan-ivory"
         >
           <Eye className="h-4 w-4" />
         </button>
@@ -184,25 +184,25 @@ export function ProductCard({
       {/* Product Information */}
       <div className="flex flex-1 flex-col p-3 sm:p-4">
         {/* Fabric Badge */}
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-[#637666] line-clamp-1 mb-1">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-elan-sage line-clamp-1 mb-1">
           {product.fabricBadge}
         </span>
 
         {/* Product Name */}
         <Link to={`/product/${product.slug}`}>
-          <h3 className="line-clamp-2 min-h-[36px] font-display text-sm sm:text-base font-medium leading-snug text-[#202020] transition-colors hover:text-[#637666]">
+          <h3 className="line-clamp-2 min-h-[36px] font-display text-sm sm:text-base font-medium leading-snug text-elan-ink transition-colors hover:text-elan-sage">
             {product.name}
           </h3>
         </Link>
 
         {/* Price & Original Price */}
         <div className="mt-2 flex flex-wrap items-baseline gap-2">
-          <span className="font-numeral text-base sm:text-lg font-bold text-[#202020]">
+          <span className="font-numeral text-base sm:text-lg font-bold text-elan-ink">
             {formatINR(product.price)}
           </span>
 
           {product.compareAt && product.compareAt > product.price && (
-            <span className="text-xs text-neutral-400 line-through">
+            <span className="text-xs text-elan-muted line-through">
               {formatINR(product.compareAt)}
             </span>
           )}
@@ -236,9 +236,9 @@ export function ProductCard({
                     aria-label={soldOut ? `${size}, sold out` : `Select size ${size}`}
                     className={`flex h-6 min-w-6 items-center justify-center rounded border px-1.5 text-[10px] font-semibold transition-colors disabled:cursor-not-allowed sm:h-7 sm:min-w-7 sm:text-[11px] ${
                       soldOut
-                        ? 'border-[#E8E5E0] bg-[#F0EDE8] text-[#99938B] line-through'
+                        ? 'border-[#E8E5E0] bg-[#F0EDE8] text-elan-muted line-through'
                         : selectedSize === size
-                          ? 'border-[#202020] bg-[#202020] text-white'
+                          ? 'border-elan-ink bg-elan-ink text-elan-ivory'
                           : 'border-[#E8E5E0] bg-[#F8F7F5] text-neutral-600 hover:border-[#637666]'
                     }`}
                   >
@@ -264,10 +264,10 @@ export function ProductCard({
           }
           className={`mt-3 flex min-h-[38px] w-full items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-all active:scale-[0.98] ${
             isUnavailable || getSizeAvailability(product, selectedSize).status === 'sold_out'
-              ? 'cursor-not-allowed bg-[#E8E5E0] text-[#77736E]'
+              ? 'cursor-not-allowed bg-[#E8E5E0] text-elan-muted'
               : isAdding
-              ? 'bg-[#637666] text-white'
-              : 'bg-[#202020] text-white hover:bg-black'
+              ? 'bg-elan-sage text-elan-ivory'
+              : 'bg-elan-ink text-elan-ivory hover:bg-elan-ink-hover'
           }`}
         >
           {isUnavailable || getSizeAvailability(product, selectedSize).status === 'sold_out' ? (

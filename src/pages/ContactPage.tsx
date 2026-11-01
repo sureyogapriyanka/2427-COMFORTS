@@ -201,22 +201,22 @@ export function ContactPage() {
   ];
 
   const inputClass =
-    'min-h-12 w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-sm text-[#1F2022] outline-none focus:border-[#637666]';
+    'min-h-12 w-full rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 text-sm text-elan-ink outline-none focus:border-elan-sage';
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] py-10 sm:py-16">
+    <div className="min-h-screen bg-elan-ivory py-10 sm:py-16">
       <Container>
         {/* Header */}
         <div className="mx-auto mb-10 max-w-2xl text-center">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-elan-sage">
             2427 ÉLAN
           </p>
 
-          <h1 className="mt-3 font-display text-3xl font-medium text-[#1F2022] sm:text-5xl">
+          <h1 className="mt-3 font-display text-3xl font-medium text-elan-ink sm:text-5xl">
             How Can We Help?
           </h1>
 
-          <p className="mt-4 text-sm leading-7 text-[#77736E]">
+          <p className="mt-4 text-sm leading-7 text-elan-muted">
             Explore sizing guidance, frequently asked
             questions, customer support information,
             and store policies.
@@ -233,8 +233,8 @@ export function ContactPage() {
                 onClick={() => setActiveTab(tab.id)}
                 aria-pressed={activeTab === tab.id}
                 className={`min-h-11 whitespace-nowrap rounded-xl px-4 text-xs font-semibold transition-colors sm:px-6 ${activeTab === tab.id
-                    ? 'bg-[#1F2022] text-white'
-                    : 'text-[#77736E] hover:bg-[#FAF8F5] hover:text-[#1F2022]'
+                    ? 'bg-elan-ink text-elan-ivory'
+                    : 'text-elan-muted hover:bg-elan-ivory hover:text-elan-ink'
                   }`}
               >
                 {tab.label}
@@ -247,9 +247,9 @@ export function ContactPage() {
         {activeTab === 'contact' && (
           <div className="grid gap-7 lg:grid-cols-12">
             {/* Contact Info */}
-            <div className="flex flex-col justify-between rounded-3xl bg-[#1F2022] p-7 text-white sm:p-9 lg:col-span-5">
+            <div className="flex flex-col justify-between rounded-3xl bg-elan-ink p-7 text-elan-ivory sm:p-9 lg:col-span-5">
               <div>
-                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#D9CBB7]">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-elan-gold">
                   Customer Care
                 </p>
 
@@ -257,7 +257,7 @@ export function ContactPage() {
                   We're Here to Help
                 </h2>
 
-                <p className="mt-4 text-sm leading-7 text-neutral-300">
+                <p className="mt-4 text-sm leading-7 text-elan-inverse-muted">
                   Need help choosing a product,
                   understanding sizes or learning
                   about our collections?
@@ -267,7 +267,7 @@ export function ContactPage() {
                   <div className="flex items-start gap-3">
                     <Mail
                       size={21}
-                      className="shrink-0 text-[#C5D1C2]"
+                      className="shrink-0 text-elan-gold"
                     />
 
                     <div>
@@ -275,7 +275,7 @@ export function ContactPage() {
                         Email Support
                       </p>
 
-                      <p className="mt-1 text-xs leading-6 text-neutral-400">
+                      <p className="mt-1 text-xs leading-6 text-elan-inverse-muted">
                         Official support email will
                         be added after verification.
                       </p>
@@ -285,7 +285,7 @@ export function ContactPage() {
                   <div className="flex items-start gap-3">
                     <MessageSquare
                       size={21}
-                      className="shrink-0 text-[#C5D1C2]"
+                      className="shrink-0 text-elan-gold"
                     />
 
                     <div>
@@ -293,7 +293,7 @@ export function ContactPage() {
                         Product Inquiries
                       </p>
 
-                      <p className="mt-1 text-xs leading-6 text-neutral-400">
+                      <p className="mt-1 text-xs leading-6 text-elan-inverse-muted">
                         Contact details and customer
                         support hours will be published
                         once confirmed.
@@ -306,10 +306,10 @@ export function ContactPage() {
               <div className="mt-10 flex items-start gap-2 border-t border-white/15 pt-5">
                 <ShieldCheck
                   size={17}
-                  className="shrink-0 text-[#C5D1C2]"
+                  className="shrink-0 text-elan-gold"
                 />
 
-                <p className="text-xs leading-6 text-neutral-400">
+                <p className="text-xs leading-6 text-elan-inverse-muted">
                   This website is currently a
                   demonstration. Please do not submit
                   sensitive personal information.
@@ -319,11 +319,11 @@ export function ContactPage() {
 
             {/* Contact Form */}
             <div className="rounded-3xl border border-[#E8E1D7] bg-white p-6 sm:p-9 lg:col-span-7">
-              <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+              <h2 className="font-display text-2xl font-medium text-elan-ink">
                 Send an Inquiry
               </h2>
 
-              <p className="mt-2 text-xs leading-6 text-[#77736E]">
+              <p className="mt-2 text-xs leading-6 text-elan-muted">
                 Inquiries are stored for review when the
                 database is available. They are not emailed
                 or routed to a support team.
@@ -337,7 +337,7 @@ export function ContactPage() {
                   <div>
                     <label
                       htmlFor="contact-name"
-                      className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                      className="mb-2 block text-xs font-semibold text-elan-ink"
                     >
                       Your Name *
                     </label>
@@ -362,7 +362,7 @@ export function ContactPage() {
                   <div>
                     <label
                       htmlFor="contact-email"
-                      className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                      className="mb-2 block text-xs font-semibold text-elan-ink"
                     >
                       Email Address *
                     </label>
@@ -388,7 +388,7 @@ export function ContactPage() {
                 <div>
                   <label
                     htmlFor="contact-topic"
-                    className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                    className="mb-2 block text-xs font-semibold text-elan-ink"
                   >
                     Topic
                   </label>
@@ -415,7 +415,7 @@ export function ContactPage() {
                 <div>
                   <label
                     htmlFor="contact-message"
-                    className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                    className="mb-2 block text-xs font-semibold text-elan-ink"
                   >
                     Your Message *
                   </label>
@@ -433,14 +433,14 @@ export function ContactPage() {
                       )
                     }
                     placeholder="Tell us how we can help..."
-                    className="w-full rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 py-3 text-sm outline-none focus:border-[#637666]"
+                    className="w-full rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 py-3 text-sm outline-none focus:border-elan-sage"
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1F2022] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#34373C] disabled:cursor-wait disabled:opacity-60"
+                  className="flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-elan-ink px-5 text-sm font-semibold text-elan-ivory transition-colors hover:bg-elan-ink-hover disabled:cursor-wait disabled:opacity-60"
                 >
                   {isSubmitting ? 'Saving inquiry…' : 'Send Inquiry'}
                   <ArrowRight size={17} />
@@ -453,10 +453,10 @@ export function ContactPage() {
                   >
                     <Info
                       size={18}
-                      className="mt-0.5 shrink-0 text-[#637666]"
+                      className="mt-0.5 shrink-0 text-elan-sage"
                     />
 
-                    <p className={`text-xs leading-6 ${formStatus === 'error' ? 'text-red-800' : 'text-[#47584A]'}`}>
+                    <p className={`text-xs leading-6 ${formStatus === 'error' ? 'text-red-800' : 'text-elan-sage'}`}>
                       {formMessage}
                     </p>
                   </div>
@@ -473,10 +473,10 @@ export function ContactPage() {
               <div className="flex items-start gap-3">
                 <Info
                   size={20}
-                  className="shrink-0 text-[#637666]"
+                  className="shrink-0 text-elan-sage"
                 />
 
-                <p className="text-xs leading-6 text-[#47584A]">
+                <p className="text-xs leading-6 text-elan-sage">
                   These measurements are illustrative
                   sizing references, not verified
                   2427 ÉLAN product specifications.
@@ -491,17 +491,17 @@ export function ContactPage() {
               <div className="mb-5 flex items-center gap-3">
                 <Ruler
                   size={22}
-                  className="text-[#637666]"
+                  className="text-elan-sage"
                 />
 
-                <h2 className="font-display text-xl font-medium text-[#1F2022] sm:text-2xl">
+                <h2 className="font-display text-xl font-medium text-elan-ink sm:text-2xl">
                   Men's Underwear & Boxers
                 </h2>
               </div>
 
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[420px] text-left text-xs">
-                  <thead className="bg-[#FAF8F5] text-[#637666]">
+                  <thead className="bg-elan-ivory text-elan-sage">
                     <tr>
                       <th className="p-4">Size</th>
                       <th className="p-4">
@@ -540,17 +540,17 @@ export function ContactPage() {
               <div className="mb-5 flex items-center gap-3">
                 <Ruler
                   size={22}
-                  className="text-[#637666]"
+                  className="text-elan-sage"
                 />
 
-                <h2 className="font-display text-xl font-medium text-[#1F2022] sm:text-2xl">
+                <h2 className="font-display text-xl font-medium text-elan-ink sm:text-2xl">
                   Women's General Size Reference
                 </h2>
               </div>
 
               <div className="overflow-x-auto">
                 <table className="w-full min-w-[420px] text-left text-xs">
-                  <thead className="bg-[#FAF8F5] text-[#637666]">
+                  <thead className="bg-elan-ivory text-elan-sage">
                     <tr>
                       <th className="p-4">Size</th>
                       <th className="p-4">
@@ -606,13 +606,13 @@ export function ContactPage() {
                   aria-expanded={openFaq === index}
                   className="flex w-full items-center justify-between gap-4 text-left"
                 >
-                  <span className="font-display text-base font-medium text-[#1F2022] sm:text-lg">
+                  <span className="font-display text-base font-medium text-elan-ink sm:text-lg">
                     {faq.question}
                   </span>
 
                   <ChevronDown
                     size={19}
-                    className={`shrink-0 text-[#637666] transition-transform ${openFaq === index
+                    className={`shrink-0 text-elan-sage transition-transform ${openFaq === index
                         ? 'rotate-180'
                         : ''
                       }`}
@@ -620,7 +620,7 @@ export function ContactPage() {
                 </button>
 
                 {openFaq === index && (
-                  <p className="mt-4 border-t border-[#E8E1D7] pt-4 text-sm leading-7 text-[#77736E]">
+                  <p className="mt-4 border-t border-[#E8E1D7] pt-4 text-sm leading-7 text-elan-muted">
                     {faq.answer}
                   </p>
                 )}
@@ -633,7 +633,7 @@ export function ContactPage() {
         {activeTab === 'policies' && (
           <div className="mx-auto max-w-4xl">
             <div className="mb-6 rounded-2xl border border-[#CBD8CA] bg-[#F2F4EF] p-5">
-              <p className="text-xs leading-6 text-[#47584A]">
+              <p className="text-xs leading-6 text-elan-sage">
                 The information below describes
                 the current demo website. Actual
                 shipping, returns, privacy and
@@ -669,8 +669,8 @@ export function ContactPage() {
                     setActivePolicy(policy.id)
                   }
                   className={`rounded-xl px-4 py-2.5 text-xs font-semibold ${activePolicy === policy.id
-                      ? 'bg-[#1F2022] text-white'
-                      : 'border border-[#E8E1D7] bg-white text-[#637666]'
+                      ? 'bg-elan-ink text-elan-ivory'
+                      : 'border border-[#E8E1D7] bg-white text-elan-sage'
                     }`}
                 >
                   {policy.label}
@@ -687,15 +687,15 @@ export function ContactPage() {
                   <div className="flex items-center gap-3">
                     <Truck
                       size={24}
-                      className="text-[#637666]"
+                      className="text-elan-sage"
                     />
 
-                    <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+                    <h2 className="font-display text-2xl font-medium text-elan-ink">
                       Shipping Information
                     </h2>
                   </div>
 
-                  <p className="mt-5 text-sm leading-7 text-[#77736E]">
+                  <p className="mt-5 text-sm leading-7 text-elan-muted">
                     Shipping charges are not
                     calculated or displayed at
                     checkout.
@@ -705,7 +705,7 @@ export function ContactPage() {
                     not yet been confirmed.
                   </p>
 
-                  <p className="mt-4 text-sm leading-7 text-[#77736E]">
+                  <p className="mt-4 text-sm leading-7 text-elan-muted">
                     No real orders or deliveries
                     are currently processed
                     through this website.
@@ -718,15 +718,15 @@ export function ContactPage() {
                   <div className="flex items-center gap-3">
                     <RotateCcw
                       size={24}
-                      className="text-[#637666]"
+                      className="text-elan-sage"
                     />
 
-                    <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+                    <h2 className="font-display text-2xl font-medium text-elan-ink">
                       Returns & Exchanges
                     </h2>
                   </div>
 
-                  <p className="mt-5 text-sm leading-7 text-[#77736E]">
+                  <p className="mt-5 text-sm leading-7 text-elan-muted">
                     The official return and exchange
                     policy has not yet been finalized.
                     Eligibility may depend on product
@@ -734,7 +734,7 @@ export function ContactPage() {
                     requirements and applicable law.
                   </p>
 
-                  <p className="mt-4 text-sm leading-7 text-[#77736E]">
+                  <p className="mt-4 text-sm leading-7 text-elan-muted">
                     No automatic refunds or exchange
                     requests are currently processed.
                   </p>
@@ -746,15 +746,15 @@ export function ContactPage() {
                   <div className="flex items-center gap-3">
                     <LockKeyhole
                       size={24}
-                      className="text-[#637666]"
+                      className="text-elan-sage"
                     />
 
-                    <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+                    <h2 className="font-display text-2xl font-medium text-elan-ink">
                       Privacy Information
                     </h2>
                   </div>
 
-                  <p className="mt-5 text-sm leading-7 text-[#77736E]">
+                  <p className="mt-5 text-sm leading-7 text-elan-muted">
                     Guest cart and wishlist data
                     is stored in this browser.
                     When configured, signed-in
@@ -767,7 +767,7 @@ export function ContactPage() {
                     not submitted.
                   </p>
 
-                  <p className="mt-4 text-sm leading-7 text-[#77736E]">
+                  <p className="mt-4 text-sm leading-7 text-elan-muted">
                     A complete privacy policy
                     covering data collection,
                     retention, security and
@@ -783,15 +783,15 @@ export function ContactPage() {
                   <div className="flex items-center gap-3">
                     <FileText
                       size={24}
-                      className="text-[#637666]"
+                      className="text-elan-sage"
                     />
 
-                    <h2 className="font-display text-2xl font-medium text-[#1F2022]">
+                    <h2 className="font-display text-2xl font-medium text-elan-ink">
                       Terms & Conditions
                     </h2>
                   </div>
 
-                  <p className="mt-5 text-sm leading-7 text-[#77736E]">
+                  <p className="mt-5 text-sm leading-7 text-elan-muted">
                     Product listings, prices,
                     promotions and checkout
                     interactions on this demo
@@ -799,7 +799,7 @@ export function ContactPage() {
                     until confirmed for launch.
                   </p>
 
-                  <p className="mt-4 text-sm leading-7 text-[#77736E]">
+                  <p className="mt-4 text-sm leading-7 text-elan-muted">
                     The website does not currently
                     create binding purchase orders,
                     collect payments or arrange
@@ -813,10 +813,10 @@ export function ContactPage() {
               <div className="mt-7 flex items-start gap-2 border-t border-[#E8E1D7] pt-5">
                 <ShieldCheck
                   size={17}
-                  className="shrink-0 text-[#637666]"
+                  className="shrink-0 text-elan-sage"
                 />
 
-                <p className="text-xs leading-6 text-[#77736E]">
+                <p className="text-xs leading-6 text-elan-muted">
                   Policy details are pending
                   business approval.
                 </p>
@@ -829,14 +829,14 @@ export function ContactPage() {
         <div className="mt-12 rounded-2xl border border-[#E8E1D7] bg-white p-6 text-center sm:p-8">
           <CheckCircle2
             size={26}
-            className="mx-auto text-[#637666]"
+            className="mx-auto text-elan-sage"
           />
 
-          <h3 className="mt-3 font-display text-xl font-medium text-[#1F2022]">
+          <h3 className="mt-3 font-display text-xl font-medium text-elan-ink">
             Explore with Confidence
           </h3>
 
-          <p className="mx-auto mt-2 max-w-xl text-xs leading-6 text-[#77736E]">
+          <p className="mx-auto mt-2 max-w-xl text-xs leading-6 text-elan-muted">
             Browse the collections, compare
             products and review sizing information.
             Ordering and support integrations

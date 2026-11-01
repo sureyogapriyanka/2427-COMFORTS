@@ -35,22 +35,22 @@ export function WomenCategories() {
       <Container>
         <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#637666]">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-elan-sage">
               2427 ÉLAN
             </span>
 
-            <h2 className="mt-1 font-display text-2xl font-semibold text-[#202020] sm:text-3xl">
+            <h2 className="mt-1 font-display text-2xl font-semibold text-elan-ink sm:text-3xl">
               Shop Women's Essentials
             </h2>
 
-            <p className="mt-1 text-sm text-[#666666]">
+            <p className="mt-1 text-sm text-elan-muted">
               Everyday softness and effortless comfort.
             </p>
           </div>
 
           <Link
             to="/category/women-bras"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#202020] hover:text-[#637666]"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-elan-ink hover:text-elan-sage"
           >
             Explore Women
             <ArrowRight className="h-4 w-4" />
@@ -94,7 +94,7 @@ export function WomenCategories() {
                   )}
 
                   {isBestseller && (
-                    <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded bg-white px-2 py-1 text-[10px] font-semibold text-[#202020]">
+                    <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded bg-white px-2 py-1 text-[10px] font-semibold text-elan-ink">
                       <Sparkles className="h-3 w-3" />
                       Bestseller
                     </span>
@@ -103,15 +103,15 @@ export function WomenCategories() {
 
                 <div className="flex items-center justify-between gap-2 p-3 sm:p-4">
                   <div className="min-w-0">
-                    <h3 className="truncate text-sm font-semibold text-[#202020] sm:text-base">
+                    <h3 className="truncate text-sm font-semibold text-elan-ink sm:text-base">
                       {category.title}
                     </h3>
-                    <p className="mt-0.5 truncate text-[11px] text-[#777777]">
+                    <p className="mt-0.5 truncate text-[11px] text-elan-muted">
                       {category.tagline}
                     </p>
                   </div>
 
-                  <ArrowUpRight className="h-4 w-4 shrink-0 text-[#637666] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <ArrowUpRight className="h-4 w-4 shrink-0 text-elan-sage transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </div>
               </Link>
             );

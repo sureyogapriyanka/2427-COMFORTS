@@ -23,7 +23,7 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium transition-all duration-200 rounded-full focus:outline-hidden focus:ring-2 focus:ring-[#637666] focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]';
+    'inline-flex items-center justify-center font-medium transition-all duration-200 rounded-full focus:outline-hidden focus:ring-2 focus:ring-elan-sage focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98]';
 
   const sizeStyles = {
     sm: 'text-xs px-3.5 py-1.5 gap-1.5',
@@ -32,12 +32,12 @@ export function Button({
   }[size];
 
   const variantStyles = {
-    primary: 'bg-[#1F2022] text-[#FAF8F5] hover:bg-[#34373C] shadow-sm',
-    secondary: 'bg-[#FAF8F5] text-[#1F2022] border border-[#E8E1D7] hover:bg-[#F3EFEA]',
-    outline: 'bg-transparent text-[#1F2022] border border-[#1F2022] hover:bg-[#1F2022] hover:text-[#FAF8F5]',
-    ghost: 'bg-transparent text-[#1F2022] hover:bg-[#1F2022]/5',
-    sage: 'bg-[#637666] text-[#FAF8F5] hover:bg-[#47584A] shadow-sm',
-    light: 'bg-[#FAF8F5] text-[#1F2022] hover:bg-white shadow-md',
+    primary: 'bg-elan-ink text-elan-ivory hover:bg-elan-ink-hover shadow-sm',
+    secondary: 'bg-elan-ivory text-elan-ink border border-[#E8E1D7] hover:bg-[#F3EFEA]',
+    outline: 'bg-transparent text-elan-ink border border-elan-ink hover:bg-elan-ink hover:text-elan-ivory',
+    ghost: 'bg-transparent text-elan-ink hover:bg-elan-ink/5',
+    sage: 'bg-elan-sage text-elan-ivory hover:bg-elan-sage-hover shadow-sm',
+    light: 'bg-elan-ivory text-elan-ink hover:bg-white shadow-md',
   }[variant];
 
   const content = (

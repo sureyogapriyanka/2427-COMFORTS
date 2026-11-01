@@ -179,7 +179,7 @@ export function QuickViewModal() {
           type="button"
           onClick={closeOverlay}
           aria-label="Close quick view"
-          className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-[#1F2022] shadow-md transition-colors hover:bg-[#F4EFEB]"
+          className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-elan-ink shadow-md transition-colors hover:bg-[#F4EFEB]"
         >
           <X size={19} />
         </button>
@@ -197,13 +197,13 @@ export function QuickViewModal() {
               {/* Badges */}
               <div className="absolute left-3 top-3 flex flex-col items-start gap-2">
                 {product.badge && (
-                  <span className="rounded-full bg-[#1F2022] px-3 py-1 text-[10px] font-semibold text-white">
+                  <span className="rounded-full bg-elan-ink px-3 py-1 text-[10px] font-semibold text-elan-ivory">
                     {product.badge}
                   </span>
                 )}
 
                 {hasDiscount && (
-                  <span className="rounded-full bg-[#637666] px-3 py-1 text-[10px] font-semibold text-white">
+                  <span className="rounded-full bg-elan-sage px-3 py-1 text-[10px] font-semibold text-elan-ivory">
                     {discountPercentage}% OFF
                   </span>
                 )}
@@ -216,7 +216,7 @@ export function QuickViewModal() {
                     type="button"
                     onClick={previousImage}
                     aria-label="Previous image"
-                    className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-[#1F2022] shadow-sm hover:bg-white"
+                    className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-elan-ink shadow-sm hover:bg-white"
                   >
                     <ChevronLeft size={19} />
                   </button>
@@ -225,7 +225,7 @@ export function QuickViewModal() {
                     type="button"
                     onClick={nextImage}
                     aria-label="Next image"
-                    className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-[#1F2022] shadow-sm hover:bg-white"
+                    className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 text-elan-ink shadow-sm hover:bg-white"
                   >
                     <ChevronRight size={19} />
                   </button>
@@ -262,22 +262,22 @@ export function QuickViewModal() {
 
           {/* Product Details */}
           <div className="min-h-0 overflow-y-auto p-5 sm:p-7 md:max-h-[85vh]">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-elan-sage">
               {product.categoryLabel}
             </p>
 
-            <h2 className="mt-2 pr-8 font-display text-2xl font-medium leading-tight text-[#1F2022] sm:text-3xl">
+            <h2 className="mt-2 pr-8 font-display text-2xl font-medium leading-tight text-elan-ink sm:text-3xl">
               {product.name}
             </h2>
 
-            <p className="mt-2 text-sm text-[#77736E]">
+            <p className="mt-2 text-sm text-elan-muted">
               {product.subtitle}
             </p>
 
             <Link
               to={`/product/${product.slug}`}
               onClick={closeOverlay}
-              className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-[#637666] hover:text-[#1F2022]"
+              className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-elan-sage hover:text-elan-ink"
             >
               View Full Product Details
               <ArrowRight size={15} />
@@ -285,17 +285,17 @@ export function QuickViewModal() {
 
             {/* Price */}
             <div className="mt-6 flex flex-wrap items-center gap-3 border-b border-[#E8E1D7] pb-5">
-              <span className="font-numeral text-2xl font-bold text-[#1F2022]">
+              <span className="font-numeral text-2xl font-bold text-elan-ink">
                 {formatINR(product.price)}
               </span>
 
               {hasDiscount && (
                 <>
-                  <span className="text-sm text-[#99938B] line-through">
+                  <span className="text-sm text-elan-muted line-through">
                     {formatINR(product.compareAt!)}
                   </span>
 
-                  <span className="rounded-lg bg-[#F2F4EF] px-2 py-1 text-xs font-semibold text-[#637666]">
+                  <span className="rounded-lg bg-[#F2F4EF] px-2 py-1 text-xs font-semibold text-elan-sage">
                     Save {discountPercentage}%
                   </span>
                 </>
@@ -306,11 +306,11 @@ export function QuickViewModal() {
             {/* Color Selection */}
             <div className="mt-5">
               <div className="mb-3 flex items-center justify-between gap-2">
-                <h3 className="text-xs font-semibold text-[#1F2022]">
+                <h3 className="text-xs font-semibold text-elan-ink">
                   Select Color
                 </h3>
 
-                <span className="text-xs font-medium text-[#637666]">
+                <span className="text-xs font-medium text-elan-sage">
                   {selectedColor || 'Choose color'}
                 </span>
               </div>
@@ -332,7 +332,7 @@ export function QuickViewModal() {
                       aria-label={`Select ${color.name}`}
                       aria-pressed={isSelected}
                       className={`flex h-10 w-10 items-center justify-center rounded-full border-2 p-1 transition-all ${isSelected
-                        ? 'border-[#1F2022]'
+                        ? 'border-elan-ink'
                         : 'border-[#E8E1D7] hover:border-[#637666]'
                         }`}
                     >
@@ -345,7 +345,7 @@ export function QuickViewModal() {
                         {isSelected && (
                           <Check
                             size={15}
-                            className="text-[#1F2022] drop-shadow-[0_1px_2px_white]"
+                            className="text-elan-ink drop-shadow-[0_1px_2px_white]"
                           />
                         )}
                       </span>
@@ -358,7 +358,7 @@ export function QuickViewModal() {
             {/* Size Selection */}
             <div className="mt-6 border-t border-[#E8E1D7] pt-5">
               <div className="mb-3 flex items-center justify-between">
-                <h3 className="text-xs font-semibold text-[#1F2022]">
+                <h3 className="text-xs font-semibold text-elan-ink">
                   Select Size
                 </h3>
 
@@ -367,14 +367,14 @@ export function QuickViewModal() {
                   onClick={() =>
                     setShowSizeInfo((value) => !value)
                   }
-                  className="text-xs font-semibold text-[#637666] underline"
+                  className="text-xs font-semibold text-elan-sage underline"
                 >
                   Size Information
                 </button>
               </div>
 
               {showSizeInfo && (
-                <p className="mb-4 rounded-xl bg-[#F2F4EF] p-3 text-xs leading-5 text-[#47584A]">
+                <p className="mb-4 rounded-xl bg-[#F2F4EF] p-3 text-xs leading-5 text-elan-sage">
                   Sizes vary by product. Please
                   confirm measurements with the
                   store before ordering. An official
@@ -395,8 +395,8 @@ export function QuickViewModal() {
                       selectedSize === size
                     }
                     className={`min-w-12 rounded-xl border px-4 py-2.5 text-xs font-semibold transition-colors ${selectedSize === size
-                      ? 'border-[#1F2022] bg-[#1F2022] text-white'
-                      : 'border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022] hover:border-[#637666]'
+                      ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                      : 'border-[#E8E1D7] bg-elan-ivory text-elan-ink hover:border-[#637666]'
                       }`}
                   >
                     {size}
@@ -407,7 +407,7 @@ export function QuickViewModal() {
 
             {/* Quantity */}
             <div className="mt-6 border-t border-[#E8E1D7] pt-5">
-              <h3 className="mb-3 text-xs font-semibold text-[#1F2022]">
+              <h3 className="mb-3 text-xs font-semibold text-elan-ink">
                 Quantity
               </h3>
 
@@ -451,7 +451,7 @@ export function QuickViewModal() {
             {/* Product Features */}
             {product.features?.length > 0 && (
               <div className="mt-6 border-t border-[#E8E1D7] pt-5">
-                <h3 className="mb-3 text-xs font-semibold text-[#1F2022]">
+                <h3 className="mb-3 text-xs font-semibold text-elan-ink">
                   Product Highlights
                 </h3>
 
@@ -460,11 +460,11 @@ export function QuickViewModal() {
                     (feature, index) => (
                       <li
                         key={index}
-                        className="flex items-start gap-2 text-xs leading-5 text-[#77736E]"
+                        className="flex items-start gap-2 text-xs leading-5 text-elan-muted"
                       >
                         <Check
                           size={15}
-                          className="mt-0.5 shrink-0 text-[#637666]"
+                          className="mt-0.5 shrink-0 text-elan-sage"
                         />
                         {feature}
                       </li>
@@ -481,7 +481,7 @@ export function QuickViewModal() {
                   type="button"
                   disabled={!selectedSize || !selectedColor || isUnavailable}
                   onClick={handleAddToBag}
-                  className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#1F2022] px-4 text-sm font-semibold text-white hover:bg-[#34373C] disabled:opacity-40"
+                  className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-elan-ink px-4 text-sm font-semibold text-elan-ivory hover:bg-elan-ink-hover disabled:opacity-40"
                 >
                   {isUnavailable ? (
                     'Currently Unavailable'
@@ -510,8 +510,8 @@ export function QuickViewModal() {
                   }
                   aria-pressed={isFavorited}
                   className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border transition-colors ${isFavorited
-                    ? 'border-[#A85A3C] bg-[#FAF8F5] text-[#A85A3C]'
-                    : 'border-[#E8E1D7] text-[#1F2022] hover:border-[#637666]'
+                    ? 'border-[#A85A3C] bg-elan-ivory text-elan-danger'
+                    : 'border-[#E8E1D7] text-elan-ink hover:border-[#637666]'
                     }`}
                 >
                   <Heart
@@ -529,17 +529,17 @@ export function QuickViewModal() {
                 <button
                   type="button"
                   onClick={handleViewBag}
-                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-[#637666] px-4 py-3 text-sm font-semibold text-[#637666] hover:bg-[#F2F4EF]"
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-[#637666] px-4 py-3 text-sm font-semibold text-elan-sage hover:bg-[#F2F4EF]"
                 >
                   View Shopping Bag
                   <ArrowRight size={16} />
                 </button>
               )}
 
-              <div className="mt-4 flex items-center justify-center gap-2 text-xs text-[#77736E]">
+              <div className="mt-4 flex items-center justify-center gap-2 text-xs text-elan-muted">
                 <ShieldCheck
                   size={15}
-                  className="text-[#637666]"
+                  className="text-elan-sage"
                 />
                 Review details before checkout
               </div>

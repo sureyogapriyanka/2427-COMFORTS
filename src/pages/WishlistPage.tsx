@@ -88,23 +88,23 @@ export function WishlistPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] py-8 sm:py-14">
+    <div className="min-h-screen bg-elan-ivory py-8 sm:py-14">
       <Container>
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
-          className="mb-7 flex items-center gap-2 text-xs text-[#77736E]"
+          className="mb-7 flex items-center gap-2 text-xs text-elan-muted"
         >
           <Link
             to="/"
-            className="hover:text-[#1F2022]"
+            className="hover:text-elan-ink"
           >
             Home
           </Link>
 
           <ChevronRight size={13} />
 
-          <span className="font-semibold text-[#1F2022]">
+          <span className="font-semibold text-elan-ink">
             Wishlist
           </span>
         </nav>
@@ -112,15 +112,15 @@ export function WishlistPage() {
         {/* Page Header */}
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-[#E8E1D7] pb-7">
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-elan-sage">
               Your Saved Collection
             </p>
 
-            <h1 className="mt-2 font-display text-3xl font-medium text-[#1F2022] sm:text-4xl">
+            <h1 className="mt-2 font-display text-3xl font-medium text-elan-ink sm:text-4xl">
               My Wishlist
             </h1>
 
-            <p className="mt-3 text-sm text-[#77736E]">
+            <p className="mt-3 text-sm text-elan-muted">
               {savedProducts.length === 0
                 ? 'Your favorite styles will appear here.'
                 : `${savedProducts.length} ${savedProducts.length === 1
@@ -132,7 +132,7 @@ export function WishlistPage() {
 
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-[#637666] transition-colors hover:text-[#1F2022] sm:text-sm"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-elan-sage transition-colors hover:text-elan-ink sm:text-sm"
           >
             <ArrowLeft size={16} />
             Continue Shopping
@@ -146,15 +146,15 @@ export function WishlistPage() {
               <Heart
                 size={38}
                 strokeWidth={1.5}
-                className="text-[#637666]"
+                className="text-elan-sage"
               />
             </div>
 
-            <h2 className="font-display text-2xl font-medium text-[#1F2022] sm:text-3xl">
+            <h2 className="font-display text-2xl font-medium text-elan-ink sm:text-3xl">
               Your Wishlist Is Empty
             </h2>
 
-            <p className="mx-auto mt-4 max-w-sm text-sm leading-7 text-[#77736E]">
+            <p className="mx-auto mt-4 max-w-sm text-sm leading-7 text-elan-muted">
               Save the styles you love and keep your
               favorite comfort essentials in one place.
             </p>
@@ -171,14 +171,14 @@ export function WishlistPage() {
           <>
             {/* Wishlist Count */}
             <div className="mb-5 flex items-center justify-between">
-              <span className="text-xs font-medium text-[#77736E]">
+              <span className="text-xs font-medium text-elan-muted">
                 Showing {savedProducts.length} saved
                 {savedProducts.length === 1
                   ? ' item'
                   : ' items'}
               </span>
 
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#637666]">
+              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-elan-sage">
                 <Heart
                   size={14}
                   fill="currentColor"
@@ -226,13 +226,13 @@ export function WishlistPage() {
                           }
                         }}
                         aria-label={`Remove ${product.name} from wishlist`}
-                        className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#A85A3C] shadow-sm transition-transform hover:scale-110"
+                        className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white text-elan-danger shadow-sm transition-transform hover:scale-110"
                       >
                         <Trash2 size={17} />
                       </button>
 
                       {product.badge && (
-                        <span className="absolute left-3 top-3 rounded-full bg-[#1F2022] px-2.5 py-1 text-[10px] font-semibold text-white">
+                        <span className="absolute left-3 top-3 rounded-full bg-elan-ink px-2.5 py-1 text-[10px] font-semibold text-elan-ivory">
                           {product.badge}
                         </span>
                       )}
@@ -240,30 +240,30 @@ export function WishlistPage() {
 
                     {/* Product Info */}
                     <div className="flex flex-1 flex-col p-3.5 sm:p-5">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.13em] text-[#637666]">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.13em] text-elan-sage">
                         {product.fabricBadge ||
                           product.categoryLabel}
                       </p>
 
                       <Link
                         to={`/product/${product.slug}`}
-                        className="mt-2 line-clamp-2 min-h-10 font-display text-sm font-medium leading-5 text-[#1F2022] hover:text-[#637666] sm:text-base"
+                        className="mt-2 line-clamp-2 min-h-10 font-display text-sm font-medium leading-5 text-elan-ink hover:text-elan-sage sm:text-base"
                       >
                         {product.name}
                       </Link>
 
-                      <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#77736E]">
+                      <p className="mt-1 line-clamp-2 text-xs leading-5 text-elan-muted">
                         {product.subtitle}
                       </p>
 
                       {/* Price */}
                       <div className="mt-4 flex flex-wrap items-center gap-2">
-                        <span className="font-numeral text-base font-bold text-[#1F2022] sm:text-lg">
+                        <span className="font-numeral text-base font-bold text-elan-ink sm:text-lg">
                           {formatINR(product.price)}
                         </span>
 
                         {hasDiscount && (
-                          <span className="text-xs text-[#99938B] line-through">
+                          <span className="text-xs text-elan-muted line-through">
                             {formatINR(product.compareAt!)}
                           </span>
                         )}
@@ -276,8 +276,8 @@ export function WishlistPage() {
                           openQuickAdd(product)
                         }
                         className={`mt-auto flex min-h-11 w-full items-center justify-center gap-2 rounded-xl px-2 py-3 text-xs font-semibold transition-colors sm:text-sm ${addedProductId === product.id
-                          ? 'bg-[#637666] text-white'
-                          : 'bg-[#1F2022] text-white hover:bg-[#34373C]'
+                          ? 'bg-elan-sage text-elan-ivory'
+                          : 'bg-elan-ink text-elan-ivory hover:bg-elan-ink-hover'
                           }`}
                       >
                         {addedProductId === product.id ? (
@@ -322,7 +322,7 @@ export function WishlistPage() {
             <div className="flex items-center justify-between border-b border-[#EEE7DE] px-5 py-4">
               <h2
                 id="quick-add-title"
-                className="font-display text-xl font-medium text-[#1F2022]"
+                className="font-display text-xl font-medium text-elan-ink"
               >
                 Quick Add to Bag
               </h2>
@@ -331,7 +331,7 @@ export function WishlistPage() {
                 type="button"
                 onClick={closeQuickAdd}
                 aria-label="Close quick add"
-                className="rounded-full p-2 text-[#1F2022] hover:bg-[#F4F2EF]"
+                className="rounded-full p-2 text-elan-ink hover:bg-[#F4F2EF]"
               >
                 <X size={20} />
               </button>
@@ -340,7 +340,7 @@ export function WishlistPage() {
             <div className="max-h-[75vh] space-y-6 overflow-y-auto p-5 sm:p-6">
               {/* Selected Product */}
               <div className="flex items-center gap-4">
-                <div className="flex h-28 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#FAF8F5] p-2">
+                <div className="flex h-28 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-elan-ivory p-2">
                   <img
                     src={activeProduct.image}
                     alt={activeProduct.name}
@@ -349,15 +349,15 @@ export function WishlistPage() {
                 </div>
 
                 <div className="min-w-0">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#637666]">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-elan-sage">
                     {activeProduct.categoryLabel}
                   </p>
 
-                  <h3 className="mt-1 font-display text-base font-medium text-[#1F2022]">
+                  <h3 className="mt-1 font-display text-base font-medium text-elan-ink">
                     {activeProduct.name}
                   </h3>
 
-                  <p className="mt-2 font-numeral text-lg font-bold text-[#1F2022]">
+                  <p className="mt-2 font-numeral text-lg font-bold text-elan-ink">
                     {formatINR(activeProduct.price)}
                   </p>
                 </div>
@@ -367,11 +367,11 @@ export function WishlistPage() {
               {activeProduct.colors.length > 0 && (
                 <div>
                   <div className="mb-3 flex items-center justify-between">
-                    <h3 className="text-sm font-semibold text-[#1F2022]">
+                    <h3 className="text-sm font-semibold text-elan-ink">
                       Select Color
                     </h3>
 
-                    <span className="text-xs text-[#637666]">
+                    <span className="text-xs text-elan-sage">
                       {selectedColor}
                     </span>
                   </div>
@@ -388,9 +388,9 @@ export function WishlistPage() {
               {/* Sizes */}
               {activeProduct.sizes.length > 0 && (
                 <div>
-                  <h3 className="mb-3 text-sm font-semibold text-[#1F2022]">
+                  <h3 className="mb-3 text-sm font-semibold text-elan-ink">
                     Select Size
-                    <span className="ml-1 text-[#A85A3C]">
+                    <span className="ml-1 text-elan-danger">
                       *
                     </span>
                   </h3>
@@ -408,8 +408,8 @@ export function WishlistPage() {
                           selectedSize === size
                         }
                         className={`min-h-11 rounded-xl border px-2 text-xs font-bold ${selectedSize === size
-                          ? 'border-[#1F2022] bg-[#1F2022] text-white'
-                          : 'border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022] hover:border-[#637666]'
+                          ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                          : 'border-[#E8E1D7] bg-elan-ivory text-elan-ink hover:border-[#637666]'
                           }`}
                       >
                         {size}
@@ -420,7 +420,7 @@ export function WishlistPage() {
                   {sizeError && (
                     <p
                       role="alert"
-                      className="mt-3 text-xs font-medium text-[#A85A3C]"
+                      className="mt-3 text-xs font-medium text-elan-danger"
                     >
                       Please select a size to continue.
                     </p>
@@ -430,11 +430,11 @@ export function WishlistPage() {
 
               {/* Quantity */}
               <div>
-                <h3 className="mb-3 text-sm font-semibold text-[#1F2022]">
+                <h3 className="mb-3 text-sm font-semibold text-elan-ink">
                   Quantity
                 </h3>
 
-                <div className="inline-flex items-center overflow-hidden rounded-xl border border-[#E8E1D7] bg-[#FAF8F5]">
+                <div className="inline-flex items-center overflow-hidden rounded-xl border border-[#E8E1D7] bg-elan-ivory">
                   <button
                     type="button"
                     onClick={() =>
@@ -473,7 +473,7 @@ export function WishlistPage() {
               <button
                 type="button"
                 onClick={handleAddToBag}
-                className="flex min-h-13 w-full items-center justify-center gap-2 rounded-xl bg-[#1F2022] px-5 py-3.5 text-sm font-semibold text-white hover:bg-[#34373C]"
+                className="flex min-h-13 w-full items-center justify-center gap-2 rounded-xl bg-elan-ink px-5 py-3.5 text-sm font-semibold text-elan-ivory hover:bg-elan-ink-hover"
               >
                 <ShoppingBag size={18} />
                 Add to Bag —{' '}
@@ -485,7 +485,7 @@ export function WishlistPage() {
               <Link
                 to={`/product/${activeProduct.slug}`}
                 onClick={closeQuickAdd}
-                className="flex items-center justify-center gap-2 text-xs font-semibold text-[#637666] hover:text-[#1F2022]"
+                className="flex items-center justify-center gap-2 text-xs font-semibold text-elan-sage hover:text-elan-ink"
               >
                 View Product Details
                 <ChevronRight size={15} />

@@ -89,7 +89,7 @@ export function MobileNav() {
         role="dialog"
         aria-modal="true"
         aria-label="Mobile navigation"
-        className="absolute inset-y-0 left-0 flex w-[min(90vw,400px)] flex-col overflow-hidden bg-[#FAF8F5] shadow-2xl"
+        className="absolute inset-y-0 left-0 flex w-[min(90vw,400px)] flex-col overflow-hidden bg-elan-ivory shadow-2xl"
       >
         {/* Header */}
         <div className="shrink-0 border-b border-[#E8E1D7] bg-white px-5 py-5">
@@ -103,13 +103,13 @@ export function MobileNav() {
               type="button"
               onClick={closeOverlay}
               aria-label="Close menu"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F4EFEB] text-[#1F2022] transition-colors hover:bg-[#E8E1D7]"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F4EFEB] text-elan-ink transition-colors hover:bg-[#E8E1D7]"
             >
               <X size={19} />
             </button>
           </div>
 
-          <p className="mt-3 text-[11px] font-medium tracking-wide text-[#77736E]">
+          <p className="mt-3 text-[11px] font-medium tracking-wide text-elan-muted">
             Everyday essentials. Elevated comfort.
           </p>
         </div>
@@ -119,16 +119,16 @@ export function MobileNav() {
           <button
             type="button"
             onClick={() => switchOverlay('search')}
-            className="flex min-h-12 w-full items-center gap-3 rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] px-4 text-left text-sm text-[#77736E] transition-colors hover:border-[#637666]"
+            className="flex min-h-12 w-full items-center gap-3 rounded-xl border border-[#E8E1D7] bg-elan-ivory px-4 text-left text-sm text-elan-muted transition-colors hover:border-[#637666]"
           >
             <Search
               size={18}
-              className="text-[#637666]"
+              className="text-elan-sage"
             />
             Search products...
             <ArrowRight
               size={16}
-              className="ml-auto text-[#637666]"
+              className="ml-auto text-elan-sage"
             />
           </button>
         </div>
@@ -141,8 +141,8 @@ export function MobileNav() {
               onClick={() => setActiveGender('men')}
               aria-pressed={activeGender === 'men'}
               className={`min-h-11 rounded-lg px-3 text-xs font-bold uppercase tracking-wider transition-colors ${activeGender === 'men'
-                  ? 'bg-[#1F2022] text-white shadow-sm'
-                  : 'text-[#77736E] hover:text-[#1F2022]'
+                  ? 'bg-elan-ink text-elan-ivory shadow-sm'
+                  : 'text-elan-muted hover:text-elan-ink'
                 }`}
             >
               Shop Men
@@ -153,8 +153,8 @@ export function MobileNav() {
               onClick={() => setActiveGender('women')}
               aria-pressed={activeGender === 'women'}
               className={`min-h-11 rounded-lg px-3 text-xs font-bold uppercase tracking-wider transition-colors ${activeGender === 'women'
-                  ? 'bg-[#1F2022] text-white shadow-sm'
-                  : 'text-[#77736E] hover:text-[#1F2022]'
+                  ? 'bg-elan-ink text-elan-ivory shadow-sm'
+                  : 'text-elan-muted hover:text-elan-ink'
                 }`}
             >
               Shop Women
@@ -167,13 +167,13 @@ export function MobileNav() {
           {activeGender && (
             <>
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+                <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-elan-sage">
                   {activeGender === 'men'
                     ? "Men's Collections"
                     : "Women's Collections"}
                 </h2>
 
-                <span className="text-[10px] text-[#99938B]">
+                <span className="text-[10px] text-elan-muted">
                   {categories.length} Categories
                 </span>
               </div>
@@ -187,12 +187,12 @@ export function MobileNav() {
                     className="group flex items-center justify-between gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 transition-colors hover:border-[#637666] hover:bg-[#F2F4EF]"
                   >
                     <div className="min-w-0">
-                      <h3 className="font-display text-sm font-semibold text-[#1F2022]">
+                      <h3 className="font-display text-sm font-semibold text-elan-ink">
                         {category.title}
                       </h3>
 
                       {category.tagline && (
-                        <p className="mt-1 line-clamp-2 text-[11px] leading-4 text-[#77736E]">
+                        <p className="mt-1 line-clamp-2 text-[11px] leading-4 text-elan-muted">
                           {category.tagline}
                         </p>
                       )}
@@ -200,7 +200,7 @@ export function MobileNav() {
 
                     <ChevronRight
                       size={17}
-                      className="shrink-0 text-[#637666] transition-transform group-hover:translate-x-1"
+                      className="shrink-0 text-elan-sage transition-transform group-hover:translate-x-1"
                     />
                   </Link>
                 ))}
@@ -215,12 +215,12 @@ export function MobileNav() {
                     aria-label={`${collection.title} for ${activeGender}`}
                     className="group flex items-center justify-between gap-3 rounded-xl border border-[#E8E1D7] bg-white px-4 py-3.5 transition-colors hover:border-[#637666] hover:bg-[#F2F4EF]"
                   >
-                    <h3 className="font-display text-sm font-semibold text-[#1F2022]">
+                    <h3 className="font-display text-sm font-semibold text-elan-ink">
                       {collection.title}
                     </h3>
                     <ChevronRight
                       size={17}
-                      className="shrink-0 text-[#637666] transition-transform group-hover:translate-x-1"
+                      className="shrink-0 text-elan-sage transition-transform group-hover:translate-x-1"
                     />
                   </Link>
                 ))}
@@ -233,7 +233,7 @@ export function MobileNav() {
             <Link
               to="/about"
               onClick={closeOverlay}
-              className="block rounded-lg px-3 py-3 text-xs font-medium text-[#77736E] hover:bg-white hover:text-[#1F2022]"
+              className="block rounded-lg px-3 py-3 text-xs font-medium text-elan-muted hover:bg-white hover:text-elan-ink"
             >
               About 2427 ÉLAN
             </Link>
@@ -241,7 +241,7 @@ export function MobileNav() {
             <Link
               to="/contact"
               onClick={closeOverlay}
-              className="block rounded-lg px-3 py-3 text-xs font-medium text-[#77736E] hover:bg-white hover:text-[#1F2022]"
+              className="block rounded-lg px-3 py-3 text-xs font-medium text-elan-muted hover:bg-white hover:text-elan-ink"
             >
               Help & Customer Care
             </Link>
@@ -254,7 +254,7 @@ export function MobileNav() {
             <Link
               to="/account"
               onClick={closeOverlay}
-              className="flex min-h-14 flex-col items-center justify-center gap-1.5 rounded-xl bg-[#FAF8F5] px-2 text-[#1F2022] hover:bg-[#F2F4EF]"
+              className="flex min-h-14 flex-col items-center justify-center gap-1.5 rounded-xl bg-elan-ivory px-2 text-elan-ink hover:bg-[#F2F4EF]"
             >
               <UserRound size={19} />
               <span className="text-[11px] font-semibold">
@@ -265,7 +265,7 @@ export function MobileNav() {
             <Link
               to="/wishlist"
               onClick={closeOverlay}
-              className="flex min-h-14 flex-col items-center justify-center gap-1.5 rounded-xl bg-[#FAF8F5] px-2 text-[#1F2022] hover:bg-[#F2F4EF]"
+              className="flex min-h-14 flex-col items-center justify-center gap-1.5 rounded-xl bg-elan-ivory px-2 text-elan-ink hover:bg-[#F2F4EF]"
             >
               <Heart size={19} />
               <span className="text-[11px] font-semibold">
@@ -276,7 +276,7 @@ export function MobileNav() {
             <button
               type="button"
               onClick={() => switchOverlay('cart')}
-              className="flex min-h-14 flex-col items-center justify-center gap-1.5 rounded-xl bg-[#FAF8F5] px-2 text-[#1F2022] hover:bg-[#F2F4EF]"
+              className="flex min-h-14 flex-col items-center justify-center gap-1.5 rounded-xl bg-elan-ivory px-2 text-elan-ink hover:bg-[#F2F4EF]"
             >
               <ShoppingBag size={19} />
               <span className="text-[11px] font-semibold">

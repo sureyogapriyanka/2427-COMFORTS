@@ -1,27 +1,54 @@
 @import "tailwindcss";
 
+@theme {
+  --color-elan-ink: #22211f;
+  --color-elan-ink-hover: #3b3935;
+  --color-elan-muted: #625e58;
+  --color-elan-sage: #526757;
+  --color-elan-sage-hover: #3e5143;
+  --color-elan-ivory: #f7f3eb;
+  --color-elan-inverse-muted: #c6c1b8;
+  --color-elan-gold: #dfcfb7;
+  --color-elan-danger: #a34f35;
+
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-numeral: 'Space Grotesk', system-ui, sans-serif;
+}
+
 @layer base {
   :root {
-    --bg-primary: #FFFFFF;
-    --bg-secondary: #F8F7F5;
-    --bg-card: #FFFFFF;
-    --bg-subtle: #F8F7F5;
-    --line: #E8E5E0;
-    --line-subtle: #F0EDE8;
-    
-    --charcoal: #202020;
-    --charcoal-light: #34373C;
-    --charcoal-muted: #6B6F76;
-    
-    --sage: #637666;
-    --sage-dark: #47584A;
-    --sage-light: #EDF3ED;
-    --sage-border: #CBD9CC;
-    
-    --sand: #D9CBB7;
-    --sand-light: #F7F3EC;
-    
-    --terracotta: #A85A3C;
+    color-scheme: light;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f7f5;
+    --bg-card: #ffffff;
+    --bg-subtle: #f8f7f5;
+    --line: #e8e5e0;
+    --line-subtle: #f0ede8;
+
+    --charcoal: var(--color-elan-ink);
+    --charcoal-light: #34373c;
+    --charcoal-muted: var(--color-elan-muted);
+
+    --sage: var(--color-elan-sage);
+    --sage-dark: #3e5143;
+    --sage-light: #edf3ed;
+    --sage-border: #cbd9cc;
+
+    --sand: var(--color-elan-gold);
+    --sand-light: #f7f3ec;
+
+    --terracotta: var(--color-elan-danger);
+
+    --text-primary: var(--color-elan-ink);
+    --text-secondary: var(--color-elan-muted);
+    --text-accent: var(--color-elan-sage);
+    --text-on-dark: var(--color-elan-ivory);
+    --text-on-dark-secondary: var(--color-elan-inverse-muted);
+    --text-danger: var(--color-elan-danger);
+    --font-body: var(--font-sans);
+    --font-heading: var(--font-display);
+    --font-figures: var(--font-numeral);
   }
 
   * {
@@ -36,20 +63,34 @@
 
   body {
     background-color: var(--bg-primary);
-    color: var(--charcoal);
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    color: var(--text-primary);
+    font-family: var(--font-body);
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+    color: var(--text-primary);
   }
 }
 
 /* Custom Typography & Utility Styles */
 .font-display {
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-heading);
 }
 
 .font-numeral {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-family: var(--font-figures);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 500;
 }
 
 .animate-ticker {

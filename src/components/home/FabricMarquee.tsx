@@ -11,7 +11,7 @@ const MARQUEE_ITEMS = [
 
 export function FabricMarquee() {
   return (
-    <section className="bg-[#FAF8F5] py-4 sm:py-5">
+    <section className="bg-elan-ivory py-4 sm:py-5">
       <Container>
         <div className="relative w-full min-w-0 overflow-hidden rounded-xl border border-[#E8E1D7] bg-[#F4EFEB] py-3.5 sm:py-4">
           <div className="animate-ticker flex w-max items-center whitespace-nowrap">
@@ -26,11 +26,11 @@ export function FabricMarquee() {
                     key={`${copy}-${item}`}
                     className="flex shrink-0 items-center gap-5"
                   >
-                    <span className="font-numeral text-[11px] font-semibold uppercase tracking-[0.16em] text-[#1F2022] sm:text-xs sm:tracking-[0.18em]">
+                    <span className="font-numeral text-[11px] font-semibold uppercase tracking-[0.16em] text-elan-ink sm:text-xs sm:tracking-[0.18em]">
                       {item}
                     </span>
 
-                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#637666]" />
+                    <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-elan-sage" />
                   </div>
                 ))}
               </div>

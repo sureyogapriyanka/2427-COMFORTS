@@ -127,18 +127,18 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t border-[#303236] bg-[#18191B] text-[#FAF8F5]">
+    <footer className="border-t border-[#303236] bg-[#18191B] text-elan-ivory">
       {/* Brand Values */}
       <section
         aria-label="2427 ÉLAN brand values"
-        className="border-b border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022]"
+        className="border-b border-[#E8E1D7] bg-elan-ivory text-elan-ink"
       >
         <Container className="py-4 sm:py-5 lg:py-5">
           <div className="border-b border-[#DED7CE] pb-3 text-center sm:pb-4">
-            <p className="font-numeral text-2xl font-semibold tracking-[0.12em] text-[#1F2022] sm:text-3xl">
-              24 <span className="text-[#637666]">|</span> 27
+            <p className="font-numeral text-2xl font-semibold tracking-[0.12em] text-elan-ink sm:text-3xl">
+              24 <span className="text-elan-sage">|</span> 27
             </p>
-            <p className="mt-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-[#77736E] sm:text-xs">
+            <p className="mt-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-elan-muted sm:text-xs">
               Comfort. Quality. Confidence.
             </p>
           </div>
@@ -170,7 +170,7 @@ export function Footer() {
                           decoding="async"
                           className="min-h-0 w-full flex-1 object-contain"
                         />
-                        <span className="mt-0.5 text-center text-[9px] font-medium leading-3 text-[#637666] sm:text-[10px]">
+                        <span className="mt-0.5 text-center text-[9px] font-medium leading-3 text-elan-sage sm:text-[10px]">
                           {product.label}
                         </span>
                       </li>
@@ -187,10 +187,10 @@ export function Footer() {
                     className="aspect-square w-full max-w-[14rem] rounded-2xl object-cover sm:max-w-[12.5rem] lg:max-w-[10.5rem]"
                   />
                 )}
-                <h2 className="mt-2 font-display text-xl font-semibold text-[#1F2022] sm:mt-3 sm:text-xl">
+                <h2 className="mt-2 font-display text-xl font-semibold text-elan-ink sm:mt-3 sm:text-xl">
                   {value.title}
                 </h2>
-                <p className="mt-1 max-w-xs text-sm leading-5 text-[#77736E] sm:mt-1.5 sm:text-sm sm:leading-6">
+                <p className="mt-1 max-w-xs text-sm leading-5 text-elan-muted sm:mt-1.5 sm:text-sm sm:leading-6">
                   {value.description}
                 </p>
               </article>
@@ -206,15 +206,15 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <Grid2X2
                 size={22}
-                className="shrink-0 text-[#C5D1C2]"
+                className="shrink-0 text-elan-gold"
               />
 
               <div>
-                <p className="text-xs font-semibold text-white">
+                <p className="text-xs font-semibold text-elan-ivory">
                   Browse the Catalog
                 </p>
 
-                <p className="mt-1 text-[11px] text-neutral-400">
+                <p className="mt-1 text-[11px] text-elan-inverse-muted">
                   Explore Men’s and Women’s collections
                 </p>
               </div>
@@ -223,15 +223,15 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <Heart
                 size={22}
-                className="shrink-0 text-[#C5D1C2]"
+                className="shrink-0 text-elan-gold"
               />
 
               <div>
-                <p className="text-xs font-semibold text-white">
+                <p className="text-xs font-semibold text-elan-ivory">
                   Saved Wishlist
                 </p>
 
-                <p className="mt-1 text-[11px] text-neutral-400">
+                <p className="mt-1 text-[11px] text-elan-inverse-muted">
                   Saved in this browser
                 </p>
               </div>
@@ -240,15 +240,15 @@ export function Footer() {
             <div className="flex items-center gap-3">
               <ShoppingBag
                 size={22}
-                className="shrink-0 text-[#C5D1C2]"
+                className="shrink-0 text-elan-gold"
               />
 
               <div>
-                <p className="text-xs font-semibold text-white">
+                <p className="text-xs font-semibold text-elan-ivory">
                   Checkout Preview
                 </p>
 
-                <p className="mt-1 text-[11px] text-neutral-400">
+                <p className="mt-1 text-[11px] text-elan-inverse-muted">
                   No real orders or payments
                 </p>
               </div>
@@ -264,22 +264,22 @@ export function Footer() {
           <div className="lg:col-span-4">
             <Logo inverted size="sm" />
 
-            <p className="mt-4 max-w-sm text-sm leading-6 text-[#B9B7B2]">
+            <p className="mt-4 max-w-sm text-sm leading-6 text-elan-inverse-muted">
               2427 ÉLAN brings together thoughtfully
               designed everyday innerwear and essentials,
               with a focus on comfort, simplicity, and
               effortless style.
             </p>
 
-            <div className="mt-4 flex items-start gap-3 text-xs text-[#B9B7B2]">
+            <div className="mt-4 flex items-start gap-3 text-xs text-elan-inverse-muted">
               <Mail
                 size={17}
-                className="shrink-0 text-[#C5D1C2]"
+                className="shrink-0 text-elan-gold"
               />
 
               <Link
                 to="/contact"
-                className="transition-colors hover:text-white"
+                className="transition-colors hover:text-elan-ivory"
               >
                 Get in touch with our team
               </Link>
@@ -288,7 +288,7 @@ export function Footer() {
 
           {/* Customer Care */}
           <div className="lg:col-span-4">
-            <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-[#D9CBB7]">
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-elan-ivory">
               Customer Service
             </h3>
 
@@ -297,7 +297,7 @@ export function Footer() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-xs text-[#B9B7B2] transition-colors hover:text-white"
+                    className="text-xs text-elan-inverse-muted transition-colors hover:text-elan-ivory"
                   >
                     {link.label}
                   </Link>
@@ -308,7 +308,7 @@ export function Footer() {
 
           {/* Company */}
           <div className="lg:col-span-4">
-            <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-[#D9CBB7]">
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-elan-ivory">
               Company
             </h3>
 
@@ -317,7 +317,7 @@ export function Footer() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-xs text-[#B9B7B2] transition-colors hover:text-white"
+                    className="text-xs text-elan-inverse-muted transition-colors hover:text-elan-ivory"
                   >
                     {link.label}
                   </Link>
@@ -330,15 +330,15 @@ export function Footer() {
         {/* Newsletter CTA */}
         <div className="mt-10 grid min-w-0 gap-5 rounded-2xl border border-white/10 bg-[#222427] p-5 sm:p-6 md:grid-cols-[minmax(0,1fr)_minmax(300px,0.9fr)] md:items-center">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C5D1C2]">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-elan-gold">
               Stay Connected
             </p>
 
-            <h3 className="mt-2 font-display text-xl font-medium text-white sm:text-2xl">
+            <h3 className="mt-2 font-display text-xl font-medium text-elan-ivory sm:text-2xl">
               Discover what's new at 2427 ÉLAN
             </h3>
 
-            <p className="mt-2 max-w-xl text-xs leading-5 text-[#B9B7B2]">
+            <p className="mt-2 max-w-xl text-xs leading-5 text-elan-inverse-muted">
               Subscriptions are stored for review when the database is configured. No marketing email service is connected.
             </p>
           </div>
@@ -352,28 +352,28 @@ export function Footer() {
               value={newsletterEmail}
               onChange={(event) => setNewsletterEmail(event.target.value)}
               placeholder="Email address"
-              className="min-h-11 min-w-0 rounded-lg border border-white/20 bg-[#18191B] px-3 text-sm text-white placeholder:text-neutral-400"
+              className="min-h-11 min-w-0 rounded-lg border border-white/20 bg-[#18191B] px-3 text-sm text-elan-ivory placeholder:text-elan-inverse-muted"
             />
-            <label className="flex items-start gap-2 text-[11px] leading-5 text-[#B9B7B2] sm:col-span-2">
+            <label className="flex items-start gap-2 text-[11px] leading-5 text-elan-inverse-muted sm:col-span-2">
               <input
                 type="checkbox"
                 required
                 checked={newsletterConsent}
                 onChange={(event) => setNewsletterConsent(event.target.checked)}
-                className="mt-1 accent-[#C5D1C2]"
+                className="mt-1 accent-elan-gold"
               />
               I agree to have this email stored as a newsletter subscription. No emails are currently sent.
             </label>
             <button
               type="submit"
               disabled={newsletterSubmitting}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#D9CBB7] px-5 text-xs font-bold text-[#18191B] transition-colors hover:bg-white disabled:opacity-60"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-elan-gold px-5 text-xs font-bold text-elan-ink transition-colors hover:bg-white disabled:opacity-60"
             >
               {newsletterSubmitting ? 'Saving…' : 'Subscribe'}
               <ArrowRight size={16} />
             </button>
             {newsletterMessage && (
-              <p role={newsletterError ? 'alert' : 'status'} className={`text-xs leading-5 sm:col-span-2 ${newsletterError ? 'text-red-300' : 'text-[#C5D1C2]'}`}>
+              <p role={newsletterError ? 'alert' : 'status'} className={`text-xs leading-5 sm:col-span-2 ${newsletterError ? 'text-red-300' : 'text-elan-gold'}`}>
                 {newsletterMessage}
               </p>
             )}
@@ -382,28 +382,28 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="mt-10 flex flex-col gap-5 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-elan-inverse-muted">
             © {year} 2427 ÉLAN. All rights reserved.
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
             <Link
               to="/contact#privacy"
-              className="text-[11px] text-neutral-500 hover:text-white"
+              className="text-[11px] text-elan-inverse-muted hover:text-elan-ivory"
             >
               Privacy Preview
             </Link>
 
             <Link
               to="/contact#terms"
-              className="text-[11px] text-neutral-500 hover:text-white"
+              className="text-[11px] text-elan-inverse-muted hover:text-elan-ivory"
             >
               Terms Preview
             </Link>
 
             <Link
               to="/contact"
-              className="text-[11px] text-neutral-500 hover:text-white"
+              className="text-[11px] text-elan-inverse-muted hover:text-elan-ivory"
             >
               Support
             </Link>
@@ -414,10 +414,10 @@ export function Footer() {
         <div className="mt-6 flex items-start gap-2 rounded-xl border border-white/10 bg-white/5 p-4">
           <ShieldCheck
             size={16}
-            className="mt-0.5 shrink-0 text-[#C5D1C2]"
+            className="mt-0.5 shrink-0 text-elan-gold"
           />
 
-          <p className="text-[11px] leading-5 text-neutral-400">
+          <p className="text-[11px] leading-5 text-elan-inverse-muted">
             This website currently demonstrates the
             shopping experience. Online payments and
             order processing are not yet active.

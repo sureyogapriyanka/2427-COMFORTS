@@ -213,7 +213,7 @@ export function Header() {
           {/* Category Links */}
           <div>
             <div className="mb-3 flex items-center justify-between border-b border-[#EEE7DE] pb-3">
-              <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#637666]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-elan-sage">
                 {gender === 'men'
                   ? "Men's Collection"
                   : "Women's Collection"}
@@ -222,7 +222,7 @@ export function Header() {
               <Link
                 to={`/category/${items[0].slug}`}
                 onClick={closeDropdown}
-                className="text-[11px] font-semibold text-[#637666] hover:text-[#1F2022]"
+                className="text-[11px] font-semibold text-elan-sage hover:text-elan-ink"
               >
                 Explore
                 <ArrowRight
@@ -246,15 +246,15 @@ export function Header() {
                     }
                     className={`group flex items-center justify-between rounded-xl px-3 py-2.5 transition-colors ${selected.slug === item.slug
                         ? 'bg-[#F2F4EF]'
-                        : 'hover:bg-[#FAF8F5]'
+                        : 'hover:bg-elan-ivory'
                       }`}
                   >
                     <div className="min-w-0">
-                      <span className="text-sm font-semibold text-[#1F2022] group-hover:text-[#637666]">
+                      <span className="text-sm font-semibold text-elan-ink group-hover:text-elan-sage">
                         {item.title}
                       </span>
 
-                      <p className="mt-1 line-clamp-1 text-[11px] text-[#77736E]">
+                      <p className="mt-1 line-clamp-1 text-[11px] text-elan-muted">
                         {item.tagline}
                       </p>
                     </div>
@@ -262,13 +262,13 @@ export function Header() {
                     {item.slug.endsWith(
                       'bestsellers'
                     ) ? (
-                      <span className="rounded-full bg-[#F2F4EF] px-2 py-1 text-[10px] font-bold text-[#637666]">
+                      <span className="rounded-full bg-[#F2F4EF] px-2 py-1 text-[10px] font-bold text-elan-sage">
                         Popular
                       </span>
                     ) : (
                       <ArrowRight
                         size={15}
-                        className="text-[#637666] opacity-0 transition-opacity group-hover:opacity-100"
+                        className="text-elan-sage opacity-0 transition-opacity group-hover:opacity-100"
                       />
                     )}
                   </Link>
@@ -278,7 +278,7 @@ export function Header() {
           </div>
 
           {/* Image Preview */}
-          <div className="flex flex-col overflow-hidden rounded-xl border border-[#EEE7DE] bg-[#FAF8F5] p-3">
+          <div className="flex flex-col overflow-hidden rounded-xl border border-[#EEE7DE] bg-elan-ivory p-3">
             <div className="relative h-[220px] overflow-hidden rounded-lg bg-white">
               {items.map((item) => (
                 <img
@@ -295,22 +295,22 @@ export function Header() {
             </div>
 
             <div className="mt-3 flex flex-1 flex-col justify-end">
-              <span className="text-[9px] font-bold uppercase tracking-wider text-[#637666]">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-elan-sage">
                 Featured Collection
               </span>
 
-              <h4 className="mt-1 font-display text-lg font-medium text-[#1F2022]">
+              <h4 className="mt-1 font-display text-lg font-medium text-elan-ink">
                 {selected.title}
               </h4>
 
-              <p className="mt-1 line-clamp-1 text-xs text-[#77736E]">
+              <p className="mt-1 line-clamp-1 text-xs text-elan-muted">
                 {selected.tagline}
               </p>
 
               <Link
                 to={`/category/${selected.slug}`}
                 onClick={closeDropdown}
-                className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-[#637666] hover:text-[#1F2022]"
+                className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-elan-sage hover:text-elan-ink"
               >
                 Shop Collection
                 <ArrowRight size={14} />
@@ -336,7 +336,7 @@ export function Header() {
             type="button"
             onClick={() => openOverlay('menu')}
             aria-label="Open mobile menu"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F4EFEB]"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-elan-ink hover:bg-[#F4EFEB]"
           >
             <Menu size={21} />
           </button>
@@ -345,7 +345,7 @@ export function Header() {
             type="button"
             onClick={() => openOverlay('search')}
             aria-label="Search products"
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F4EFEB]"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-elan-ink hover:bg-[#F4EFEB]"
           >
             <Search size={20} />
           </button>
@@ -380,8 +380,8 @@ export function Header() {
               className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${location.pathname.startsWith(
                 '/category/men'
               )
-                  ? 'text-[#637666]'
-                  : 'text-[#1F2022] hover:text-[#637666]'
+                  ? 'text-elan-sage'
+                  : 'text-elan-ink hover:text-elan-sage'
                 }`}
             >
               Men
@@ -417,8 +417,8 @@ export function Header() {
               className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${location.pathname.startsWith(
                 '/category/women'
               )
-                  ? 'text-[#637666]'
-                  : 'text-[#1F2022] hover:text-[#637666]'
+                  ? 'text-elan-sage'
+                  : 'text-elan-ink hover:text-elan-sage'
                 }`}
             >
               Women
@@ -440,8 +440,8 @@ export function Header() {
             to="/category/new-arrivals"
             className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${location.pathname ===
                 '/category/new-arrivals'
-                ? 'text-[#637666]'
-                : 'text-[#1F2022] hover:text-[#637666]'
+                ? 'text-elan-sage'
+                : 'text-elan-ink hover:text-elan-sage'
               }`}
           >
             New Arrivals
@@ -452,8 +452,8 @@ export function Header() {
             to="/category/bestsellers"
             className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${location.pathname ===
                 '/category/bestsellers'
-                ? 'text-[#637666]'
-                : 'text-[#1F2022] hover:text-[#637666]'
+                ? 'text-elan-sage'
+                : 'text-elan-ink hover:text-elan-sage'
               }`}
           >
             Bestsellers
@@ -464,8 +464,8 @@ export function Header() {
             to="/category/sale"
             className={`rounded-lg px-3 py-2 text-sm font-semibold transition-colors ${location.pathname ===
                 '/category/sale'
-                ? 'text-[#637666]'
-                : 'text-[#1F2022] hover:text-[#637666]'
+                ? 'text-elan-sage'
+                : 'text-elan-ink hover:text-elan-sage'
               }`}
           >
             Sale
@@ -479,7 +479,7 @@ export function Header() {
             type="button"
             onClick={() => openOverlay('search')}
             aria-label="Search products"
-            className="hidden items-center gap-2 rounded-full border border-[#E8E5E0] bg-[#FAF8F5] px-4 py-2.5 text-xs font-medium text-[#77736E] hover:border-[#637666] lg:flex"
+            className="hidden items-center gap-2 rounded-full border border-[#E8E5E0] bg-elan-ivory px-4 py-2.5 text-xs font-medium text-elan-muted hover:border-[#637666] lg:flex"
           >
             <Search size={16} />
             Search...
@@ -492,7 +492,7 @@ export function Header() {
           <Link
             to="/account"
             aria-label="Account"
-            className="hidden h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F4EFEB] sm:flex"
+            className="hidden h-10 w-10 items-center justify-center rounded-full text-elan-ink hover:bg-[#F4EFEB] sm:flex"
           >
             <UserRound size={20} />
           </Link>
@@ -501,12 +501,12 @@ export function Header() {
           <Link
             to="/wishlist"
             aria-label={`Wishlist with ${wishlistCount} items`}
-            className="relative flex h-10 w-10 items-center justify-center rounded-full text-[#1F2022] hover:bg-[#F4EFEB]"
+            className="relative flex h-10 w-10 items-center justify-center rounded-full text-elan-ink hover:bg-[#F4EFEB]"
           >
             <Heart size={20} />
 
             {wishlistCount > 0 && (
-              <span className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#637666] px-1 text-[10px] font-bold text-white">
+              <span className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-elan-sage px-1 text-[10px] font-bold text-elan-ivory">
                 {wishlistCount}
               </span>
             )}
@@ -517,7 +517,7 @@ export function Header() {
             type="button"
             onClick={() => openOverlay('cart')}
             aria-label={`Shopping bag with ${cartCount} items`}
-            className="flex h-10 items-center gap-2 rounded-full bg-[#1F2022] px-3 text-white transition-colors hover:bg-[#34373C] sm:px-4"
+            className="flex h-10 items-center gap-2 rounded-full bg-elan-ink px-3 text-elan-ivory transition-colors hover:bg-elan-ink-hover sm:px-4"
           >
             <ShoppingBag size={18} />
 

@@ -60,18 +60,18 @@ export function Benefits() {
                 key={feature.title}
                 className="flex min-h-[220px] flex-col rounded-2xl border border-[#E8E1D7] bg-white p-6 shadow-xs transition-shadow hover:shadow-md sm:p-7"
               >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#637666]/10 text-[#637666]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-elan-sage/10 text-elan-sage">
                   <Icon className="h-5 w-5" aria-hidden="true" />
                 </div>
-                <h3 className="mt-5 font-display text-xl font-medium text-[#1F2022]">
+                <h3 className="mt-5 font-display text-xl font-medium text-elan-ink">
                   {feature.title}
                 </h3>
-                <p className="mt-2 flex-1 text-xs leading-6 text-[#5E6064]">
+                <p className="mt-2 flex-1 text-xs leading-6 text-elan-muted">
                   {feature.description}
                 </p>
                 <Link
                   to={feature.to}
-                  className="mt-4 inline-flex min-h-10 items-center gap-2 text-xs font-semibold text-[#637666] hover:text-[#1F2022]"
+                  className="mt-4 inline-flex min-h-10 items-center gap-2 text-xs font-semibold text-elan-sage hover:text-elan-ink"
                 >
                   {feature.label}
                 </Link>

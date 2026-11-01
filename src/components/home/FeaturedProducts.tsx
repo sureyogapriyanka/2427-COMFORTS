@@ -13,28 +13,28 @@ export function FeaturedProducts() {
   ];
 
   return (
-    <section className="bg-[#FAF8F5] py-12 sm:py-16">
+    <section className="bg-elan-ivory py-12 sm:py-16">
       <Container>
         <div className="mb-7 flex flex-col gap-5 sm:mb-9 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-2xl">
             <p className="eyebrow mb-2">A considered edit</p>
-            <h2 className="font-display text-3xl font-medium leading-tight tracking-tight text-[#1F2022] sm:text-4xl">
+            <h2 className="font-display text-3xl font-medium leading-tight tracking-tight text-elan-ink sm:text-4xl">
               CURATED FOR YOUR EVERYDAY
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-[#5E6064] sm:text-base">
+            <p className="mt-3 text-sm leading-relaxed text-elan-muted sm:text-base">
               Discover everyday essentials, thoughtfully selected for comfort and style.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
               to="/category/men-underwear"
-              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#1F2022] px-4 text-xs font-semibold text-[#1F2022] transition-colors hover:bg-[#1F2022] hover:text-white"
+              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-elan-ink px-4 text-xs font-semibold text-elan-ink transition-colors hover:bg-elan-ink hover:text-elan-ivory"
             >
               Shop Men <ArrowRight size={14} aria-hidden="true" />
             </Link>
             <Link
               to="/category/women-bras"
-              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#1F2022] px-4 text-xs font-semibold text-[#1F2022] transition-colors hover:bg-[#1F2022] hover:text-white"
+              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-elan-ink px-4 text-xs font-semibold text-elan-ink transition-colors hover:bg-elan-ink hover:text-elan-ivory"
             >
               Shop Women <ArrowRight size={14} aria-hidden="true" />
             </Link>
@@ -42,15 +42,15 @@ export function FeaturedProducts() {
         </div>
 
         {isLoading ? (
-          <p role="status" className="py-12 text-center text-sm text-[#77736E]">
+          <p role="status" className="py-12 text-center text-sm text-elan-muted">
             Loading featured products…
           </p>
         ) : error ? (
-          <p role="alert" className="rounded-xl border border-[#E8E1D7] bg-white p-5 text-sm text-[#77736E]">
+          <p role="alert" className="rounded-xl border border-[#E8E1D7] bg-white p-5 text-sm text-elan-muted">
             Featured products could not be loaded. Please try again later.
           </p>
         ) : featuredProducts.length === 0 ? (
-          <p className="rounded-xl border border-[#E8E1D7] bg-white p-5 text-sm text-[#77736E]">
+          <p className="rounded-xl border border-[#E8E1D7] bg-white p-5 text-sm text-elan-muted">
             There are no featured products available in the catalog yet.
           </p>
         ) : (

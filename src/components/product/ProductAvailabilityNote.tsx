@@ -14,8 +14,8 @@ export function ProductAvailabilityNote({ product }: { product: Product }) {
     <p
       className={`mt-2 text-[11px] leading-4 ${
         availability === 'out_of_stock'
-          ? 'text-[#A85A3C]'
-          : 'text-[#77736E]'
+          ? 'text-elan-danger'
+          : 'text-elan-muted'
       }`}
     >
       {message}

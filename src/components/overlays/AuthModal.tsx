@@ -158,7 +158,7 @@ export function AuthModal() {
           type="button"
           onClick={closeOverlay}
           aria-label="Close account modal"
-          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[#77736E] transition-colors hover:bg-[#F4EFEB] hover:text-[#1F2022]"
+          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-elan-muted transition-colors hover:bg-[#F4EFEB] hover:text-elan-ink"
         >
           <X size={19} />
         </button>
@@ -169,13 +169,13 @@ export function AuthModal() {
             <Logo size="sm" />
           </div>
 
-          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#637666]">
+          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-elan-sage">
             2427 ÉLAN
           </p>
 
           <h2
             id="auth-modal-title"
-            className="mt-3 font-display text-2xl font-medium text-[#1F2022] sm:text-3xl"
+            className="mt-3 font-display text-2xl font-medium text-elan-ink sm:text-3xl"
           >
             {mode === 'signin'
               ? 'Welcome Back'
@@ -184,7 +184,7 @@ export function AuthModal() {
                 : 'Forgot Password?'}
           </h2>
 
-          <p className="mx-auto mt-2 max-w-xs text-xs leading-6 text-[#77736E]">
+          <p className="mx-auto mt-2 max-w-xs text-xs leading-6 text-elan-muted">
             {mode === 'signin'
               ? 'Sign in to continue your comfort journey.'
               : mode === 'signup'
@@ -202,8 +202,8 @@ export function AuthModal() {
                 onClick={() => switchMode('signin')}
                 aria-pressed={mode === 'signin'}
                 className={`rounded-lg py-3 text-sm font-semibold transition-all ${mode === 'signin'
-                    ? 'bg-white text-[#1F2022] shadow-sm'
-                    : 'text-[#77736E] hover:text-[#1F2022]'
+                    ? 'bg-white text-elan-ink shadow-sm'
+                    : 'text-elan-muted hover:text-elan-ink'
                   }`}
               >
                 Sign In
@@ -214,8 +214,8 @@ export function AuthModal() {
                 onClick={() => switchMode('signup')}
                 aria-pressed={mode === 'signup'}
                 className={`rounded-lg py-3 text-sm font-semibold transition-all ${mode === 'signup'
-                    ? 'bg-white text-[#1F2022] shadow-sm'
-                    : 'text-[#77736E] hover:text-[#1F2022]'
+                    ? 'bg-white text-elan-ink shadow-sm'
+                    : 'text-elan-muted hover:text-elan-ink'
                   }`}
               >
                 Sign Up
@@ -224,14 +224,14 @@ export function AuthModal() {
           )}
 
           {/* Account availability */}
-          <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-[#E8E1D7] bg-[#FAF8F5] p-3">
+          <div className="mb-5 flex items-start gap-2.5 rounded-xl border border-[#E8E1D7] bg-elan-ivory p-3">
             <ShieldCheck
               size={17}
-              className="mt-0.5 shrink-0 text-[#637666]"
+              className="mt-0.5 shrink-0 text-elan-sage"
             />
 
-            <p className="text-[11px] leading-5 text-[#77736E]">
-              <strong className="text-[#1F2022]">
+            <p className="text-[11px] leading-5 text-elan-muted">
+              <strong className="text-elan-ink">
                 Account access:
               </strong>{' '}
               Sign-in and registration require the API to be configured. Password reset is unavailable until email delivery is set up.
@@ -248,7 +248,7 @@ export function AuthModal() {
               <div>
                 <label
                   htmlFor="auth-name"
-                  className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                  className="mb-2 block text-xs font-semibold text-elan-ink"
                 >
                   Full Name
                 </label>
@@ -256,7 +256,7 @@ export function AuthModal() {
                 <div className="relative">
                   <User
                     size={17}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#77736E]"
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-elan-muted"
                   />
 
                   <input
@@ -270,7 +270,7 @@ export function AuthModal() {
                       setName(event.target.value)
                     }
                     placeholder="Enter your full name"
-                    className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-white pl-11 pr-4 text-sm text-[#1F2022] outline-none focus:border-[#637666]"
+                    className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-white pl-11 pr-4 text-sm text-elan-ink outline-none focus:border-elan-sage"
                   />
                 </div>
               </div>
@@ -280,7 +280,7 @@ export function AuthModal() {
             <div>
               <label
                 htmlFor="auth-email"
-                className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                className="mb-2 block text-xs font-semibold text-elan-ink"
               >
                 Email Address
               </label>
@@ -288,7 +288,7 @@ export function AuthModal() {
               <div className="relative">
                 <Mail
                   size={17}
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#77736E]"
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-elan-muted"
                 />
 
                 <input
@@ -301,7 +301,7 @@ export function AuthModal() {
                     setEmail(event.target.value)
                   }
                   placeholder="you@example.com"
-                  className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-white pl-11 pr-4 text-sm text-[#1F2022] outline-none focus:border-[#637666]"
+                  className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-white pl-11 pr-4 text-sm text-elan-ink outline-none focus:border-elan-sage"
                 />
               </div>
             </div>
@@ -311,7 +311,7 @@ export function AuthModal() {
               <div>
                 <label
                   htmlFor="auth-password"
-                  className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                  className="mb-2 block text-xs font-semibold text-elan-ink"
                 >
                   Password
                 </label>
@@ -319,7 +319,7 @@ export function AuthModal() {
                 <div className="relative">
                   <Lock
                     size={17}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#77736E]"
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-elan-muted"
                   />
 
                   <input
@@ -339,7 +339,7 @@ export function AuthModal() {
                       setPassword(event.target.value)
                     }
                     placeholder={mode === 'signup' ? '12+ characters with letters and numbers' : 'Enter your password'}
-                    className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-white pl-11 pr-12 text-sm text-[#1F2022] outline-none focus:border-[#637666]"
+                    className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-white pl-11 pr-12 text-sm text-elan-ink outline-none focus:border-elan-sage"
                   />
 
                   <button
@@ -352,7 +352,7 @@ export function AuthModal() {
                         ? 'Hide password'
                         : 'Show password'
                     }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1 text-[#77736E] hover:text-[#1F2022]"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1 text-elan-muted hover:text-elan-ink"
                   >
                     {showPassword ? (
                       <EyeOff size={18} />
@@ -369,7 +369,7 @@ export function AuthModal() {
               <div>
                 <label
                   htmlFor="auth-confirm-password"
-                  className="mb-2 block text-xs font-semibold text-[#1F2022]"
+                  className="mb-2 block text-xs font-semibold text-elan-ink"
                 >
                   Confirm Password
                 </label>
@@ -377,7 +377,7 @@ export function AuthModal() {
                 <div className="relative">
                   <Lock
                     size={17}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#77736E]"
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-elan-muted"
                   />
 
                   <input
@@ -395,7 +395,7 @@ export function AuthModal() {
                       setConfirmPassword(event.target.value)
                     }
                     placeholder="Re-enter your password"
-                    className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-white pl-11 pr-12 text-sm text-[#1F2022] outline-none focus:border-[#637666]"
+                    className="h-12 w-full rounded-xl border border-[#E8E1D7] bg-white pl-11 pr-12 text-sm text-elan-ink outline-none focus:border-elan-sage"
                   />
 
                   <button
@@ -410,7 +410,7 @@ export function AuthModal() {
                         ? 'Hide password'
                         : 'Show password'
                     }
-                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1 text-[#77736E] hover:text-[#1F2022]"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1 text-elan-muted hover:text-elan-ink"
                   >
                     {showConfirmPassword ? (
                       <EyeOff size={18} />
@@ -428,7 +428,7 @@ export function AuthModal() {
                 <button
                   type="button"
                   onClick={() => switchMode('forgot')}
-                  className="text-xs font-semibold text-[#637666] hover:underline"
+                  className="text-xs font-semibold text-elan-sage hover:underline"
                 >
                   Forgot Password?
                 </button>
@@ -453,7 +453,7 @@ export function AuthModal() {
             {resultMessage && (
               <div
                 role="status"
-                className="flex items-start gap-2 rounded-xl border border-[#CBD8CA] bg-[#F2F4EF] p-3 text-xs leading-5 text-[#47584A]"
+                className="flex items-start gap-2 rounded-xl border border-[#CBD8CA] bg-[#F2F4EF] p-3 text-xs leading-5 text-elan-sage"
               >
                 <CheckCircle2
                   size={18}
@@ -468,7 +468,7 @@ export function AuthModal() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1F2022] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#34373C] disabled:cursor-wait disabled:opacity-60"
+              className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-elan-ink px-5 py-3 text-sm font-semibold text-elan-ivory transition-colors hover:bg-elan-ink-hover disabled:cursor-wait disabled:opacity-60"
             >
               {isSubmitting ? 'Please wait…' : mode === 'signin'
                 ? 'Sign In'
@@ -485,7 +485,7 @@ export function AuthModal() {
                 <button
                   type="button"
                   onClick={() => switchMode('signin')}
-                  className="inline-flex items-center gap-2 text-xs font-semibold text-[#637666] hover:underline"
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-elan-sage hover:underline"
                 >
                   <ArrowLeft size={15} />
                   Back to Sign In
@@ -500,7 +500,7 @@ export function AuthModal() {
                         : 'signin'
                     )
                   }
-                  className="text-xs font-medium text-[#637666] hover:underline"
+                  className="text-xs font-medium text-elan-sage hover:underline"
                 >
                   {mode === 'signin'
                     ? "Don't have an account? Sign Up"
@@ -512,24 +512,24 @@ export function AuthModal() {
 
           {/* Benefits */}
           <div className="mt-7 grid grid-cols-2 gap-3 border-t border-[#EEE7DE] pt-5">
-            <div className="flex items-center gap-2 text-xs text-[#77736E]">
+            <div className="flex items-center gap-2 text-xs text-elan-muted">
               <Heart
                 size={16}
-                className="shrink-0 text-[#637666]"
+                className="shrink-0 text-elan-sage"
               />
               Save Favorites
             </div>
 
-            <div className="flex items-center gap-2 text-xs text-[#77736E]">
+            <div className="flex items-center gap-2 text-xs text-elan-muted">
               <ShoppingBag
                 size={16}
-                className="shrink-0 text-[#637666]"
+                className="shrink-0 text-elan-sage"
               />
               Shop Comfortably
             </div>
           </div>
 
-          <p className="mt-6 text-center text-[10px] leading-5 text-[#99938B]">
+          <p className="mt-6 text-center text-[10px] leading-5 text-elan-muted">
             2427 ÉLAN · Everyday Comfort,
             Thoughtfully Designed
           </p>

@@ -50,19 +50,19 @@ export function Logo({
       {/* Existing 24 | 27 brand emblem */}
       <div
         className={`relative flex shrink-0 items-center justify-center rounded-lg border font-numeral font-bold transition-colors ${inverted
-            ? 'border-white/20 bg-white/10 text-white'
-            : 'border-[#202020] bg-[#202020] text-white group-hover:bg-black'
+            ? 'border-white/20 bg-white/10 text-elan-ivory'
+            : 'border-elan-ink bg-elan-ink text-elan-ivory group-hover:bg-elan-ink-hover'
           } ${sizeStyles.frame}`}
       >
         <span className="tracking-tighter">24</span>
         <span className="mx-1.5 h-4 w-px rounded-full bg-[#9BAA9D]" />
-        <span className="tracking-tighter text-[#E8E1D7]">27</span>
+        <span className="tracking-tighter text-elan-ivory">27</span>
       </div>
 
       {/* Brand name without duplicate 2427 */}
       {showSubtitle && (
         <span
-          className={`whitespace-nowrap font-sans font-bold leading-none ${sizeStyles.mark} ${inverted ? 'text-white' : 'text-[#202020]'
+          className={`whitespace-nowrap font-sans font-bold leading-none ${sizeStyles.mark} ${inverted ? 'text-elan-ivory' : 'text-elan-ink'
             }`}
         >
           ÉLAN

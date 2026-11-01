@@ -21,7 +21,7 @@ export function NewArrivals() {
   });
 
   return (
-    <section className="py-16 sm:py-24 bg-[#FAF8F5]">
+    <section className="py-16 sm:py-24 bg-elan-ivory">
       <Container>
         <SectionHeading
           eyebrow="Recently added styles"
@@ -35,8 +35,8 @@ export function NewArrivals() {
                 aria-pressed={filter === 'all'}
                 className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
                   filter === 'all'
-                    ? 'bg-[#1F2022] text-[#FAF8F5] shadow-xs'
-                    : 'text-[#6B6F76] hover:text-[#1F2022]'
+                    ? 'bg-elan-ink text-elan-ivory shadow-xs'
+                    : 'text-elan-muted hover:text-elan-ink'
                 }`}
               >
                 All New
@@ -47,8 +47,8 @@ export function NewArrivals() {
                 aria-pressed={filter === 'men'}
                 className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
                   filter === 'men'
-                    ? 'bg-[#1F2022] text-[#FAF8F5] shadow-xs'
-                    : 'text-[#6B6F76] hover:text-[#1F2022]'
+                    ? 'bg-elan-ink text-elan-ivory shadow-xs'
+                    : 'text-elan-muted hover:text-elan-ink'
                 }`}
               >
                 Men's Drops
@@ -59,8 +59,8 @@ export function NewArrivals() {
                 aria-pressed={filter === 'women'}
                 className={`rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
                   filter === 'women'
-                    ? 'bg-[#1F2022] text-[#FAF8F5] shadow-xs'
-                    : 'text-[#6B6F76] hover:text-[#1F2022]'
+                    ? 'bg-elan-ink text-elan-ivory shadow-xs'
+                    : 'text-elan-muted hover:text-elan-ink'
                 }`}
               >
                 Women's Drops
@@ -78,7 +78,7 @@ export function NewArrivals() {
         <div className="mt-12 text-center">
           <Link
             to="/category/new-arrivals"
-            className="inline-flex items-center gap-2 rounded-full border border-[#1F2022] px-6 py-3 text-xs font-semibold uppercase tracking-wider text-[#1F2022] hover:bg-[#1F2022] hover:text-white transition-all shadow-xs"
+            className="inline-flex items-center gap-2 rounded-full border border-elan-ink px-6 py-3 text-xs font-semibold uppercase tracking-wider text-elan-ink hover:bg-elan-ink hover:text-elan-ivory transition-all shadow-xs"
           >
             <span>Explore All New Arrivals</span>
             <ArrowRight className="h-4 w-4" />

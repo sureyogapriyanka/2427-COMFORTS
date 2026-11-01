@@ -147,17 +147,17 @@ export function SearchModal() {
         role="dialog"
         aria-modal="true"
         aria-label="Search products"
-        className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border border-[#E8E1D7] bg-[#FAF8F5] shadow-2xl sm:rounded-3xl"
+        className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border border-[#E8E1D7] bg-elan-ivory shadow-2xl sm:rounded-3xl"
       >
         {/* Header */}
         <div className="border-b border-[#E8E1D7] bg-white px-4 pb-4 pt-5 sm:px-7 sm:pt-6">
           <div className="mb-4 flex items-center justify-between gap-4">
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-elan-sage">
                 2427 ÉLAN
               </p>
 
-              <h2 className="mt-1 font-display text-xl font-medium text-[#1F2022] sm:text-2xl">
+              <h2 className="mt-1 font-display text-xl font-medium text-elan-ink sm:text-2xl">
                 What are you looking for?
               </h2>
             </div>
@@ -166,17 +166,17 @@ export function SearchModal() {
               type="button"
               onClick={closeOverlay}
               aria-label="Close search"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F4EFEB] text-[#1F2022] transition-colors hover:bg-[#E8E1D7]"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#F4EFEB] text-elan-ink transition-colors hover:bg-[#E8E1D7]"
             >
               <X size={19} />
             </button>
           </div>
 
           {/* Search Input */}
-          <div className="flex min-h-14 items-center gap-3 rounded-xl border border-[#DAD8D1] bg-[#FAF8F5] px-4 transition-colors focus-within:border-[#637666]">
+          <div className="flex min-h-14 items-center gap-3 rounded-xl border border-[#DAD8D1] bg-elan-ivory px-4 transition-colors focus-within:border-[#637666]">
             <Search
               size={20}
-              className="shrink-0 text-[#637666]"
+              className="shrink-0 text-elan-sage"
             />
 
             <input
@@ -188,7 +188,7 @@ export function SearchModal() {
               }
               placeholder="Search products, fabrics, categories..."
               aria-label="Search products"
-              className="min-w-0 flex-1 bg-transparent py-3 text-sm text-[#1F2022] outline-none placeholder:text-[#99938B] sm:text-base"
+              className="min-w-0 flex-1 bg-transparent py-3 text-sm text-elan-ink outline-none placeholder:text-elan-muted sm:text-base"
             />
 
             {query && (
@@ -196,7 +196,7 @@ export function SearchModal() {
                 type="button"
                 onClick={clearSearch}
                 aria-label="Clear search"
-                className="rounded-full p-1.5 text-[#77736E] hover:bg-[#EEE7DE]"
+                className="rounded-full p-1.5 text-elan-muted hover:bg-[#EEE7DE]"
               >
                 <X size={17} />
               </button>
@@ -209,10 +209,10 @@ export function SearchModal() {
           <div className="mb-3 flex items-center gap-2">
             <TrendingUp
               size={15}
-              className="text-[#637666]"
+              className="text-elan-sage"
             />
 
-            <span className="text-xs font-semibold text-[#1F2022]">
+            <span className="text-xs font-semibold text-elan-ink">
               Popular Searches
             </span>
           </div>
@@ -233,8 +233,8 @@ export function SearchModal() {
                   }}
                   aria-pressed={isActive}
                   className={`rounded-full border px-3 py-2 text-xs font-medium transition-colors ${isActive
-                      ? 'border-[#637666] bg-[#637666] text-white'
-                      : 'border-[#E8E1D7] bg-white text-[#5E6064] hover:border-[#637666] hover:text-[#637666]'
+                      ? 'border-[#637666] bg-elan-sage text-elan-ivory'
+                      : 'border-[#E8E1D7] bg-white text-elan-muted hover:border-[#637666] hover:text-elan-sage'
                     }`}
                 >
                   {suggestion}
@@ -251,21 +251,21 @@ export function SearchModal() {
               <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#F2F4EF]">
                 <Sparkles
                   size={31}
-                  className="text-[#637666]"
+                  className="text-elan-sage"
                 />
               </div>
 
-              <h3 className="font-display text-xl font-medium text-[#1F2022] sm:text-2xl">
+              <h3 className="font-display text-xl font-medium text-elan-ink sm:text-2xl">
                 Discover Everyday Comfort
               </h3>
 
-              <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-[#77736E]">
+              <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-elan-muted">
                 Explore comfortable essentials for
                 every day. Start typing or choose a
                 popular search above.
               </p>
 
-              <div className="mt-6 flex items-center justify-center gap-2 text-xs text-[#99938B]">
+              <div className="mt-6 flex items-center justify-center gap-2 text-xs text-elan-muted">
                 <Clock3 size={14} />
                 Results appear as you type
               </div>
@@ -275,15 +275,15 @@ export function SearchModal() {
               <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#F2F4EF]">
                 <PackageSearch
                   size={30}
-                  className="text-[#637666]"
+                  className="text-elan-sage"
                 />
               </div>
 
-              <h3 className="font-display text-xl font-medium text-[#1F2022]">
+              <h3 className="font-display text-xl font-medium text-elan-ink">
                 No Products Found
               </h3>
 
-              <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-[#77736E]">
+              <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-elan-muted">
                 No products match "{query}". Try
                 another name, fabric or category.
               </p>
@@ -291,7 +291,7 @@ export function SearchModal() {
               <button
                 type="button"
                 onClick={clearSearch}
-                className="mt-6 rounded-xl bg-[#1F2022] px-6 py-3 text-xs font-semibold text-white hover:bg-[#34373C]"
+                className="mt-6 rounded-xl bg-elan-ink px-6 py-3 text-xs font-semibold text-elan-ivory hover:bg-elan-ink-hover"
               >
                 Clear Search
               </button>
@@ -301,11 +301,11 @@ export function SearchModal() {
               {/* Results Header */}
               <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-[#637666]">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-elan-sage">
                     Search Results
                   </p>
 
-                  <p className="mt-1 text-xs text-[#77736E]">
+                  <p className="mt-1 text-xs text-elan-muted">
                     {results.length}{' '}
                     {results.length === 1
                       ? 'product found'
@@ -313,7 +313,7 @@ export function SearchModal() {
                   </p>
                 </div>
 
-                <span className="rounded-full bg-[#EDF3ED] px-3 py-1.5 text-[11px] font-semibold text-[#637666]">
+                <span className="rounded-full bg-[#EDF3ED] px-3 py-1.5 text-[11px] font-semibold text-elan-sage">
                   Live Results
                 </span>
               </div>
@@ -346,27 +346,27 @@ export function SearchModal() {
                       {/* Product Info */}
                       <div className="min-w-0 flex-1">
                         <div className="mb-1 flex flex-wrap items-center gap-2">
-                          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#637666]">
+                          <span className="text-[10px] font-semibold uppercase tracking-wider text-elan-sage">
                             {product.categoryLabel}
                           </span>
 
                           {product.badge && (
-                            <span className="rounded-md bg-[#F2F4EF] px-2 py-0.5 text-[9px] font-semibold text-[#637666]">
+                            <span className="rounded-md bg-[#F2F4EF] px-2 py-0.5 text-[9px] font-semibold text-elan-sage">
                               {product.badge}
                             </span>
                           )}
                         </div>
 
-                        <h3 className="line-clamp-2 font-display text-sm font-semibold text-[#1F2022] transition-colors group-hover:text-[#637666] sm:text-base">
+                        <h3 className="line-clamp-2 font-display text-sm font-semibold text-elan-ink transition-colors group-hover:text-elan-sage sm:text-base">
                           {product.name}
                         </h3>
 
-                        <p className="mt-1 line-clamp-1 text-xs text-[#77736E]">
+                        <p className="mt-1 line-clamp-1 text-xs text-elan-muted">
                           {product.subtitle}
                         </p>
 
                         {product.fabricBadge && (
-                          <p className="mt-1 text-[11px] text-[#637666]">
+                          <p className="mt-1 text-[11px] text-elan-sage">
                             {product.fabricBadge}
                           </p>
                         )}
@@ -374,12 +374,12 @@ export function SearchModal() {
 
                       {/* Price */}
                       <div className="shrink-0 text-right">
-                        <p className="font-numeral text-sm font-bold text-[#1F2022]">
+                        <p className="font-numeral text-sm font-bold text-elan-ink">
                           {formatINR(product.price)}
                         </p>
 
                         {hasDiscount && (
-                          <p className="mt-1 text-xs text-[#99938B] line-through">
+                          <p className="mt-1 text-xs text-elan-muted line-through">
                             {formatINR(
                               product.compareAt!
                             )}
@@ -388,7 +388,7 @@ export function SearchModal() {
 
                         <ArrowRight
                           size={17}
-                          className="ml-auto mt-3 text-[#637666] transition-transform group-hover:translate-x-1"
+                          className="ml-auto mt-3 text-elan-sage transition-transform group-hover:translate-x-1"
                         />
                       </div>
                     </Link>
@@ -405,7 +405,7 @@ export function SearchModal() {
                     onClick={() =>
                       setShowAllResults(true)
                     }
-                    className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#DAD8D1] bg-white px-4 text-sm font-semibold text-[#1F2022] hover:border-[#637666]"
+                    className="mt-5 flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-[#DAD8D1] bg-white px-4 text-sm font-semibold text-elan-ink hover:border-[#637666]"
                   >
                     Show All {results.length} Results
                     <ArrowRight size={16} />
@@ -417,14 +417,14 @@ export function SearchModal() {
 
         {/* Footer */}
         <div className="flex items-center justify-between gap-3 border-t border-[#E8E1D7] bg-white px-4 py-4 sm:px-7">
-          <span className="text-[11px] text-[#77736E]">
+          <span className="text-[11px] text-elan-muted">
             2427 ÉLAN Collection
           </span>
 
           <button
             type="button"
             onClick={closeOverlay}
-            className="text-xs font-semibold text-[#637666] hover:text-[#1F2022]"
+            className="text-xs font-semibold text-elan-sage hover:text-elan-ink"
           >
             Close Search
           </button>

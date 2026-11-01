@@ -12,23 +12,23 @@ export function Hero() {
       <Container size="full" className="!px-0">
         <div className="grid overflow-hidden bg-[#EEE8E0] lg:min-h-[clamp(440px,33vw,600px)] lg:grid-cols-[minmax(420px,0.43fr)_minmax(0,0.57fr)]">
           <div className="flex flex-col justify-center px-6 py-10 sm:px-10 sm:py-14 lg:px-[clamp(2.5rem,5vw,6rem)] lg:py-12">
-            <p className="text-[11px] font-medium tracking-[0.24em] text-[#33312E] sm:text-sm">
+            <p className="text-[11px] font-medium tracking-[0.24em] text-elan-muted sm:text-sm">
               Everyday Comfort. Elevated.
             </p>
 
-            <h1 className="mt-7 max-w-xl font-sans text-3xl font-medium leading-[1.12] tracking-tight text-[#171716] sm:text-4xl lg:mt-8 lg:text-[clamp(2.5rem,3vw,3.5rem)]">
+            <h1 className="mt-7 max-w-xl font-sans text-3xl font-medium leading-[1.12] tracking-tight text-elan-ink sm:text-4xl lg:mt-8 lg:text-[clamp(2.5rem,3vw,3.5rem)]">
               Premium Essentials
               <span className="block">for Every You</span>
             </h1>
 
-            <p className="mt-4 max-w-md text-sm leading-6 text-[#393632] sm:text-base sm:leading-7">
+            <p className="mt-4 max-w-md text-sm leading-6 text-elan-muted sm:text-base sm:leading-7">
               Innerwear designed for comfort, confidence and everyday living.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3 sm:mt-8">
               <Link
                 to="/category/men-underwear"
-                className="inline-flex min-h-12 items-center justify-center gap-2 bg-[#111111] px-6 text-xs font-semibold tracking-wide text-white transition-colors hover:bg-[#343434] sm:px-7 sm:text-sm"
+                className="inline-flex min-h-12 items-center justify-center gap-2 bg-[#111111] px-6 text-xs font-semibold tracking-wide text-elan-ivory transition-colors hover:bg-elan-ink-hover sm:px-7 sm:text-sm"
               >
                 SHOP MEN
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -36,7 +36,7 @@ export function Hero() {
 
               <Link
                 to="/category/women-bras"
-                className="inline-flex min-h-12 items-center justify-center gap-2 border border-[#222222] bg-white/80 px-6 text-xs font-semibold tracking-wide text-[#171716] transition-colors hover:bg-white sm:px-7 sm:text-sm"
+                className="inline-flex min-h-12 items-center justify-center gap-2 border border-[#222222] bg-white/80 px-6 text-xs font-semibold tracking-wide text-elan-ink transition-colors hover:bg-white sm:px-7 sm:text-sm"
               >
                 SHOP WOMEN
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />

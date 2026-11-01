@@ -313,18 +313,18 @@ export function CategoryPage() {
         {/* Breadcrumb */}
         <nav
           aria-label="Breadcrumb"
-          className="mb-5 flex flex-wrap items-center gap-2 text-xs text-neutral-500"
+          className="mb-5 flex flex-wrap items-center gap-2 text-xs text-elan-muted"
         >
           <Link
             to="/"
-            className="hover:text-[#202020]"
+            className="hover:text-elan-ink"
           >
             Home
           </Link>
 
           <ChevronRight size={13} />
 
-          <span className="font-medium text-[#202020]">
+          <span className="font-medium text-elan-ink">
             {title}
           </span>
         </nav>
@@ -333,14 +333,14 @@ export function CategoryPage() {
         <section className="mb-6 overflow-hidden rounded-2xl border border-[#E8E5E0] bg-white sm:rounded-3xl">
           <div className="px-5 py-7 sm:px-10 sm:py-10">
             <div className="mb-3 flex flex-wrap items-center gap-3">
-              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#637666]">
+              <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-elan-sage">
                 {collectionLabel}
               </span>
 
               <DemoBadge variant="pill" />
             </div>
 
-            <h1 className="font-display text-3xl font-medium tracking-tight text-[#202020] sm:text-4xl">
+            <h1 className="font-display text-3xl font-medium tracking-tight text-elan-ink sm:text-4xl">
               {title}
             </h1>
 
@@ -354,13 +354,13 @@ export function CategoryPage() {
               </p>
             )}
             {catalogLoading && !catalogError && (
-              <p role="status" className="mt-3 text-xs text-[#77736E]">
+              <p role="status" className="mt-3 text-xs text-elan-muted">
                 Syncing catalog data; cached product details remain visible.
               </p>
             )}
 
             <div className="mt-5 flex flex-wrap items-center gap-3">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#E8E5E0] bg-[#F8F7F5] px-3.5 py-2 text-xs font-semibold text-[#637666]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#E8E5E0] bg-[#F8F7F5] px-3.5 py-2 text-xs font-semibold text-elan-sage">
                 <PackageSearch size={15} />
                 {filteredProducts.length}{' '}
                 {filteredProducts.length === 1
@@ -368,7 +368,7 @@ export function CategoryPage() {
                   : 'Products'}
               </span>
 
-              <span className="text-xs text-neutral-500">
+              <span className="text-xs text-elan-muted">
                 Everyday comfort by 2427 ÉLAN
               </span>
             </div>
@@ -378,7 +378,7 @@ export function CategoryPage() {
             <div className="flex items-start gap-3 border-t border-[#E8E5E0] bg-[#F8F7F5] px-5 py-3 text-xs leading-5 text-neutral-600 sm:px-10">
               <Info
                 size={16}
-                className="mt-0.5 shrink-0 text-[#637666]"
+                className="mt-0.5 shrink-0 text-elan-sage"
               />
 
               <span>
@@ -395,7 +395,7 @@ export function CategoryPage() {
           <div className="relative flex-1">
             <Search
               size={18}
-              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400"
+              className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-elan-muted"
             />
 
             <input
@@ -406,7 +406,7 @@ export function CategoryPage() {
               }
               placeholder="Search within this collection..."
               aria-label="Search collection products"
-              className="h-12 w-full rounded-xl border border-[#E8E5E0] bg-white pl-11 pr-10 text-sm text-[#202020] outline-none placeholder:text-neutral-400 focus:border-[#637666]"
+              className="h-12 w-full rounded-xl border border-[#E8E5E0] bg-white pl-11 pr-10 text-sm text-elan-ink outline-none placeholder:text-elan-muted focus:border-elan-sage"
             />
 
             {search && (
@@ -414,7 +414,7 @@ export function CategoryPage() {
                 type="button"
                 onClick={() => setSearch('')}
                 aria-label="Clear search"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-black"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-elan-muted hover:text-elan-ink"
               >
                 <X size={17} />
               </button>
@@ -430,8 +430,8 @@ export function CategoryPage() {
               aria-expanded={showFilters}
               aria-controls="collection-filters"
               className={`flex h-12 flex-1 items-center justify-center gap-2 rounded-xl border px-5 text-sm font-semibold transition-colors lg:flex-none ${showFilters
-                  ? 'border-[#202020] bg-[#202020] text-white'
-                  : 'border-[#E8E5E0] bg-white text-[#202020] hover:border-[#637666]'
+                  ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                  : 'border-[#E8E5E0] bg-white text-elan-ink hover:border-[#637666]'
                 }`}
             >
               <SlidersHorizontal size={17} />
@@ -440,8 +440,8 @@ export function CategoryPage() {
               {activeFilterCount > 0 && (
                 <span
                   className={`flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[10px] ${showFilters
-                      ? 'bg-white text-[#202020]'
-                      : 'bg-[#637666] text-white'
+                      ? 'bg-white text-elan-ink'
+                      : 'bg-elan-sage text-elan-ivory'
                     }`}
                 >
                   {activeFilterCount}
@@ -452,7 +452,7 @@ export function CategoryPage() {
             <div className="relative flex flex-1 items-center lg:flex-none">
               <ArrowDownUp
                 size={15}
-                className="pointer-events-none absolute left-3 text-neutral-500"
+                className="pointer-events-none absolute left-3 text-elan-muted"
               />
 
               <select
@@ -463,7 +463,7 @@ export function CategoryPage() {
                   )
                 }
                 aria-label="Sort products"
-                className="h-12 w-full min-w-0 appearance-none rounded-xl border border-[#E8E5E0] bg-white py-2 pl-9 pr-6 text-xs font-medium text-[#202020] outline-none focus:border-[#637666] sm:text-sm lg:w-[205px]"
+                className="h-12 w-full min-w-0 appearance-none rounded-xl border border-[#E8E5E0] bg-white py-2 pl-9 pr-6 text-xs font-medium text-elan-ink outline-none focus:border-elan-sage sm:text-sm lg:w-[205px]"
               >
                 <option value="featured">Featured</option>
                 <option value="price-low">
@@ -486,14 +486,14 @@ export function CategoryPage() {
             className="mb-5 rounded-2xl border border-[#E8E5E0] bg-white p-4 sm:p-6"
           >
             <div className="mb-5 flex items-center justify-between gap-3 border-b border-[#E8E5E0] pb-4">
-              <h2 className="font-display text-lg font-medium text-[#202020]">
+              <h2 className="font-display text-lg font-medium text-elan-ink">
                 Refine Your Selection
               </h2>
 
               <button
                 type="button"
                 onClick={clearFilters}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#637666] hover:text-[#202020]"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-elan-sage hover:text-elan-ink"
               >
                 <RotateCcw size={14} />
                 Clear All
@@ -503,7 +503,7 @@ export function CategoryPage() {
             <div className="grid gap-7 lg:grid-cols-4">
               {/* Fabric */}
               <div>
-                <h3 className="mb-3 text-sm font-semibold text-[#202020]">
+                <h3 className="mb-3 text-sm font-semibold text-elan-ink">
                   Fabric / Style
                 </h3>
 
@@ -512,8 +512,8 @@ export function CategoryPage() {
                     type="button"
                     onClick={() => setFilterFabric('all')}
                     className={`rounded-full border px-3 py-2 text-xs font-medium transition-colors ${filterFabric === 'all'
-                        ? 'border-[#202020] bg-[#202020] text-white'
-                        : 'border-[#E8E5E0] bg-white text-[#202020] hover:border-[#637666]'
+                        ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                        : 'border-[#E8E5E0] bg-white text-elan-ink hover:border-[#637666]'
                       }`}
                   >
                     All Styles
@@ -532,8 +532,8 @@ export function CategoryPage() {
                       }
                       aria-pressed={filterFabric === fabric}
                       className={`rounded-full border px-3 py-2 text-xs font-medium transition-colors ${filterFabric === fabric
-                          ? 'border-[#202020] bg-[#202020] text-white'
-                          : 'border-[#E8E5E0] bg-white text-[#202020] hover:border-[#637666]'
+                          ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                          : 'border-[#E8E5E0] bg-white text-elan-ink hover:border-[#637666]'
                         }`}
                     >
                       {fabric}
@@ -542,7 +542,7 @@ export function CategoryPage() {
                 </div>
 
                 {availableFabrics.length === 0 && (
-                  <p className="mt-3 text-xs text-neutral-500">
+                  <p className="mt-3 text-xs text-elan-muted">
                     No fabric options listed.
                   </p>
                 )}
@@ -550,7 +550,7 @@ export function CategoryPage() {
 
               {/* Color */}
               <div>
-                <h3 className="mb-3 text-sm font-semibold text-[#202020]">
+                <h3 className="mb-3 text-sm font-semibold text-elan-ink">
                   Color
                 </h3>
 
@@ -560,8 +560,8 @@ export function CategoryPage() {
                     onClick={() => setFilterColor('all')}
                     aria-pressed={filterColor === 'all'}
                     className={`rounded-full border px-3 py-2 text-xs font-medium transition-colors ${filterColor === 'all'
-                        ? 'border-[#202020] bg-[#202020] text-white'
-                        : 'border-[#E8E5E0] bg-white text-[#202020] hover:border-[#637666]'
+                        ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                        : 'border-[#E8E5E0] bg-white text-elan-ink hover:border-[#637666]'
                       }`}
                   >
                     All Colors
@@ -578,8 +578,8 @@ export function CategoryPage() {
                       }
                       aria-pressed={filterColor === color}
                       className={`rounded-full border px-3 py-2 text-xs font-medium transition-colors ${filterColor === color
-                          ? 'border-[#202020] bg-[#202020] text-white'
-                          : 'border-[#E8E5E0] bg-white text-[#202020] hover:border-[#637666]'
+                          ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                          : 'border-[#E8E5E0] bg-white text-elan-ink hover:border-[#637666]'
                         }`}
                     >
                       {color}
@@ -588,7 +588,7 @@ export function CategoryPage() {
                 </div>
 
                 {availableColors.length === 0 && (
-                  <p className="mt-3 text-xs text-neutral-500">
+                  <p className="mt-3 text-xs text-elan-muted">
                     No color options listed.
                   </p>
                 )}
@@ -596,7 +596,7 @@ export function CategoryPage() {
 
               {/* Size */}
               <div>
-                <h3 className="mb-3 text-sm font-semibold text-[#202020]">
+                <h3 className="mb-3 text-sm font-semibold text-elan-ink">
                   Select Size
                 </h3>
 
@@ -605,8 +605,8 @@ export function CategoryPage() {
                     type="button"
                     onClick={() => setFilterSize('all')}
                     className={`min-w-12 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${filterSize === 'all'
-                        ? 'border-[#202020] bg-[#202020] text-white'
-                        : 'border-[#E8E5E0] bg-white text-[#202020] hover:border-[#637666]'
+                        ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                        : 'border-[#E8E5E0] bg-white text-elan-ink hover:border-[#637666]'
                       }`}
                   >
                     All
@@ -623,8 +623,8 @@ export function CategoryPage() {
                       }
                       aria-pressed={filterSize === size}
                       className={`min-w-12 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${filterSize === size
-                          ? 'border-[#202020] bg-[#202020] text-white'
-                          : 'border-[#E8E5E0] bg-white text-[#202020] hover:border-[#637666]'
+                          ? 'border-elan-ink bg-elan-ink text-elan-ivory'
+                          : 'border-[#E8E5E0] bg-white text-elan-ink hover:border-[#637666]'
                         }`}
                     >
                       {size}
@@ -635,7 +635,7 @@ export function CategoryPage() {
 
               {/* Price */}
               <div>
-                <h3 className="mb-3 text-sm font-semibold text-[#202020]">
+                <h3 className="mb-3 text-sm font-semibold text-elan-ink">
                   Price Range (₹)
                 </h3>
 
@@ -649,7 +649,7 @@ export function CategoryPage() {
                     }
                     placeholder="Min ₹"
                     aria-label="Minimum price"
-                    className="h-10 w-full min-w-0 rounded-lg border border-[#E8E5E0] bg-[#F8F7F5] px-3 text-sm outline-none focus:border-[#637666]"
+                    className="h-10 w-full min-w-0 rounded-lg border border-[#E8E5E0] bg-[#F8F7F5] px-3 text-sm outline-none focus:border-elan-sage"
                   />
 
                   <input
@@ -661,7 +661,7 @@ export function CategoryPage() {
                     }
                     placeholder="Max ₹"
                     aria-label="Maximum price"
-                    className="h-10 w-full min-w-0 rounded-lg border border-[#E8E5E0] bg-[#F8F7F5] px-3 text-sm outline-none focus:border-[#637666]"
+                    className="h-10 w-full min-w-0 rounded-lg border border-[#E8E5E0] bg-[#F8F7F5] px-3 text-sm outline-none focus:border-elan-sage"
                   />
                 </div>
 
@@ -683,8 +683,8 @@ export function CategoryPage() {
                         }
                         aria-pressed={selected}
                         className={`inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[11px] font-medium transition-colors ${selected
-                            ? 'border-[#637666] bg-[#637666] text-white'
-                            : 'border-[#E8E5E0] bg-white text-[#202020] hover:border-[#637666]'
+                            ? 'border-[#637666] bg-elan-sage text-elan-ivory'
+                            : 'border-[#E8E5E0] bg-white text-elan-ink hover:border-[#637666]'
                           }`}
                       >
                         {selected && <Check size={12} />}
@@ -697,14 +697,14 @@ export function CategoryPage() {
             </div>
 
             <div className="mt-6 flex items-center justify-between gap-3 border-t border-[#E8E5E0] pt-4">
-              <p className="text-xs text-neutral-500">
+              <p className="text-xs text-elan-muted">
                 {filteredProducts.length} matching products
               </p>
 
               <button
                 type="button"
                 onClick={() => setShowFilters(false)}
-                className="rounded-full bg-[#202020] px-5 py-2.5 text-xs font-semibold text-white hover:bg-[#637666]"
+                className="rounded-full bg-elan-ink px-5 py-2.5 text-xs font-semibold text-elan-ivory hover:bg-elan-sage"
               >
                 Show Products
               </button>
@@ -715,7 +715,7 @@ export function CategoryPage() {
         {/* Active Filters */}
         {hasActiveFilters && (
           <div className="mb-5 flex flex-wrap items-center gap-2 rounded-xl border border-[#E8E5E0] bg-white p-3">
-            <span className="mr-1 text-xs font-semibold text-[#202020]">
+            <span className="mr-1 text-xs font-semibold text-elan-ink">
               Active:
             </span>
 
@@ -723,7 +723,7 @@ export function CategoryPage() {
               <button
                 type="button"
                 onClick={() => setSearch('')}
-                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-[#202020]"
+                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-elan-ink"
               >
                 Search: {search}
                 <X size={13} />
@@ -734,7 +734,7 @@ export function CategoryPage() {
               <button
                 type="button"
                 onClick={() => setFilterFabric('all')}
-                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-[#202020]"
+                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-elan-ink"
               >
                 {filterFabric}
                 <X size={13} />
@@ -745,7 +745,7 @@ export function CategoryPage() {
               <button
                 type="button"
                 onClick={() => setFilterColor('all')}
-                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-[#202020]"
+                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-elan-ink"
               >
                 Color: {filterColor}
                 <X size={13} />
@@ -756,7 +756,7 @@ export function CategoryPage() {
               <button
                 type="button"
                 onClick={() => setFilterSize('all')}
-                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-[#202020]"
+                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-elan-ink"
               >
                 Size: {filterSize}
                 <X size={13} />
@@ -770,7 +770,7 @@ export function CategoryPage() {
                   setMinPrice('');
                   setMaxPrice('');
                 }}
-                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-[#202020]"
+                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-elan-ink"
               >
                 {priceRangeLabel}
                 <X size={13} />
@@ -781,7 +781,7 @@ export function CategoryPage() {
               <button
                 type="button"
                 onClick={() => setSelectedSort('featured')}
-                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-[#202020]"
+                className="inline-flex items-center gap-1 rounded-full bg-[#F0F0ED] px-3 py-1.5 text-xs text-elan-ink"
               >
                 Sort: {selectedSort.replace('-', ' ')}
                 <X size={13} />
@@ -791,7 +791,7 @@ export function CategoryPage() {
             <button
               type="button"
               onClick={clearFilters}
-              className="ml-auto text-xs font-semibold text-[#637666] underline underline-offset-4 hover:text-[#202020]"
+              className="ml-auto text-xs font-semibold text-elan-sage underline underline-offset-4 hover:text-elan-ink"
             >
               Clear All
             </button>
@@ -802,13 +802,13 @@ export function CategoryPage() {
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <p className="text-xs text-neutral-600 sm:text-sm">
             Showing{' '}
-            <strong className="text-[#202020]">
+            <strong className="text-elan-ink">
               {filteredProducts.length}
             </strong>{' '}
             of {categoryProducts.length} products
           </p>
 
-          <span className="text-xs text-neutral-500">
+          <span className="text-xs text-elan-muted">
             Prices in INR (₹)
           </span>
         </div>
@@ -828,11 +828,11 @@ export function CategoryPage() {
             <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[#F8F7F5]">
               <PackageSearch
                 size={28}
-                className="text-[#637666]"
+                className="text-elan-sage"
               />
             </div>
 
-            <h2 className="font-display text-2xl font-medium text-[#202020]">
+            <h2 className="font-display text-2xl font-medium text-elan-ink">
               No Products Found
             </h2>
 
@@ -846,7 +846,7 @@ export function CategoryPage() {
               <button
                 type="button"
                 onClick={clearFilters}
-                className="mt-5 rounded-lg bg-[#202020] px-5 py-2.5 text-xs font-semibold text-white hover:bg-black"
+                className="mt-5 rounded-lg bg-elan-ink px-5 py-2.5 text-xs font-semibold text-elan-ivory hover:bg-elan-ink-hover"
               >
                 Clear All Filters
               </button>
@@ -854,7 +854,7 @@ export function CategoryPage() {
 
             <Link
               to="/"
-              className="mt-4 block text-xs font-semibold text-[#637666] underline underline-offset-4"
+              className="mt-4 block text-xs font-semibold text-elan-sage underline underline-offset-4"
             >
               Back to Home
             </Link>
