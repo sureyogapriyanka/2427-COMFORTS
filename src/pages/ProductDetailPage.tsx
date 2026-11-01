@@ -29,6 +29,7 @@ import { DemoBadge } from '../components/brand/DemoBadge';
 import { Button } from '../components/ui/Button';
 import { useCatalog } from '../context/CatalogContext';
 import { ProductAvailabilityNote } from '../components/product/ProductAvailabilityNote';
+import { getSizeAvailability } from '../data/sizeInventory';
 
 export function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -159,6 +160,7 @@ export function ProductDetailPage() {
     : 0;
 
   const handleSizeSelect = (size: string) => {
+    if (getSizeAvailability(product, size).status === 'sold_out') return;
     setSelectedSize(size);
     setSizeError(false);
     setAdded(false);
@@ -166,6 +168,7 @@ export function ProductDetailPage() {
 
   const handleAddToCart = () => {
     if (product.inventoryStatus === 'out_of_stock') return;
+    if (selectedSize && getSizeAvailability(product, selectedSize).status === 'sold_out') return;
     if (product.sizes.length > 0 && !selectedSize) {
       setSizeError(true);
 
@@ -422,24 +425,57 @@ export function ProductDetailPage() {
 
                   <div className="grid grid-cols-4 gap-2 sm:grid-cols-5">
                     {product.sizes.map((size) => (
-                      <button
-                        key={size}
-                        type="button"
-                        onClick={() =>
-                          handleSizeSelect(size)
-                        }
-                        aria-pressed={
-                          selectedSize === size
-                        }
-                        className={`min-h-12 rounded-xl border px-2 text-xs font-bold transition-all ${selectedSize === size
-                            ? 'border-[#1F2022] bg-[#1F2022] text-white'
-                            : 'border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022] hover:border-[#637666]'
-                          }`}
-                      >
-                        {size}
-                      </button>
+                      (() => {
+                        const availability = getSizeAvailability(product, size);
+                        const soldOut = availability.status === 'sold_out';
+                        return (
+                          <button
+                            key={size}
+                            type="button"
+                            onClick={() => handleSizeSelect(size)}
+                            disabled={soldOut}
+                            aria-pressed={selectedSize === size}
+                            aria-label={
+                              soldOut ? `${size}, sold out` : `Select size ${size}`
+                            }
+                            className={`flex min-h-12 flex-col items-center justify-center rounded-xl border px-2 text-xs font-bold transition-all disabled:cursor-not-allowed ${
+                              soldOut
+                                ? 'border-[#E8E1D7] bg-[#F0EDE8] text-[#99938B]'
+                                : selectedSize === size
+                                  ? 'border-[#1F2022] bg-[#1F2022] text-white'
+                                  : 'border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022] hover:border-[#637666]'
+                            }`}
+                          >
+                            <span className={soldOut ? 'line-through' : ''}>{size}</span>
+                            {soldOut && <span className="text-[9px] font-medium">Sold Out</span>}
+                          </button>
+                        );
+                      })()
                     ))}
                   </div>
+
+                  {selectedSize && (() => {
+                    const availability = getSizeAvailability(product, selectedSize);
+                    const message = availability.status === 'unknown'
+                      ? 'Stock not confirmed for this size.'
+                      : availability.status === 'sold_out'
+                        ? `Size ${selectedSize} is sold out.`
+                        : availability.status === 'low'
+                          ? `Only ${availability.quantity} left in size ${selectedSize}.`
+                          : `Available in size ${selectedSize}.`;
+                    return (
+                      <p
+                        role="status"
+                        className={`mt-3 text-xs ${
+                          availability.status === 'sold_out'
+                            ? 'text-[#A85A3C]'
+                            : 'text-[#77736E]'
+                        }`}
+                      >
+                        {message}
+                      </p>
+                    );
+                  })()}
 
                   {sizeError && (
                     <p

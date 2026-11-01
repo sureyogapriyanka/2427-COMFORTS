@@ -133,8 +133,8 @@ export function Footer() {
         aria-label="2427 ÉLAN brand values"
         className="border-b border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022]"
       >
-        <Container className="py-5 sm:py-6 lg:py-7">
-          <div className="border-b border-[#DED7CE] pb-4 text-center sm:pb-5">
+        <Container className="py-4 sm:py-5 lg:py-5">
+          <div className="border-b border-[#DED7CE] pb-3 text-center sm:pb-4">
             <p className="font-numeral text-2xl font-semibold tracking-[0.12em] text-[#1F2022] sm:text-3xl">
               24 <span className="text-[#637666]">|</span> 27
             </p>
@@ -143,7 +143,7 @@ export function Footer() {
             </p>
           </div>
 
-          <div className="grid gap-5 pt-5 sm:grid-cols-3 sm:gap-0 sm:pt-6">
+          <div className="grid gap-5 pt-4 sm:grid-cols-3 sm:gap-0 sm:pt-5">
             {brandValueImages.map((value, index) => (
               <article
                 key={value.title}
@@ -154,12 +154,12 @@ export function Footer() {
                 {value.products ? (
                   <ul
                     aria-label="Existing catalog product photographs"
-                    className="grid aspect-square w-full max-w-[14rem] grid-cols-2 gap-2 rounded-2xl border border-[#E8E1D7] bg-[#F0ECE5] p-2 sm:max-w-[12.5rem] lg:max-w-[12rem]"
+                    className="grid aspect-square w-full max-w-[14rem] grid-cols-2 gap-1.5 rounded-2xl border border-[#E8E1D7] bg-[#F0ECE5] p-1.5 sm:max-w-[12.5rem] lg:max-w-[10.5rem]"
                   >
                     {value.products.map((product) => (
                       <li
                         key={product.image}
-                        className="flex min-h-0 flex-col items-center justify-center overflow-hidden rounded-xl border border-[#E8E1D7] bg-white px-2 py-1.5"
+                        className="flex min-h-0 flex-col items-center justify-center overflow-hidden rounded-lg border border-[#E8E1D7] bg-white px-1.5 py-1"
                       >
                         <img
                           src={productImageUrl(product.image)}
@@ -170,7 +170,7 @@ export function Footer() {
                           decoding="async"
                           className="min-h-0 w-full flex-1 object-contain"
                         />
-                        <span className="mt-1 text-center text-[9px] font-medium leading-3 text-[#637666] sm:text-[10px]">
+                        <span className="mt-0.5 text-center text-[9px] font-medium leading-3 text-[#637666] sm:text-[10px]">
                           {product.label}
                         </span>
                       </li>
@@ -184,13 +184,13 @@ export function Footer() {
                     height={313}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-square w-full max-w-[14rem] rounded-2xl object-cover sm:max-w-[12.5rem] lg:max-w-[12rem]"
+                    className="aspect-square w-full max-w-[14rem] rounded-2xl object-cover sm:max-w-[12.5rem] lg:max-w-[10.5rem]"
                   />
                 )}
-                <h2 className="mt-3 font-display text-xl font-semibold text-[#1F2022] sm:mt-4 sm:text-2xl">
+                <h2 className="mt-2 font-display text-xl font-semibold text-[#1F2022] sm:mt-3 sm:text-xl">
                   {value.title}
                 </h2>
-                <p className="mt-1.5 max-w-xs text-sm leading-6 text-[#77736E] sm:mt-2 sm:text-base sm:leading-7">
+                <p className="mt-1 max-w-xs text-sm leading-5 text-[#77736E] sm:mt-1.5 sm:text-sm sm:leading-6">
                   {value.description}
                 </p>
               </article>
@@ -258,20 +258,20 @@ export function Footer() {
       </div>
 
       {/* Main Footer */}
-      <Container className="py-12 sm:py-14">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
+      <Container className="py-10 sm:py-12">
+        <div className="grid min-w-0 grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-4">
             <Logo inverted size="sm" />
 
-            <p className="mt-5 max-w-sm text-sm leading-7 text-neutral-400">
+            <p className="mt-4 max-w-sm text-sm leading-6 text-[#B9B7B2]">
               2427 ÉLAN brings together thoughtfully
               designed everyday innerwear and essentials,
               with a focus on comfort, simplicity, and
               effortless style.
             </p>
 
-            <div className="mt-4 flex items-start gap-3 text-xs text-neutral-400">
+            <div className="mt-4 flex items-start gap-3 text-xs text-[#B9B7B2]">
               <Mail
                 size={17}
                 className="shrink-0 text-[#C5D1C2]"
@@ -288,7 +288,7 @@ export function Footer() {
 
           {/* Customer Care */}
           <div className="lg:col-span-4">
-            <h3 className="mb-5 text-xs font-bold uppercase tracking-[0.16em] text-[#D9CBB7]">
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-[#D9CBB7]">
               Customer Service
             </h3>
 
@@ -297,7 +297,7 @@ export function Footer() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-xs text-neutral-400 transition-colors hover:text-white"
+                    className="text-xs text-[#B9B7B2] transition-colors hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -308,7 +308,7 @@ export function Footer() {
 
           {/* Company */}
           <div className="lg:col-span-4">
-            <h3 className="mb-5 text-xs font-bold uppercase tracking-[0.16em] text-[#D9CBB7]">
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-[#D9CBB7]">
               Company
             </h3>
 
@@ -317,7 +317,7 @@ export function Footer() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="text-xs text-neutral-400 transition-colors hover:text-white"
+                    className="text-xs text-[#B9B7B2] transition-colors hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -328,7 +328,7 @@ export function Footer() {
         </div>
 
         {/* Newsletter CTA */}
-        <div className="mt-12 grid gap-5 rounded-2xl border border-white/10 bg-[#222427] p-6 sm:p-8 md:grid-cols-[1fr_auto] md:items-center">
+        <div className="mt-10 grid min-w-0 gap-5 rounded-2xl border border-white/10 bg-[#222427] p-5 sm:p-6 md:grid-cols-[minmax(0,1fr)_minmax(300px,0.9fr)] md:items-center">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#C5D1C2]">
               Stay Connected
@@ -338,12 +338,12 @@ export function Footer() {
               Discover what's new at 2427 ÉLAN
             </h3>
 
-            <p className="mt-2 max-w-xl text-xs leading-6 text-neutral-400">
+            <p className="mt-2 max-w-xl text-xs leading-5 text-[#B9B7B2]">
               Subscriptions are stored for review when the database is configured. No marketing email service is connected.
             </p>
           </div>
 
-          <form onSubmit={submitNewsletter} className="grid gap-3 md:min-w-[340px]">
+          <form onSubmit={submitNewsletter} className="grid min-w-0 gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
             <label htmlFor="newsletter-email" className="sr-only">Email address</label>
             <input
               id="newsletter-email"
@@ -352,9 +352,9 @@ export function Footer() {
               value={newsletterEmail}
               onChange={(event) => setNewsletterEmail(event.target.value)}
               placeholder="Email address"
-              className="min-h-11 rounded-lg border border-white/20 bg-[#18191B] px-3 text-sm text-white placeholder:text-neutral-500"
+              className="min-h-11 min-w-0 rounded-lg border border-white/20 bg-[#18191B] px-3 text-sm text-white placeholder:text-neutral-400"
             />
-            <label className="flex items-start gap-2 text-[11px] leading-5 text-neutral-400">
+            <label className="flex items-start gap-2 text-[11px] leading-5 text-[#B9B7B2] sm:col-span-2">
               <input
                 type="checkbox"
                 required
@@ -367,13 +367,13 @@ export function Footer() {
             <button
               type="submit"
               disabled={newsletterSubmitting}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#D9CBB7] px-6 text-xs font-bold text-[#18191B] transition-colors hover:bg-white disabled:opacity-60"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#D9CBB7] px-5 text-xs font-bold text-[#18191B] transition-colors hover:bg-white disabled:opacity-60"
             >
               {newsletterSubmitting ? 'Saving…' : 'Subscribe'}
               <ArrowRight size={16} />
             </button>
             {newsletterMessage && (
-              <p role={newsletterError ? 'alert' : 'status'} className={`text-xs leading-5 ${newsletterError ? 'text-red-300' : 'text-[#C5D1C2]'}`}>
+              <p role={newsletterError ? 'alert' : 'status'} className={`text-xs leading-5 sm:col-span-2 ${newsletterError ? 'text-red-300' : 'text-[#C5D1C2]'}`}>
                 {newsletterMessage}
               </p>
             )}

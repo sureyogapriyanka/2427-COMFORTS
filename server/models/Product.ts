@@ -14,6 +14,7 @@ export interface IProduct extends Document {
   fabricDetails: string;
   colors: string[];
   sizes: string[];
+  sizeInventory?: { size: string; quantity: number }[];
   badge?: 'Bestseller' | 'New' | 'Limited' | 'Multipack' | 'Offer' | 'Bundle Save 20%' | 'Bundle Value' | 'Special Offer';
   images: string[];
   description: string;
@@ -41,6 +42,14 @@ const ProductSchema = new Schema<IProduct>(
     fabricDetails: { type: String, trim: true, maxlength: 300 },
     colors: [{ type: String }],
     sizes: [{ type: String }],
+    sizeInventory: {
+      type: [{
+        _id: false,
+        size: { type: String, required: true },
+        quantity: { type: Number, required: true, min: 0, validate: Number.isSafeInteger },
+      }],
+      default: undefined,
+    },
     badge: { type: String, enum: ['Bestseller', 'New', 'Limited', 'Multipack', 'Offer', 'Bundle Save 20%', 'Bundle Value', 'Special Offer'] },
     images: [{ type: String }],
     description: { type: String, required: true, maxlength: 5000 },

@@ -35,6 +35,7 @@ export interface Product {
   fabricBadge: string;
   colors: { name: string; hex: string }[];
   sizes: string[];
+  sizeInventory?: Record<string, number>;
   badge?: 'Bestseller' | 'New' | 'Bundle Save 20%' | 'Bundle Value' | 'Limited' | 'Special Offer';
   rating?: number;
   reviewCount?: number;

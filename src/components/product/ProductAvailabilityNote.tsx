@@ -7,8 +7,8 @@ export function ProductAvailabilityNote({ product }: { product: Product }) {
     : availability === 'in_stock'
       ? 'In stock'
       : availability === 'out_of_stock'
-        ? 'Currently unavailable'
-        : 'Availability not verified';
+        ? 'Sold out in all confirmed sizes'
+        : 'Stock not confirmed';
 
   return (
     <p

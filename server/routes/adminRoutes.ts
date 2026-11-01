@@ -4,6 +4,7 @@ import { Category } from '../models/Category';
 import { Order } from '../models/Order';
 import { Product } from '../models/Product';
 import { User } from '../models/User';
+import { validateSizeInventory } from '../services/sizeInventory';
 
 export const adminRouter = Router();
 adminRouter.use(authenticate, requireAdmin);
@@ -72,6 +73,48 @@ adminRouter.patch('/products/:id', async (req: Request, res: Response, next: Nex
       return;
     }
     res.json({ success: true, data: product });
+  } catch (error) {
+    next(error);
+  }
+});
+
+adminRouter.patch('/products/:id/inventory', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      res.status(404).json({ success: false, message: 'Product not found.' });
+      return;
+    }
+    if (product.isDemoContent) {
+      res.status(409).json({ success: false, message: 'Inventory cannot be confirmed for demo products.' });
+      return;
+    }
+
+    const validated = validateSizeInventory(product.sizes, req.body?.sizeInventory);
+    if (validated.error || !validated.inventory) {
+      res.status(400).json({ success: false, message: validated.error ?? 'Size inventory is invalid.' });
+      return;
+    }
+
+    const inventory = new Map(
+      (product.sizeInventory ?? []).map(({ size, quantity }) => [size, quantity])
+    );
+    for (const [size, quantity] of Object.entries(validated.inventory)) {
+      inventory.set(size, quantity);
+    }
+    const updatedProduct = await Product.findOneAndUpdate(
+      { _id: product._id, __v: product.__v ?? 0, isDemoContent: false },
+      {
+        $set: { sizeInventory: Array.from(inventory, ([size, quantity]) => ({ size, quantity })) },
+        $inc: { __v: 1 },
+      },
+      { new: true, runValidators: true }
+    );
+    if (!updatedProduct) {
+      res.status(409).json({ success: false, message: 'Inventory changed during this update. Reload and try again.' });
+      return;
+    }
+    res.json({ success: true, data: { id: updatedProduct.id, sizeInventory: updatedProduct.sizeInventory } });
   } catch (error) {
     next(error);
   }

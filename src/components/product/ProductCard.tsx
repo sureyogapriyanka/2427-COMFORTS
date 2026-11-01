@@ -11,6 +11,7 @@ import { Product, formatINR } from '../../data/catalog';
 import { useStore } from '../../context/StoreContext';
 import { ColorDots } from './ColorDots';
 import { ProductAvailabilityNote } from './ProductAvailabilityNote';
+import { getSizeAvailability } from '../../data/sizeInventory';
 
 interface ProductCardProps {
   product: Product;
@@ -80,7 +81,7 @@ export function ProductCard({
   const handleQuickAdd = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    if (isAdding || isUnavailable) return;
+    if (isAdding || isUnavailable || getSizeAvailability(product, selectedSize).status === 'sold_out') return;
     addToCart(product, selectedColor, selectedSize, 1);
     setIsAdding(true);
   };
@@ -223,19 +224,28 @@ export function ProductCard({
         <div className="mt-2.5">
           <div className="flex flex-wrap gap-1">
             {product.sizes.map((size) => (
-              <button
-                key={size}
-                type="button"
-                onClick={() => setSelectedSize(size)}
-                aria-pressed={selectedSize === size}
-                className={`flex h-6 min-w-6 sm:h-7 sm:min-w-7 items-center justify-center rounded border px-1.5 text-[10px] sm:text-[11px] font-semibold transition-colors ${
-                  selectedSize === size
-                    ? 'border-[#202020] bg-[#202020] text-white'
-                    : 'border-[#E8E5E0] bg-[#F8F7F5] text-neutral-600 hover:border-[#637666]'
-                }`}
-              >
-                {size}
-              </button>
+              (() => {
+                const soldOut = getSizeAvailability(product, size).status === 'sold_out';
+                return (
+                  <button
+                    key={size}
+                    type="button"
+                    onClick={() => setSelectedSize(size)}
+                    disabled={soldOut}
+                    aria-pressed={selectedSize === size}
+                    aria-label={soldOut ? `${size}, sold out` : `Select size ${size}`}
+                    className={`flex h-6 min-w-6 items-center justify-center rounded border px-1.5 text-[10px] font-semibold transition-colors disabled:cursor-not-allowed sm:h-7 sm:min-w-7 sm:text-[11px] ${
+                      soldOut
+                        ? 'border-[#E8E5E0] bg-[#F0EDE8] text-[#99938B] line-through'
+                        : selectedSize === size
+                          ? 'border-[#202020] bg-[#202020] text-white'
+                          : 'border-[#E8E5E0] bg-[#F8F7F5] text-neutral-600 hover:border-[#637666]'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                );
+              })()
             ))}
           </div>
         </div>
@@ -244,18 +254,24 @@ export function ProductCard({
         <button
           type="button"
           onClick={handleQuickAdd}
-          disabled={isAdding || isUnavailable}
-          aria-label={isUnavailable ? `${product.name} is unavailable` : undefined}
-          className={`mt-3 flex min-h-[38px] w-full items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-all active:scale-[0.98] ${
+          disabled={isAdding || isUnavailable || getSizeAvailability(product, selectedSize).status === 'sold_out'}
+          aria-label={
             isUnavailable
+              ? `${product.name} is sold out`
+              : getSizeAvailability(product, selectedSize).status === 'sold_out'
+                ? `Size ${selectedSize} is sold out`
+                : undefined
+          }
+          className={`mt-3 flex min-h-[38px] w-full items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-semibold transition-all active:scale-[0.98] ${
+            isUnavailable || getSizeAvailability(product, selectedSize).status === 'sold_out'
               ? 'cursor-not-allowed bg-[#E8E5E0] text-[#77736E]'
               : isAdding
               ? 'bg-[#637666] text-white'
               : 'bg-[#202020] text-white hover:bg-black'
           }`}
         >
-          {isUnavailable ? (
-            'Currently Unavailable'
+          {isUnavailable || getSizeAvailability(product, selectedSize).status === 'sold_out' ? (
+            'Sold Out'
           ) : isAdding ? (
             <>
               <Check className="h-3.5 w-3.5" />

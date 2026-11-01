@@ -14,6 +14,7 @@ import {
   type CategorySlug,
   type Product,
 } from '../data/catalog';
+import { getProductInventoryStatus } from '../data/sizeInventory';
 import { apiRequest } from '../lib/api';
 
 interface ApiProduct {
@@ -33,6 +34,7 @@ interface ApiProduct {
   isDemoContent?: boolean;
   inStock?: boolean;
   stockCount?: number;
+  sizeInventory?: { size: string; quantity: number }[] | Record<string, number>;
 }
 
 interface ApiCategory {
@@ -70,6 +72,25 @@ function applyApiProduct(product: ApiProduct): Product | null {
       hex: local.colors.find((color) => color.name.toLowerCase() === name.toLowerCase())?.hex ?? '#888888',
     }))
     : local.colors;
+  const sizeInventory = Array.isArray(product.sizeInventory)
+    ? Object.fromEntries(product.sizeInventory
+      .filter((variant) =>
+        variant &&
+        typeof variant.size === 'string' &&
+        Number.isSafeInteger(variant.quantity) &&
+        variant.quantity >= 0 &&
+        validSizes.includes(variant.size)
+      )
+      .map((variant) => [variant.size, variant.quantity]))
+    : product.sizeInventory && typeof product.sizeInventory === 'object'
+      ? Object.fromEntries(Object.entries(product.sizeInventory)
+        .filter(([size, quantity]) =>
+          validSizes.includes(size) &&
+          typeof quantity === 'number' &&
+          Number.isSafeInteger(quantity) &&
+          quantity >= 0
+        ))
+      : undefined;
 
   const supportedBadges: Product['badge'][] = [
     'Bestseller',
@@ -97,6 +118,7 @@ function applyApiProduct(product: ApiProduct): Product | null {
     fabricBadge: product.fabricDetails || local.fabricBadge,
     colors,
     sizes: validSizes.length ? validSizes : local.sizes,
+    sizeInventory,
     badge: supportedBadges.includes(product.badge as Product['badge'])
       ? product.badge as Product['badge']
       : local.badge,
@@ -112,13 +134,11 @@ function applyApiProduct(product: ApiProduct): Product | null {
       : product.isDemoContent === false
         ? false
         : local.isDemoPrice,
-    inventoryStatus: product.isDemoContent === true
-      ? 'demo'
-      : product.isDemoContent === false
-        ? product.inStock === true && (product.stockCount === undefined || product.stockCount > 0)
-          ? 'in_stock'
-          : 'out_of_stock'
-        : 'unverified',
+    inventoryStatus: getProductInventoryStatus({
+      sizes: validSizes.length ? validSizes : local.sizes,
+      sizeInventory,
+      isDemoContent: product.isDemoContent === true,
+    }),
   };
 }
 

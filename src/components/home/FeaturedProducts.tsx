@@ -6,38 +6,60 @@ import { ProductCard } from '../product/ProductCard';
 import { useCatalog } from '../../context/CatalogContext';
 
 export function FeaturedProducts() {
-  const { products } = useCatalog();
-  const bestsellers = products.filter((p) => p.badge === 'Bestseller').slice(0, 4);
+  const { products, isLoading, error } = useCatalog();
+  const featuredProducts = [
+    ...products.filter((product) => product.gender === 'men').slice(0, 4),
+    ...products.filter((product) => product.gender === 'women').slice(0, 4),
+  ];
 
   return (
-    <section className="py-6 sm:py-8 bg-white">
+    <section className="bg-[#FAF8F5] py-12 sm:py-16">
       <Container>
-        {/* Section Header */}
-        <div className="mb-5 flex items-end justify-between sm:mb-6">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#637666]">
-              Catalog labels
-            </span>
-            <h2 className="mt-0.5 font-display text-2xl sm:text-3xl font-medium tracking-tight text-[#202020]">
-              Bestseller Picks
+        <div className="mb-7 flex flex-col gap-5 sm:mb-9 sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-2xl">
+            <p className="eyebrow mb-2">A considered edit</p>
+            <h2 className="font-display text-3xl font-medium leading-tight tracking-tight text-[#1F2022] sm:text-4xl">
+              CURATED FOR YOUR EVERYDAY
             </h2>
+            <p className="mt-3 text-sm leading-relaxed text-[#5E6064] sm:text-base">
+              Discover everyday essentials, thoughtfully selected for comfort and style.
+            </p>
           </div>
-
-          <Link
-            to="/category/bestsellers"
-            className="inline-flex items-center gap-1 rounded-full border border-[#E8E5E0] bg-[#F8F7F5] px-3 py-1.5 text-[11px] font-semibold text-[#202020] transition-colors hover:border-[#637666] hover:text-[#637666]"
-          >
-            <span>View all</span>
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              to="/category/men-underwear"
+              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#1F2022] px-4 text-xs font-semibold text-[#1F2022] transition-colors hover:bg-[#1F2022] hover:text-white"
+            >
+              Shop Men <ArrowRight size={14} aria-hidden="true" />
+            </Link>
+            <Link
+              to="/category/women-bras"
+              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#1F2022] px-4 text-xs font-semibold text-[#1F2022] transition-colors hover:bg-[#1F2022] hover:text-white"
+            >
+              Shop Women <ArrowRight size={14} aria-hidden="true" />
+            </Link>
+          </div>
         </div>
 
-        {/* 4 Products in 1 row on Desktop (lg:grid-cols-4), 2 columns on Mobile (grid-cols-2) */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
-          {bestsellers.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {isLoading ? (
+          <p role="status" className="py-12 text-center text-sm text-[#77736E]">
+            Loading featured products…
+          </p>
+        ) : error ? (
+          <p role="alert" className="rounded-xl border border-[#E8E1D7] bg-white p-5 text-sm text-[#77736E]">
+            Featured products could not be loaded. Please try again later.
+          </p>
+        ) : featuredProducts.length === 0 ? (
+          <p className="rounded-xl border border-[#E8E1D7] bg-white p-5 text-sm text-[#77736E]">
+            There are no featured products available in the catalog yet.
+          </p>
+        ) : (
+          <div className="grid min-w-0 grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4">
+            {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        )}
       </Container>
     </section>
   );
