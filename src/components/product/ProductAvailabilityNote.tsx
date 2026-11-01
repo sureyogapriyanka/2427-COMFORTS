@@ -3,7 +3,7 @@ import type { Product } from '../../data/catalog';
 export function ProductAvailabilityNote({ product }: { product: Product }) {
   const availability = product.inventoryStatus ?? 'unverified';
   const message = availability === 'demo'
-    ? 'Demo listing · sample price · stock not verified'
+    ? 'Preview product · price and stock not confirmed'
     : availability === 'in_stock'
       ? 'In stock'
       : availability === 'out_of_stock'

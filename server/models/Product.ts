@@ -15,6 +15,16 @@ export interface IProduct extends Document {
   colors: string[];
   sizes: string[];
   sizeInventory?: { size: string; quantity: number }[];
+  lowStockThreshold: number;
+  inventoryHistory?: {
+    adminId: string;
+    adminEmail: string;
+    size: string;
+    previousQuantity: number | null;
+    newQuantity: number;
+    reason: string;
+    createdAt: Date;
+  }[];
   badge?: 'Bestseller' | 'New' | 'Limited' | 'Multipack' | 'Offer' | 'Bundle Save 20%' | 'Bundle Value' | 'Special Offer';
   images: string[];
   description: string;
@@ -47,6 +57,26 @@ const ProductSchema = new Schema<IProduct>(
         _id: false,
         size: { type: String, required: true },
         quantity: { type: Number, required: true, min: 0, validate: Number.isSafeInteger },
+      }],
+      default: undefined,
+    },
+    lowStockThreshold: {
+      type: Number,
+      default: 10,
+      min: 1,
+      max: 10000,
+      validate: Number.isSafeInteger,
+    },
+    inventoryHistory: {
+      type: [{
+        _id: false,
+        adminId: { type: String, required: true },
+        adminEmail: { type: String, required: true },
+        size: { type: String, required: true },
+        previousQuantity: { type: Number, min: 0, validate: Number.isSafeInteger, default: null },
+        newQuantity: { type: Number, required: true, min: 0, validate: Number.isSafeInteger },
+        reason: { type: String, required: true, trim: true, maxlength: 300 },
+        createdAt: { type: Date, required: true, default: Date.now },
       }],
       default: undefined,
     },

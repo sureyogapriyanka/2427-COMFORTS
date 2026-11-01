@@ -35,6 +35,7 @@ interface ApiProduct {
   inStock?: boolean;
   stockCount?: number;
   sizeInventory?: { size: string; quantity: number }[] | Record<string, number>;
+  lowStockThreshold?: number;
 }
 
 interface ApiCategory {
@@ -100,6 +101,9 @@ function applyApiProduct(product: ApiProduct): Product | null {
     'Limited',
     'Special Offer',
   ];
+  const isDemoContent = typeof product.isDemoContent === 'boolean'
+    ? product.isDemoContent
+    : local.isDemoContent;
 
   return {
     ...local,
@@ -119,6 +123,9 @@ function applyApiProduct(product: ApiProduct): Product | null {
     colors,
     sizes: validSizes.length ? validSizes : local.sizes,
     sizeInventory,
+    lowStockThreshold: Number.isSafeInteger(product.lowStockThreshold) && (product.lowStockThreshold ?? 0) > 0
+      ? product.lowStockThreshold
+      : 10,
     badge: supportedBadges.includes(product.badge as Product['badge'])
       ? product.badge as Product['badge']
       : local.badge,
@@ -126,9 +133,7 @@ function applyApiProduct(product: ApiProduct): Product | null {
     features: Array.isArray(product.features)
       ? product.features.filter((feature): feature is string => typeof feature === 'string')
       : local.features,
-    isDemoContent: typeof product.isDemoContent === 'boolean'
-      ? product.isDemoContent
-      : local.isDemoContent,
+    isDemoContent,
     isDemoPrice: product.isDemoContent === true
       ? true
       : product.isDemoContent === false
@@ -137,7 +142,7 @@ function applyApiProduct(product: ApiProduct): Product | null {
     inventoryStatus: getProductInventoryStatus({
       sizes: validSizes.length ? validSizes : local.sizes,
       sizeInventory,
-      isDemoContent: product.isDemoContent === true,
+      isDemoContent,
     }),
   };
 }

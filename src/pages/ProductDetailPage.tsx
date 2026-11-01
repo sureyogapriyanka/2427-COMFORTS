@@ -25,7 +25,6 @@ import { useStore } from '../context/StoreContext';
 import { ColorDots } from '../components/product/ColorDots';
 import { RatingStars } from '../components/product/RatingStars';
 import { ProductCard } from '../components/product/ProductCard';
-import { DemoBadge } from '../components/brand/DemoBadge';
 import { Button } from '../components/ui/Button';
 import { useCatalog } from '../context/CatalogContext';
 import { ProductAvailabilityNote } from '../components/product/ProductAvailabilityNote';
@@ -285,10 +284,6 @@ export function ProductDetailPage() {
                       </span>
                     )}
 
-                    <DemoBadge
-                      variant="pill"
-                      className="bg-white/95 shadow-sm"
-                    />
                   </div>
 
                   <button

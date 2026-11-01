@@ -50,6 +50,7 @@ export function ProductCard({
     Boolean(product.hoverImage) &&
     alternateImage !== primaryImage;
   const isWomensBra = product.category === 'women-bras';
+  const selectedAvailability = getSizeAvailability(product, selectedSize);
 
   useEffect(() => {
     setSelectedColor(product.colors[0]?.name || '');
@@ -208,7 +209,8 @@ export function ProductCard({
           <div className="flex flex-wrap gap-1">
             {product.sizes.map((size) => (
               (() => {
-                const soldOut = getSizeAvailability(product, size).status === 'sold_out';
+                const availability = getSizeAvailability(product, size);
+                const soldOut = availability.status === 'sold_out';
                 return (
                   <button
                     key={size}
@@ -216,7 +218,13 @@ export function ProductCard({
                     onClick={() => setSelectedSize(size)}
                     disabled={soldOut}
                     aria-pressed={selectedSize === size}
-                    aria-label={soldOut ? `${size}, sold out` : `Select size ${size}`}
+                    aria-label={soldOut
+                      ? `${size}, sold out`
+                      : availability.status === 'low'
+                        ? `${size}, only ${availability.quantity} left`
+                        : availability.status === 'unknown'
+                          ? `${size}, stock not confirmed`
+                          : `Select size ${size}`}
                     className={`flex h-6 min-w-6 items-center justify-center rounded border px-1.5 text-[10px] font-semibold transition-colors disabled:cursor-not-allowed sm:h-7 sm:min-w-7 sm:text-[11px] ${
                       soldOut
                         ? 'border-[#E8E5E0] bg-[#F0EDE8] text-elan-muted line-through'
@@ -231,6 +239,22 @@ export function ProductCard({
               })()
             ))}
           </div>
+          <p
+            role="status"
+            className={`mt-1.5 min-h-4 text-[10px] leading-4 ${
+              selectedAvailability.status === 'sold_out'
+                ? 'text-elan-danger'
+                : 'text-elan-muted'
+            }`}
+          >
+            {selectedAvailability.status === 'low'
+              ? `Only ${selectedAvailability.quantity} left in size ${selectedSize}.`
+              : selectedAvailability.status === 'sold_out'
+                ? `Sold Out in size ${selectedSize}.`
+                : selectedAvailability.status === 'unknown'
+                  ? `Stock not confirmed for size ${selectedSize}.`
+                  : `Available in size ${selectedSize}.`}
+          </p>
         </div>
 
         {/* Add to Bag Button */}

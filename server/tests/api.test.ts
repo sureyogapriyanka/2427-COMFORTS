@@ -4,7 +4,12 @@ import type { Server } from 'node:http';
 import { Product } from '../models/Product';
 import { User } from '../models/User';
 import { signSession } from '../security/jwt';
-import { validateSizeInventory } from '../services/sizeInventory';
+import {
+  calculateInventorySummary,
+  getInventoryProductStatus,
+  validateInventoryThreshold,
+  validateSizeInventory,
+} from '../services/sizeInventory';
 import {
   getProductInventoryStatus,
   getSizeAvailability,
@@ -63,7 +68,15 @@ test('auth endpoints validate input before database access', async () => {
 });
 
 test('cart, wishlist, orders and admin routes require verified sessions', async () => {
-  for (const path of ['/cart', '/wishlist', '/orders', '/admin/overview', '/admin/products/507f1f77bcf86cd799439011/inventory']) {
+  for (const path of [
+    '/cart',
+    '/wishlist',
+    '/orders',
+    '/admin/overview',
+    '/admin/inventory',
+    '/admin/inventory/history',
+    '/admin/products/507f1f77bcf86cd799439011/inventory',
+  ]) {
     const response = await request(path);
     assert.equal(response.status, 401, `${path} should reject an unauthenticated request`);
   }
@@ -80,6 +93,49 @@ test('size inventory accepts confirmed zero/positive counts and rejects invalid 
   assert.match(validateSizeInventory(['S'], null).error ?? '', /must be an object/);
 });
 
+test('inventory summaries distinguish confirmed, low, sold-out and unconfirmed size variants', () => {
+  const products = [
+    {
+      _id: 'demo',
+      sku: 'DEMO',
+      name: 'Demo product',
+      category: 'underwear',
+      sizes: ['S', 'M'],
+      images: [],
+      isDemoContent: true,
+      sizeInventory: [{ size: 'S', quantity: 0 }],
+    },
+    {
+      _id: 'verified',
+      sku: 'VERIFIED',
+      name: 'Verified product',
+      category: 'underwear',
+      sizes: ['S', 'M', 'L', 'XL'],
+      images: [],
+      isDemoContent: false,
+      lowStockThreshold: 5,
+      sizeInventory: [
+        { size: 'S', quantity: 0 },
+        { size: 'M', quantity: 3 },
+        { size: 'L', quantity: 25 },
+      ],
+    },
+  ];
+  assert.deepEqual(calculateInventorySummary(products), {
+    totalProducts: 2,
+    confirmedStockUnits: 28,
+    lowStockVariants: 1,
+    soldOutVariants: 1,
+    unconfirmedVariants: 3,
+  });
+  assert.equal(getInventoryProductStatus(products[0]), 'unconfirmed');
+  assert.equal(getInventoryProductStatus(products[1]), 'unconfirmed');
+  assert.equal(validateInventoryThreshold(10), 10);
+  assert.equal(validateInventoryThreshold(0), null);
+  assert.equal(validateInventoryThreshold(1.5), null);
+  assert.equal(validateInventoryThreshold(10001), null);
+});
+
 test('size stock presentation distinguishes unknown, low, available, and sold-out states', () => {
   const product = {
     isDemoContent: false,
@@ -90,6 +146,8 @@ test('size stock presentation distinguishes unknown, low, available, and sold-ou
   assert.deepEqual(getSizeAvailability(product, 'S'), { status: 'sold_out', quantity: 0 });
   assert.deepEqual(getSizeAvailability(product, 'M'), { status: 'low', quantity: 4 });
   assert.deepEqual(getSizeAvailability(product, 'L'), { status: 'available', quantity: 16 });
+  assert.deepEqual(getSizeAvailability({ ...product, lowStockThreshold: 20 }, 'L'), { status: 'low', quantity: 16 });
+  assert.deepEqual(getSizeAvailability({ ...product, isDemoContent: true }, 'L'), { status: 'unknown' });
   assert.equal(getProductInventoryStatus(product), 'in_stock');
   assert.equal(getProductInventoryStatus({
     ...product,
@@ -116,6 +174,7 @@ test('authorized admins can update verified per-size inventory without accepting
     isDemoContent: false,
     sizes: ['S', 'M', 'L'],
     sizeInventory: [{ size: 'L', quantity: 0 }],
+    inventoryHistory: [],
   };
   Object.defineProperty(User, 'findById', {
     configurable: true,
@@ -136,11 +195,26 @@ test('authorized admins can update verified per-size inventory without accepting
     configurable: true,
     value: async (
       filter: { __v?: number },
-      update: { $set: { sizeInventory: { size: string; quantity: number }[] } }
+      update: {
+        $set: { sizeInventory: { size: string; quantity: number }[] };
+        $push: { inventoryHistory: { $each: {
+          adminId: string;
+          adminEmail: string;
+          size: string;
+          previousQuantity: number | null;
+          newQuantity: number;
+          reason: string;
+          createdAt: Date;
+        }[] } };
+      }
     ) => {
       inventoryWriteCount += 1;
       versionFilter = filter;
-      return { ...product, sizeInventory: update.$set.sizeInventory };
+      return {
+        ...product,
+        sizeInventory: update.$set.sizeInventory,
+        inventoryHistory: update.$push.inventoryHistory.$each,
+      };
     },
   });
 
@@ -152,15 +226,20 @@ test('authorized admins can update verified per-size inventory without accepting
         origin: baseUrl,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ sizeInventory: { S: 0, M: 6 } }),
+      body: JSON.stringify({ sizeInventory: { S: 0, M: 6 }, reason: 'Approved stock count' }),
     });
     assert.equal(response.status, 200);
     assert.equal(versionFilter?.__v, 2);
-    assert.deepEqual((await response.json()).data.sizeInventory, [
+    const updated = (await response.json()).data;
+    assert.deepEqual(updated.sizeInventory, [
       { size: 'L', quantity: 0 },
       { size: 'S', quantity: 0 },
       { size: 'M', quantity: 6 },
     ]);
+    assert.equal(updated.inventoryHistory.length, 2);
+    assert.equal(updated.inventoryHistory.find((entry: { size: string }) => entry.size === 'S').previousQuantity, null);
+    assert.equal(updated.inventoryHistory.find((entry: { size: string }) => entry.size === 'M').newQuantity, 6);
+    assert.equal(versionFilter?.__v, 2);
     product.isDemoContent = true;
     const demoResponse = await fetch(`${baseUrl}/api/admin/products/${product.id}/inventory`, {
       method: 'PATCH',
@@ -169,10 +248,200 @@ test('authorized admins can update verified per-size inventory without accepting
         origin: baseUrl,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ sizeInventory: { S: 3 } }),
+      body: JSON.stringify({ sizeInventory: { S: 3 }, reason: 'Rejected demo stock' }),
     });
     assert.equal(demoResponse.status, 409);
     assert.equal(inventoryWriteCount, 1);
+  } finally {
+    if (originalUserFindById) Object.defineProperty(User, 'findById', originalUserFindById);
+    else Reflect.deleteProperty(User, 'findById');
+    if (originalProductFindById) Object.defineProperty(Product, 'findById', originalProductFindById);
+    else Reflect.deleteProperty(Product, 'findById');
+    if (originalProductFindOneAndUpdate) Object.defineProperty(Product, 'findOneAndUpdate', originalProductFindOneAndUpdate);
+    else Reflect.deleteProperty(Product, 'findOneAndUpdate');
+  }
+});
+
+test('customer role cannot read inventory or change stock', async () => {
+  const userId = '507f1f77bcf86cd799439011';
+  const originalFindById = Object.getOwnPropertyDescriptor(User, 'findById');
+  const originalProductFindById = Object.getOwnPropertyDescriptor(Product, 'findById');
+  let productReads = 0;
+  Object.defineProperty(User, 'findById', {
+    configurable: true,
+    value: () => ({
+      select: async () => ({
+        id: userId,
+        email: 'customer@example.com',
+        role: 'customer',
+        tokenVersion: 0,
+      }),
+    }),
+  });
+  Object.defineProperty(Product, 'findById', {
+    configurable: true,
+    value: async () => {
+      productReads += 1;
+      return null;
+    },
+  });
+
+  try {
+    const cookie = `elan_session=${signSession(userId, 0)}`;
+    const readResponse = await fetch(`${baseUrl}/api/admin/inventory`, { headers: { cookie } });
+    assert.equal(readResponse.status, 403);
+    const updateResponse = await fetch(`${baseUrl}/api/admin/products/507f1f77bcf86cd799439012/inventory`, {
+      method: 'PATCH',
+      headers: {
+        cookie,
+        origin: baseUrl,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ size: 'M', quantity: 5, reason: 'Unauthorized attempt' }),
+    });
+    assert.equal(updateResponse.status, 403);
+    assert.equal(productReads, 0);
+  } finally {
+    if (originalFindById) Object.defineProperty(User, 'findById', originalFindById);
+    else Reflect.deleteProperty(User, 'findById');
+    if (originalProductFindById) Object.defineProperty(Product, 'findById', originalProductFindById);
+    else Reflect.deleteProperty(Product, 'findById');
+  }
+});
+
+test('inventory endpoint rejects negative, fractional, and invalid-size adjustments', async () => {
+  const userId = '507f1f77bcf86cd799439011';
+  const originalUserFindById = Object.getOwnPropertyDescriptor(User, 'findById');
+  const originalProductFindById = Object.getOwnPropertyDescriptor(Product, 'findById');
+  const originalProductFindOneAndUpdate = Object.getOwnPropertyDescriptor(Product, 'findOneAndUpdate');
+  const product = {
+    _id: '507f1f77bcf86cd799439012',
+    id: '507f1f77bcf86cd799439012',
+    __v: 0,
+    isDemoContent: false,
+    sizes: ['S', 'M'],
+    sizeInventory: [{ size: 'S', quantity: 1 }],
+    inventoryHistory: [],
+  };
+  let writes = 0;
+  Object.defineProperty(User, 'findById', {
+    configurable: true,
+    value: () => ({
+      select: async () => ({ id: userId, email: 'admin@example.com', role: 'admin', tokenVersion: 0 }),
+    }),
+  });
+  Object.defineProperty(Product, 'findById', { configurable: true, value: async () => product });
+  Object.defineProperty(Product, 'findOneAndUpdate', {
+    configurable: true,
+    value: async () => {
+      writes += 1;
+      return product;
+    },
+  });
+  try {
+    const headers = {
+      cookie: `elan_session=${signSession(userId, 0)}`,
+      origin: baseUrl,
+      'Content-Type': 'application/json',
+    };
+    for (const body of [
+      { size: 'S', adjustment: -2, reason: 'Remove excess' },
+      { size: 'M', quantity: 1.5, reason: 'Bad count' },
+      { size: 'XL', quantity: 2, reason: 'Unknown size' },
+    ]) {
+      const response = await fetch(`${baseUrl}/api/admin/products/${product.id}/inventory`, {
+        method: 'PATCH',
+        headers,
+        body: JSON.stringify(body),
+      });
+      assert.equal(response.status, 400);
+    }
+    assert.equal(writes, 0);
+  } finally {
+    if (originalUserFindById) Object.defineProperty(User, 'findById', originalUserFindById);
+    else Reflect.deleteProperty(User, 'findById');
+    if (originalProductFindById) Object.defineProperty(Product, 'findById', originalProductFindById);
+    else Reflect.deleteProperty(Product, 'findById');
+    if (originalProductFindOneAndUpdate) Object.defineProperty(Product, 'findOneAndUpdate', originalProductFindOneAndUpdate);
+    else Reflect.deleteProperty(Product, 'findOneAndUpdate');
+  }
+});
+
+test('concurrent inventory adjustments use optimistic versioning and record one audit event', async () => {
+  const userId = '507f1f77bcf86cd799439011';
+  const productId = '507f1f77bcf86cd799439012';
+  const originalUserFindById = Object.getOwnPropertyDescriptor(User, 'findById');
+  const originalProductFindById = Object.getOwnPropertyDescriptor(Product, 'findById');
+  const originalProductFindOneAndUpdate = Object.getOwnPropertyDescriptor(Product, 'findOneAndUpdate');
+  const state = {
+    version: 3,
+    sizeInventory: [{ size: 'M', quantity: 5 }],
+    inventoryHistory: [] as { size: string; previousQuantity: number | null; newQuantity: number; reason: string; adminEmail: string }[],
+  };
+  let reads = 0;
+  let releaseReads!: () => void;
+  const bothReads = new Promise<void>((resolve) => { releaseReads = resolve; });
+  Object.defineProperty(User, 'findById', {
+    configurable: true,
+    value: () => ({
+      select: async () => ({ id: userId, email: 'admin@example.com', role: 'admin', tokenVersion: 0 }),
+    }),
+  });
+  Object.defineProperty(Product, 'findById', {
+    configurable: true,
+    value: async () => {
+      const snapshot = {
+        _id: productId,
+        id: productId,
+        __v: state.version,
+        isDemoContent: false,
+        sizes: ['M'],
+        sizeInventory: [...state.sizeInventory],
+        inventoryHistory: [...state.inventoryHistory],
+      };
+      reads += 1;
+      if (reads === 2) releaseReads();
+      await bothReads;
+      return snapshot;
+    },
+  });
+  Object.defineProperty(Product, 'findOneAndUpdate', {
+    configurable: true,
+    value: async (
+      filter: { __v?: number },
+      update: {
+        $set: { sizeInventory: { size: string; quantity: number }[] };
+        $push: { inventoryHistory: { $each: typeof state.inventoryHistory } };
+      },
+    ) => {
+      if (filter.__v !== state.version) return null;
+      state.version += 1;
+      state.sizeInventory = update.$set.sizeInventory;
+      state.inventoryHistory.push(...update.$push.inventoryHistory.$each);
+      return {
+        id: productId,
+        sizeInventory: state.sizeInventory,
+        inventoryHistory: state.inventoryHistory,
+      };
+    },
+  });
+  try {
+    const sendAdjustment = () => fetch(`${baseUrl}/api/admin/products/${productId}/inventory`, {
+      method: 'PATCH',
+      headers: {
+        cookie: `elan_session=${signSession(userId, 0)}`,
+        origin: baseUrl,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ size: 'M', adjustment: 1, reason: 'Concurrent restock' }),
+    });
+    const responses = await Promise.all([sendAdjustment(), sendAdjustment()]);
+    assert.deepEqual(responses.map((response) => response.status).sort(), [200, 409]);
+    assert.equal(state.sizeInventory[0].quantity, 6);
+    assert.equal(state.inventoryHistory.length, 1);
+    assert.equal(state.inventoryHistory[0].adminEmail, 'admin@example.com');
+    assert.equal(state.inventoryHistory[0].previousQuantity, 5);
+    assert.equal(state.inventoryHistory[0].newQuantity, 6);
   } finally {
     if (originalUserFindById) Object.defineProperty(User, 'findById', originalUserFindById);
     else Reflect.deleteProperty(User, 'findById');

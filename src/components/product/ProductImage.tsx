@@ -29,13 +29,14 @@ export function ProductImage({
   if (!resolvedSource || hasError) {
     const accessibleAlt = alt || 'Product photo';
     const needsOwnerReplacement = !resolvedSource && requiresOwnerApprovedPhoto(src);
+    const imageComingSoon = /w-ct15-(?:front|back)\.jpg/i.test(src);
     return (
       <div
         role="img"
-        aria-label={`${accessibleAlt}: product photo unavailable${needsOwnerReplacement ? '; owner-approved replacement required' : ''}.`}
+        aria-label={`${accessibleAlt}: ${imageComingSoon ? 'image coming soon' : 'product photo unavailable'}${needsOwnerReplacement ? '; owner-approved replacement required' : ''}.`}
         className={`flex flex-col items-center justify-center gap-1 bg-[#F0ECE5] p-3 text-center text-[10px] leading-snug text-elan-muted ${className}`}
       >
-        <span className="font-medium">Product photo unavailable</span>
+        <span className="font-medium">{imageComingSoon ? 'Image coming soon' : 'Product photo unavailable'}</span>
         {needsOwnerReplacement && <span>Owner-approved replacement required</span>}
       </div>
     );

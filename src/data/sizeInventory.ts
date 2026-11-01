@@ -7,22 +7,27 @@ export type SizeAvailability =
   | { status: 'sold_out'; quantity: 0 };
 
 export function getSizeAvailability(
-  product: Pick<Product, 'isDemoContent' | 'sizeInventory'>,
+  product: Pick<Product, 'isDemoContent' | 'sizeInventory' | 'lowStockThreshold'>,
   size: string,
 ): SizeAvailability {
-  const quantity = product.isDemoContent ? undefined : product.sizeInventory?.[size];
+  const quantity = product.isDemoContent !== false ? undefined : product.sizeInventory?.[size];
   if (typeof quantity !== 'number' || !Number.isSafeInteger(quantity) || quantity < 0) {
     return { status: 'unknown' };
   }
   if (quantity === 0) return { status: 'sold_out', quantity: 0 };
-  if (quantity <= 10) return { status: 'low', quantity };
+  const threshold = typeof product.lowStockThreshold === 'number' &&
+    Number.isSafeInteger(product.lowStockThreshold) &&
+    product.lowStockThreshold > 0
+    ? product.lowStockThreshold
+    : 10;
+  if (quantity <= threshold) return { status: 'low', quantity };
   return { status: 'available', quantity };
 }
 
 export function getProductInventoryStatus(
   product: Pick<Product, 'sizes' | 'sizeInventory' | 'isDemoContent'>,
 ): NonNullable<Product['inventoryStatus']> {
-  if (product.isDemoContent) return 'demo';
+  if (product.isDemoContent !== false) return 'demo';
   if (!product.sizes.length) return 'unverified';
 
   const quantities = product.sizes.map((size) => product.sizeInventory?.[size]);
