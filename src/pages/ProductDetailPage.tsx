@@ -30,6 +30,7 @@ import { useCatalog } from '../context/CatalogContext';
 import { ProductAvailabilityNote } from '../components/product/ProductAvailabilityNote';
 import { getSizeAvailability } from '../data/sizeInventory';
 import { ProductImage } from '../components/product/ProductImage';
+import { ConceptImageBadge } from '../components/product/ConceptImageBadge';
 import { productImageNotice, productImageUrl } from '../lib/productImages';
 
 export function ProductDetailPage() {
@@ -137,7 +138,7 @@ export function ProductDetailPage() {
         product.hoverImage !== product.image
         ? [{
           src: product.hoverImage,
-          label: 'Additional View',
+          label: product.id === 'w-ct15' ? 'Back View' : 'Additional View',
         }]
         : []
     ),
@@ -298,6 +299,9 @@ export function ProductDetailPage() {
                   />
 
                   <div className="absolute left-4 top-4 flex flex-col items-start gap-2">
+                    {product.id === 'w-ct15' && (
+                      <ConceptImageBadge className="max-w-[calc(100%-1rem)]" />
+                    )}
                     {product.badge && (
                       <span className="rounded-full bg-elan-ink px-3 py-1.5 text-[10px] font-bold text-elan-ivory">
                         {product.badge}

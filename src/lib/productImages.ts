@@ -8,9 +8,7 @@ const WOMENS_PRODUCT_FOLDERS = new Set([
 const UNAVAILABLE_WOMENS_IMAGES = new Set([
   'women-underwear/w-u03-back.jpg',
   'women-crop-tops/w-ct10-front.jpg',
-  'women-crop-tops/w-ct15-front.jpg',
   'women-crop-tops/w-ct13-back.jpg',
-  'women-crop-tops/w-ct15-back.jpg',
   'bundles/bundle-07-front.jpg',
   'bundles/bundle-07-back.jpg',
   'bundles/bundle-08-front.jpg',
@@ -40,6 +38,11 @@ export function productImageUrl(source: string): string {
     return source.startsWith(base) ? source : `${base}${normalized}`;
   }
 
+  const conceptImage = productPath.match(/^women-crop-tops\/w-ct15-(front|back)\.jpg$/);
+  if (conceptImage) {
+    return `${base}images/products/womens-concepts/w-ct15-${conceptImage[1]}-concept.webp`;
+  }
+
   const [folder, filename] = productPath.split('/');
   if (!folder || !filename) return source;
 
@@ -65,6 +68,10 @@ export function requiresOwnerApprovedPhoto(source: string): boolean {
   return Boolean(folder && filename && UNAVAILABLE_WOMENS_IMAGES.has(`${folder}/${filename}`));
 }
 
+export function isAiGeneratedConceptImage(source: string): boolean {
+  return /w-ct15-(?:front|back)(?:-concept)?\.(?:jpg|webp)$/i.test(source);
+}
+
 function pathWithoutExtension(filename: string): string {
   return filename.replace(/\.[^.]+$/, '');
 }
@@ -74,7 +81,11 @@ export function productImageNotice(product: {
   image: string;
   id: string;
 }): string | null {
-  const unavailablePhotoProducts = new Set(['w-ct15', 'w-ct13', 'w-ct10', 'w-u03']);
+  if (product.id === 'w-ct15') {
+    return 'AI-generated concept visuals, not verified product photos. Color, fit, branding and details may differ from the actual product.';
+  }
+
+  const unavailablePhotoProducts = new Set(['w-ct13', 'w-ct10', 'w-u03']);
   const unavailableBundle = product.category === 'bundles' &&
     /bundle-0[7-9]|bundle-10/.test(product.image);
   return unavailablePhotoProducts.has(product.id) || unavailableBundle

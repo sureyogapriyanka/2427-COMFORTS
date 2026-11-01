@@ -11,14 +11,21 @@ export function ProductAvailabilityNote({ product }: { product: Product }) {
         : 'Stock not confirmed';
 
   return (
-    <p
-      className={`mt-2 text-[11px] leading-4 ${
-        availability === 'out_of_stock'
-          ? 'text-elan-danger'
-          : 'text-elan-muted'
-      }`}
-    >
-      {message}
-    </p>
+    <>
+      <p
+        className={`mt-2 text-[11px] leading-4 ${
+          availability === 'out_of_stock'
+            ? 'text-elan-danger'
+            : 'text-elan-muted'
+        }`}
+      >
+        {message}
+      </p>
+      {product.id === 'w-ct15' && (
+        <p className="mt-1 text-[10px] leading-4 text-elan-muted">
+          AI-generated concept visuals; not verified product photos. Color and details may differ.
+        </p>
+      )}
+    </>
   );
 }

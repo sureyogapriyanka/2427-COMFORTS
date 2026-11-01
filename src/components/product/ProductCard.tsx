@@ -11,6 +11,7 @@ import { Product, formatINR } from '../../data/catalog';
 import { useStore } from '../../context/StoreContext';
 import { ColorDots } from './ColorDots';
 import { ProductAvailabilityNote } from './ProductAvailabilityNote';
+import { ConceptImageBadge } from './ConceptImageBadge';
 import { ProductImage } from './ProductImage';
 import { getSizeAvailability } from '../../data/sizeInventory';
 
@@ -117,6 +118,10 @@ export function ProductCard({
             />
           )}
         </Link>
+
+        {product.id === 'w-ct15' && (
+          <ConceptImageBadge className="absolute bottom-2.5 left-2.5 z-10 max-w-[calc(100%-3rem)]" />
+        )}
 
         {/* Product Badge */}
         {product.badge && (

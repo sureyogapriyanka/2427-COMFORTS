@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { MouseEventHandler } from 'react';
 import {
+  isAiGeneratedConceptImage,
   productImageUrl,
   requiresOwnerApprovedPhoto,
 } from '../../lib/productImages';
@@ -27,15 +28,18 @@ export function ProductImage({
   const resolvedSource = productImageUrl(src);
   const [failedSource, setFailedSource] = useState('');
   const hasError = failedSource === resolvedSource;
+  const accessibleAlt = isAiGeneratedConceptImage(src)
+    ? `${alt}. AI-generated concept visual, not a verified product photo.`
+    : alt;
 
   if (!resolvedSource || hasError) {
-    const accessibleAlt = alt || 'Product photo';
+    const fallbackAlt = accessibleAlt || 'Product photo';
     const unavailable = !resolvedSource && requiresOwnerApprovedPhoto(src);
     const imageComingSoon = /w-ct15-(?:front|back)\.jpg/i.test(src);
     return (
       <div
         role="img"
-        aria-label={`${accessibleAlt}: ${imageComingSoon || unavailable ? 'image coming soon' : 'product photo unavailable'}.`}
+        aria-label={`${fallbackAlt}: ${imageComingSoon || unavailable ? 'image coming soon' : 'product photo unavailable'}.`}
         className={`flex flex-col items-center justify-center gap-2 bg-[#F0ECE5] p-4 text-center text-xs leading-relaxed text-elan-muted ${className}`}
       >
         <span className="font-medium">{imageComingSoon ? 'Image coming soon' : 'Product photo unavailable'}</span>
@@ -46,7 +50,7 @@ export function ProductImage({
   return (
     <img
       src={resolvedSource}
-      alt={alt}
+      alt={accessibleAlt}
       loading={loading}
       decoding={decoding}
       onLoad={() => onImageLoadStateChange?.(src, true)}

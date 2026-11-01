@@ -23,6 +23,7 @@ import { useStore } from '../../context/StoreContext';
 import { formatINR } from '../../data/catalog';
 import { ProductImage } from '../product/ProductImage';
 import { ProductAvailabilityNote } from '../product/ProductAvailabilityNote';
+import { ConceptImageBadge } from '../product/ConceptImageBadge';
 
 export function QuickViewModal() {
   const {
@@ -197,6 +198,7 @@ export function QuickViewModal() {
 
               {/* Badges */}
               <div className="absolute left-3 top-3 flex flex-col items-start gap-2">
+                {product.id === 'w-ct15' && <ConceptImageBadge />}
                 {product.badge && (
                   <span className="rounded-full bg-elan-ink px-3 py-1 text-[10px] font-semibold text-elan-ivory">
                     {product.badge}
