@@ -171,3 +171,14 @@
 - Provide production domain/origin and approve the production environment, monitoring, backup, retention, and incident-response configuration.
 
 **Delivery decision:** suitable for a client demonstration with clearly disclosed preview catalog data; **not production-ready** for real sales. Final visual, pagination, and accurate legal-preview wording releases are deployed to the existing client preview. No live orders or payments are enabled.
+
+## Latest visual follow-up
+
+| Area | Status | Result |
+|---|---|---|
+| Brand-values section | PASS | Reduced image-grid dimensions and surrounding spacing while retaining all three headings, readable copy, the same six catalog photos, and responsive three-column desktop layout. No other footer content was changed. |
+| Women’s bra presentation | PASS | The existing 600×750 bra photographs contain generous built-in whitespace. Increased their display scale only on Women’s Bra product cards, thumbnails, and detail images; other categories, product IDs, images, and mappings are unchanged. |
+| Women’s underwear image text | BLOCKED — source asset required | Confirmed the filename-like text and contact-sheet edges are pixels in the existing `w-u01-front.jpg` and `w-u01-back.jpg` images (142×208px). The category contains 15 front/back pairs of low-resolution JPGs; no clean matching source exists in the product mappings. CSS cannot remove embedded text without cropping or altering the source, so the original assets and mappings were deliberately preserved. Supply clean, owner-approved product photos to resolve this. Protected backup/preview directories were not accessed. |
+| Homepage marquee | PASS | Replaced the copy with “FEEL GOOD. WEAR BETTER.”, “COMFORT THAT MOVES WITH YOU.”, “MADE FOR YOUR EVERYDAY.”, and “YOUR COMFORT. YOUR ÉLAN.” The existing duplicated seamless track, WebKit keyframes, and reduced-motion behavior remain in place. |
+| Automated checks | PASS | `npm run build`, `npm run typecheck`, `npm test` (12/12), and `git diff --check` passed. The build retains its existing advisory warning about a JavaScript chunk just over 500 kB. |
+| Preview release | PENDING | Changes are ready for the approved `preview/elan-render-client` branch. Verify the resulting existing Render deployment and public UI/API after push before marking this row complete. |

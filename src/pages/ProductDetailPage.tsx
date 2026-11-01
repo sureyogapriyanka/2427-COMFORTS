@@ -138,6 +138,7 @@ export function ProductDetailPage() {
   ];
 
   const currentImage = activeImage || product.image;
+  const isWomensBra = product.category === 'women-bras';
 
   const related = products.filter(
     (item) =>
@@ -246,7 +247,9 @@ export function ProductDetailPage() {
                     <img
                       src={image.src}
                       alt={image.label}
-                      className="h-full w-full object-contain"
+                      className={`h-full w-full object-contain ${
+                        isWomensBra ? 'scale-[1.7]' : ''
+                      }`}
                     />
                   </button>
                 ))}
@@ -258,7 +261,9 @@ export function ProductDetailPage() {
                   <img
                     src={currentImage}
                     alt={product.name}
-                    className="h-full w-full object-contain"
+                    className={`h-full w-full object-contain ${
+                      isWomensBra ? 'scale-[1.7]' : ''
+                    }`}
                   />
 
                   <div className="absolute left-4 top-4 flex flex-col items-start gap-2">

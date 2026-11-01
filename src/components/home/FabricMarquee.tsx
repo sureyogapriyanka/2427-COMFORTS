@@ -3,10 +3,10 @@ import React from 'react';
 import { Container } from '../ui/Container';
 
 const MARQUEE_ITEMS = [
-  'Everyday Comfort. Elevated.',
-  'Thoughtful Everyday Essentials',
-  'Comfort for Every You',
-  '2427 ÉLAN',
+  'FEEL GOOD. WEAR BETTER.',
+  'COMFORT THAT MOVES WITH YOU.',
+  'MADE FOR YOUR EVERYDAY.',
+  'YOUR COMFORT. YOUR ÉLAN.',
 ];
 
 export function FabricMarquee() {
@@ -19,14 +19,14 @@ export function FabricMarquee() {
               <div
                 key={copy}
                 aria-hidden={copy === 1}
-                className="flex shrink-0 items-center gap-8 pr-8"
+                className="flex shrink-0 items-center gap-7 pr-7"
               >
                 {MARQUEE_ITEMS.map((item) => (
                   <div
                     key={`${copy}-${item}`}
-                    className="flex shrink-0 items-center gap-6"
+                    className="flex shrink-0 items-center gap-5"
                   >
-                    <span className="font-numeral text-[11px] font-semibold uppercase tracking-[0.2em] text-[#1F2022] sm:text-xs">
+                    <span className="font-numeral text-[11px] font-semibold uppercase tracking-[0.16em] text-[#1F2022] sm:text-xs sm:tracking-[0.18em]">
                       {item}
                     </span>
 

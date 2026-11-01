@@ -61,6 +61,7 @@ export function ProductCard({
   const hasAlternateImage =
     Boolean(product.hoverImage) &&
     alternateImage !== primaryImage;
+  const isWomensBra = product.category === 'women-bras';
 
   useEffect(() => {
     setSelectedColor(product.colors[0]?.name || '');
@@ -112,7 +113,11 @@ export function ProductCard({
             alt={`${product.name} - ${product.imageLabel || 'front view'}`}
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+            className={`absolute inset-0 h-full w-full object-contain p-4 transition-transform duration-500 ${
+              isWomensBra
+                ? 'scale-[1.7] group-hover:scale-[1.75]'
+                : 'group-hover:scale-105'
+            }`}
           />
 
           {hasAlternateImage && (
@@ -121,7 +126,9 @@ export function ProductCard({
               alt={`${product.name} alternate view`}
               loading="lazy"
               decoding="async"
-              className="pointer-events-none absolute inset-0 h-full w-full object-contain p-4 opacity-0 transition-all duration-500 group-hover:opacity-100"
+              className={`pointer-events-none absolute inset-0 h-full w-full object-contain p-4 opacity-0 transition-all duration-500 ${
+                isWomensBra ? 'scale-[1.7]' : ''
+              }`}
             />
           )}
         </Link>

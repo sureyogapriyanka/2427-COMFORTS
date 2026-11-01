@@ -133,28 +133,28 @@ export function Footer() {
         aria-label="2427 ÉLAN brand values"
         className="border-b border-[#E8E1D7] bg-[#FAF8F5] text-[#1F2022]"
       >
-        <Container className="py-7 sm:py-9 lg:py-10">
-          <div className="border-b border-[#DED7CE] pb-5 text-center sm:pb-6">
-            <p className="font-numeral text-3xl font-semibold tracking-[0.12em] text-[#1F2022] sm:text-4xl">
+        <Container className="py-5 sm:py-6 lg:py-7">
+          <div className="border-b border-[#DED7CE] pb-4 text-center sm:pb-5">
+            <p className="font-numeral text-2xl font-semibold tracking-[0.12em] text-[#1F2022] sm:text-3xl">
               24 <span className="text-[#637666]">|</span> 27
             </p>
-            <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.2em] text-[#77736E] sm:text-xs">
+            <p className="mt-1.5 text-[10px] font-medium uppercase tracking-[0.2em] text-[#77736E] sm:text-xs">
               Comfort. Quality. Confidence.
             </p>
           </div>
 
-          <div className="grid gap-7 pt-7 sm:grid-cols-3 sm:gap-0 sm:pt-8">
+          <div className="grid gap-5 pt-5 sm:grid-cols-3 sm:gap-0 sm:pt-6">
             {brandValueImages.map((value, index) => (
               <article
                 key={value.title}
-                className={`flex flex-col items-center px-3 text-center sm:px-5 lg:px-8 ${
+                className={`flex flex-col items-center px-3 text-center sm:px-4 lg:px-6 ${
                   index > 0 ? 'sm:border-l sm:border-[#DED7CE]' : ''
                 }`}
               >
                 {value.products ? (
                   <ul
                     aria-label="Existing catalog product photographs"
-                    className="grid aspect-square w-full max-w-[17rem] grid-cols-2 gap-2 rounded-2xl border border-[#E8E1D7] bg-[#F0ECE5] p-2 sm:max-w-[15rem] lg:max-w-[17rem]"
+                    className="grid aspect-square w-full max-w-[14rem] grid-cols-2 gap-2 rounded-2xl border border-[#E8E1D7] bg-[#F0ECE5] p-2 sm:max-w-[12.5rem] lg:max-w-[12rem]"
                   >
                     {value.products.map((product) => (
                       <li
@@ -184,13 +184,13 @@ export function Footer() {
                     height={313}
                     loading="lazy"
                     decoding="async"
-                    className="aspect-square w-full max-w-[17rem] rounded-2xl object-cover sm:max-w-[15rem] lg:max-w-[17rem]"
+                    className="aspect-square w-full max-w-[14rem] rounded-2xl object-cover sm:max-w-[12.5rem] lg:max-w-[12rem]"
                   />
                 )}
-                <h2 className="mt-4 font-display text-xl font-semibold text-[#1F2022] sm:mt-5 sm:text-2xl">
+                <h2 className="mt-3 font-display text-xl font-semibold text-[#1F2022] sm:mt-4 sm:text-2xl">
                   {value.title}
                 </h2>
-                <p className="mt-2 max-w-xs text-sm leading-6 text-[#77736E] sm:text-base sm:leading-7">
+                <p className="mt-1.5 max-w-xs text-sm leading-6 text-[#77736E] sm:mt-2 sm:text-base sm:leading-7">
                   {value.description}
                 </p>
               </article>
