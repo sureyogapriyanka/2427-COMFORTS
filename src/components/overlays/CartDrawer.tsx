@@ -15,6 +15,7 @@ import {
 
 import { useStore } from '../../context/StoreContext';
 import { formatINR } from '../../data/catalog';
+import { ProductImage } from '../product/ProductImage';
 
 const CHECKOUT_SELECTION_KEY = '2427-checkout-selection';
 
@@ -288,7 +289,7 @@ export function CartDrawer() {
                       onClick={closeOverlay}
                       className="h-28 w-20 shrink-0 rounded-xl bg-elan-ivory p-1 sm:w-24"
                     >
-                      <img
+                      <ProductImage
                         src={item.product.image}
                         alt={item.product.name}
                         className="h-full w-full object-contain"

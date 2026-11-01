@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react';
 import { Container } from '../ui/Container';
 import { useCatalog } from '../../context/CatalogContext';
+import { ProductImage } from '../product/ProductImage';
+import { productImageUrl } from '../../lib/productImages';
 
 const assetUrl = (path: string): string =>
-  `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+  productImageUrl(path);
 
 const hoverImages: Record<string, string> = {
   'women-bras': assetUrl('images/products/bras/w-b01-back.jpg'),
@@ -74,21 +76,16 @@ export function WomenCategories() {
                 className="group min-w-0 overflow-hidden rounded-xl border border-[#E8E5E0] bg-white transition-colors hover:border-[#637666]"
               >
                 <div className="relative aspect-[4/5] overflow-hidden bg-[#F8F7F5] p-3">
-                  <img
+                  <ProductImage
                     src={category.image}
                     alt={`${category.title} collection`}
-                    loading="lazy"
-                    decoding="async"
                     className="absolute inset-0 h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
                   />
 
                   {hoverImage && (
-                    <img
+                    <ProductImage
                       src={hoverImage}
                       alt=""
-                      aria-hidden="true"
-                      loading="lazy"
-                      decoding="async"
                       className="pointer-events-none absolute inset-0 h-full w-full object-contain p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                     />
                   )}

@@ -5,6 +5,7 @@ import { SectionHeading } from '../ui/SectionHeading';
 import { ProductCard } from '../product/ProductCard';
 import { PRODUCTS } from '../../data/catalog';
 import { Button } from '../ui/Button';
+import { ProductImage } from '../product/ProductImage';
 
 export function BundlesSection() {
   const bundleProducts = PRODUCTS.filter((p) => p.category === 'bundles');
@@ -33,11 +34,10 @@ export function BundlesSection() {
             >
               {/* Left Image */}
               <div className="relative aspect-square sm:aspect-auto sm:w-1/2 overflow-hidden bg-elan-ivory">
-                <img
+                <ProductImage
                   src={bundle.image}
                   alt={bundle.name}
-                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
+                  className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute top-3 left-3 z-10">
                   <span className="rounded-full bg-[#A85A3C] text-elan-ivory px-3 py-1 text-xs font-semibold shadow-xs">

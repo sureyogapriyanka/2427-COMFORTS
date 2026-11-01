@@ -2,9 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Info } from 'lucide-react';
 import { Container } from '../components/ui/Container';
+import { ProductImage } from '../components/product/ProductImage';
+import { productImageUrl } from '../lib/productImages';
 
 const assetUrl = (path: string): string =>
-  `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+  productImageUrl(path);
 
 export function AboutPage() {
   return (
@@ -33,12 +35,10 @@ export function AboutPage() {
             className="group overflow-hidden rounded-3xl border border-[#E8E1D7] bg-white"
           >
             <div className="flex h-64 items-center justify-center bg-[#F1EFEB] p-5 sm:h-80">
-              <img
+              <ProductImage
                 src={assetUrl('images/products/underwear/m-ub01-front.jpg')}
                 alt="Black 2427 everyday brief, front view"
                 className="h-full w-full object-contain"
-                loading="lazy"
-                decoding="async"
               />
             </div>
             <div className="flex items-center justify-between p-5 sm:p-6">
@@ -54,12 +54,10 @@ export function AboutPage() {
             className="group overflow-hidden rounded-3xl border border-[#E8E1D7] bg-white"
           >
             <div className="flex h-64 items-center justify-center bg-[#F1EFEB] p-5 sm:h-80">
-              <img
+              <ProductImage
                 src={assetUrl('images/products/bras/w-b01-front.jpg')}
                 alt="Rose 2427 everyday bra, front view"
                 className="h-full w-full scale-[2] object-contain sm:scale-[2.2]"
-                loading="lazy"
-                decoding="async"
               />
             </div>
             <div className="flex items-center justify-between p-5 sm:p-6">

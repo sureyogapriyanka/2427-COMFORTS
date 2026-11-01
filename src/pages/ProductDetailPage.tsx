@@ -30,6 +30,8 @@ import { Button } from '../components/ui/Button';
 import { useCatalog } from '../context/CatalogContext';
 import { ProductAvailabilityNote } from '../components/product/ProductAvailabilityNote';
 import { getSizeAvailability } from '../data/sizeInventory';
+import { ProductImage } from '../components/product/ProductImage';
+import { productImageNotice } from '../lib/productImages';
 
 export function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -140,6 +142,7 @@ export function ProductDetailPage() {
 
   const currentImage = activeImage || product.image;
   const isWomensBra = product.category === 'women-bras';
+  const imageNotice = productImageNotice(product);
 
   const related = products.filter(
     (item) =>
@@ -247,7 +250,7 @@ export function ProductDetailPage() {
                         : 'border-[#E8E1D7] hover:border-[#637666]'
                       }`}
                   >
-                    <img
+                    <ProductImage
                       src={image.src}
                       alt={image.label}
                       className={`h-full w-full object-contain ${
@@ -261,7 +264,7 @@ export function ProductDetailPage() {
               {/* Main Product Image */}
               <div className="relative min-w-0 flex-1 overflow-hidden rounded-2xl border border-[#EEE7DE] bg-white sm:rounded-3xl">
                 <div className="relative flex aspect-[4/5] items-center justify-center p-4 sm:p-8">
-                  <img
+                  <ProductImage
                     src={currentImage}
                     alt={product.name}
                     className={`h-full w-full object-contain ${
@@ -304,6 +307,11 @@ export function ProductDetailPage() {
               <PackageCheck size={15} />
               Select a thumbnail to explore more views
             </div>
+            {imageNotice && (
+              <p role="note" className="mx-auto mt-3 max-w-xl text-center text-xs leading-5 text-elan-muted">
+                {imageNotice}
+              </p>
+            )}
           </div>
 
           {/* Product Information */}
@@ -773,7 +781,7 @@ export function ProductDetailPage() {
             <X size={22} />
           </button>
 
-          <img
+          <ProductImage
             src={currentImage}
             alt={product.name}
             onClick={(event) =>

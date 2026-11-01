@@ -11,24 +11,13 @@ import { Product, formatINR } from '../../data/catalog';
 import { useStore } from '../../context/StoreContext';
 import { ColorDots } from './ColorDots';
 import { ProductAvailabilityNote } from './ProductAvailabilityNote';
+import { ProductImage } from './ProductImage';
 import { getSizeAvailability } from '../../data/sizeInventory';
 
 interface ProductCardProps {
   product: Product;
   className?: string;
 }
-
-const getImageUrl = (path: string): string => {
-  if (!path) return '';
-  if (/^(https?:)?\/\//i.test(path) || /^(data:|blob:)/i.test(path)) {
-    return path;
-  }
-  const base = import.meta.env.BASE_URL || '/';
-  if (path.startsWith(base)) {
-    return path;
-  }
-  return `${base}${path.replace(/^\/+/, '')}`;
-};
 
 export function ProductCard({
   product,
@@ -54,10 +43,8 @@ export function ProductCard({
   const isFavorited = isInWishlist(product.id);
   const isUnavailable = product.inventoryStatus === 'out_of_stock';
 
-  const primaryImage = getImageUrl(product.image);
-  const alternateImage = getImageUrl(
-    product.hoverImage || product.image
-  );
+  const primaryImage = product.image;
+  const alternateImage = product.hoverImage || product.image;
 
   const hasAlternateImage =
     Boolean(product.hoverImage) &&
@@ -109,11 +96,9 @@ export function ProductCard({
           className="absolute inset-0 block"
           aria-label={`View ${product.name} details`}
         >
-          <img
+          <ProductImage
             src={primaryImage}
             alt={`${product.name} - ${product.imageLabel || 'front view'}`}
-            loading="lazy"
-            decoding="async"
             className={`absolute inset-0 h-full w-full object-contain p-4 transition-transform duration-500 ${
               isWomensBra
                 ? 'scale-[1.7] group-hover:scale-[1.75]'
@@ -122,11 +107,9 @@ export function ProductCard({
           />
 
           {hasAlternateImage && (
-            <img
+            <ProductImage
               src={alternateImage}
               alt={`${product.name} alternate view`}
-              loading="lazy"
-              decoding="async"
               className={`pointer-events-none absolute inset-0 h-full w-full object-contain p-4 opacity-0 transition-all duration-500 ${
                 isWomensBra ? 'scale-[1.7]' : ''
               }`}

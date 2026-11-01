@@ -19,6 +19,7 @@ import {
   MEN_CATEGORIES,
   WOMEN_CATEGORIES,
 } from '../../data/catalog';
+import { ProductImage } from '../product/ProductImage';
 
 type Gender = 'men' | 'women';
 
@@ -281,11 +282,10 @@ export function Header() {
           <div className="flex flex-col overflow-hidden rounded-xl border border-[#EEE7DE] bg-elan-ivory p-3">
             <div className="relative h-[220px] overflow-hidden rounded-lg bg-white">
               {items.map((item) => (
-                <img
+                <ProductImage
                   key={item.slug}
                   src={item.image}
                   alt={`${item.title} preview`}
-                  loading="lazy"
                   className={`pointer-events-none absolute inset-0 h-full w-full object-contain p-2 transition-opacity duration-300 ${selected.slug === item.slug
                       ? 'opacity-100'
                       : 'opacity-0'

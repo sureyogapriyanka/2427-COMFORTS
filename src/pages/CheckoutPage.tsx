@@ -16,6 +16,7 @@ import {
 import { Container } from '../components/ui/Container';
 import { useStore } from '../context/StoreContext';
 import { formatINR } from '../data/catalog';
+import { ProductImage } from '../components/product/ProductImage';
 
 const CHECKOUT_SELECTION_KEY = '2427-checkout-selection';
 
@@ -681,7 +682,7 @@ export function CheckoutPage() {
                                             to={`/product/${item.product.slug}`}
                                             className="flex h-24 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-elan-ivory p-2"
                                         >
-                                            <img
+                                            <ProductImage
                                                 src={item.product.image}
                                                 alt={item.product.name}
                                                 className="h-full w-full object-contain"

@@ -20,6 +20,7 @@ import {
 
 import { useStore } from '../../context/StoreContext';
 import { formatINR } from '../../data/catalog';
+import { ProductImage } from '../product/ProductImage';
 import { useCatalog } from '../../context/CatalogContext';
 
 const SUGGESTIONS = [
@@ -335,10 +336,9 @@ export function SearchModal() {
                     >
                       {/* Product Image */}
                       <div className="flex h-20 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-[#F4EFEB] sm:h-24 sm:w-20">
-                        <img
+                        <ProductImage
                           src={product.image}
                           alt={product.name}
-                          loading="lazy"
                           className="h-full w-full object-contain p-1"
                         />
                       </div>

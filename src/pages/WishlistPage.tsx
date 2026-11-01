@@ -16,6 +16,7 @@ import {
 import { Container } from '../components/ui/Container';
 import { useStore } from '../context/StoreContext';
 import { formatINR, type Product } from '../data/catalog';
+import { ProductImage } from '../components/product/ProductImage';
 import { Button } from '../components/ui/Button';
 import { ColorDots } from '../components/product/ColorDots';
 import { useCatalog } from '../context/CatalogContext';
@@ -205,10 +206,9 @@ export function WishlistPage() {
                         to={`/product/${product.slug}`}
                         className="flex h-full w-full items-center justify-center p-3"
                       >
-                        <img
+                        <ProductImage
                           src={product.image}
                           alt={product.name}
-                          loading="lazy"
                           className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                         />
                       </Link>

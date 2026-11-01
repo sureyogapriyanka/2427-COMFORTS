@@ -13,6 +13,8 @@ import {
 import { Logo } from '../brand/Logo';
 import { Container } from '../ui/Container';
 import { apiRequest } from '../../lib/api';
+import { ProductImage } from '../product/ProductImage';
+import { productImageUrl as resolveProductImageUrl } from '../../lib/productImages';
 
 type ProductVisual = {
   label: string;
@@ -96,7 +98,7 @@ const brandValueImageUrl = (image: string) =>
   `${import.meta.env.BASE_URL}images/home/${image}`;
 
 const productImageUrl = (image: string) =>
-  `${import.meta.env.BASE_URL}images/products/${image}`;
+  resolveProductImageUrl(`images/products/${image}`);
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -161,13 +163,9 @@ export function Footer() {
                         key={product.image}
                         className="flex min-h-0 flex-col items-center justify-center overflow-hidden rounded-lg border border-[#E8E1D7] bg-white px-1.5 py-1"
                       >
-                        <img
+                        <ProductImage
                           src={productImageUrl(product.image)}
                           alt=""
-                          width={140}
-                          height={72}
-                          loading="lazy"
-                          decoding="async"
                           className="min-h-0 w-full flex-1 object-contain"
                         />
                         <span className="mt-0.5 text-center text-[9px] font-medium leading-3 text-elan-sage sm:text-[10px]">

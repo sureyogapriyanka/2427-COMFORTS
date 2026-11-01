@@ -21,6 +21,7 @@ import {
 
 import { useStore } from '../../context/StoreContext';
 import { formatINR } from '../../data/catalog';
+import { ProductImage } from '../product/ProductImage';
 import { ProductAvailabilityNote } from '../product/ProductAvailabilityNote';
 
 export function QuickViewModal() {
@@ -188,7 +189,7 @@ export function QuickViewModal() {
           {/* Product Images */}
           <div className="bg-[#F4EFEB] p-4 sm:p-6">
             <div className="relative mx-auto aspect-[4/5] max-h-[55vh] w-full overflow-hidden rounded-2xl bg-[#F9F6F1] md:max-h-[70vh]">
-              <img
+              <ProductImage
                 src={activeImage}
                 alt={product.name}
                 className="h-full w-full object-contain"
@@ -249,7 +250,7 @@ export function QuickViewModal() {
                       : 'border-transparent'
                       }`}
                   >
-                    <img
+                    <ProductImage
                       src={image}
                       alt={`${product.name} view ${index + 1}`}
                       className="h-full w-full object-contain"
