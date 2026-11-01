@@ -56,11 +56,11 @@ const companyLinks = [
     to: '/about',
   },
   {
-    label: 'Privacy Policy',
+    label: 'Privacy Information Preview',
     to: '/contact#privacy',
   },
   {
-    label: 'Terms & Conditions',
+    label: 'Terms Preview',
     to: '/contact#terms',
   },
 ];
@@ -391,14 +391,14 @@ export function Footer() {
               to="/contact#privacy"
               className="text-[11px] text-neutral-500 hover:text-white"
             >
-              Privacy
+              Privacy Preview
             </Link>
 
             <Link
               to="/contact#terms"
               className="text-[11px] text-neutral-500 hover:text-white"
             >
-              Terms
+              Terms Preview
             </Link>
 
             <Link
